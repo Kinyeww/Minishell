@@ -5,6 +5,7 @@ int	main(int ac, char **av, char **envp)
 	int	i;
 
 	i = 0;
+	printf("%d", ac);
 	while (av[i])
 	{
 		printf("av[%d] = %s\n",i ,av[i]);

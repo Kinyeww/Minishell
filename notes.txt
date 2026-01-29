@@ -1,0 +1,5 @@
+big picture
+
+1. tokenise
+2. store in AST	(so executing part understand what to run first)
+3. execute
