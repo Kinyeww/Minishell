@@ -1,8 +1,8 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra
 
-SRCS = main.c
+SRCS = sources/main.c sources/parsing.c
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)

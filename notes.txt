@@ -3,3 +3,5 @@ big picture
 1. tokenise
 2. store in AST	(so executing part understand what to run first)
 3. execute
+
+ky - organised dir, did makefile, created simple struct for parsing

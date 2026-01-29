@@ -1,22 +1,19 @@
+#include "../includes/minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-int	main(int ac, char **av, char **envp)
+int	main(int ac, char **av)
 {
-	int	i;
+	t_token *tokens;
 
-	i = 0;
-	printf("%d", ac);
-	while (av[i])
+	tokens = malloc(sizeof(t_token));
+	if (!parsing_check (ac, av, tokens))
 	{
-		printf("av[%d] = %s\n",i ,av[i]);
-		i++;
+		printf("invalid arg\n");
+		return (1);
 	}
-	i = 0;
-	while (envp[i])
-	{
-		printf("envp [%d]:%s\n",i ,envp[i]);
-		i++;
-	}
-	printf("\n---yee shun qi is gay :)---\n");
+	printf("\n%s\n", tokens->token); //testing
+	// if (!tokenise)
+	// 	return (1);
 	return (0);
 }
