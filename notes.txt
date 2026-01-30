@@ -5,3 +5,5 @@ big picture
 3. execute
 
 ky - organised dir, did makefile, created simple struct for parsing
+
+todo - complete parsing, then tokenise and store in AST 
