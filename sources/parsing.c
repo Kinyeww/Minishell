@@ -7,8 +7,9 @@ int	parsing_check(int ac, char **av, t_token *tokens)
 	int	j;
 	int	a = 0;
 
-	if (!av[1])
+	if (!normal_check(av))
 		return (0);
+	if (!av)
 	while (av[1][a])
 		a++;
 	tokens->token = malloc(sizeof(char) * (a + 1));

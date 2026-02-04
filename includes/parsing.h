@@ -3,9 +3,10 @@
 
 typedef struct s_token
 {
-	char *token;
+	char **token;
 }	t_token;
 
 int	parsing_check(int ac, char **av, t_token *tokens);
+int	tokenising(char *str, t_token *tokens);
 
 #endif

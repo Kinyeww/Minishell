@@ -1,19 +1,22 @@
 #include "../includes/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int	main(int ac, char **av)
 {
 	t_token *tokens;
+	char	*line;
 
 	tokens = malloc(sizeof(t_token));
-	if (!parsing_check (ac, av, tokens))
+	while (line = readline("YEESHUNQI GAYYYY$  "))
 	{
-		printf("invalid arg\n");
-		return (1);
+		// if (tokenising(line, tokens) == false)
+		// 	return (1);
+		printf("access denied, ur not aura enough to use our shell.\n", line);
+		free(line);
 	}
-	printf("\n%s\n", tokens->token); //testing
-	// if (!tokenise)
-	// 	return (1);
 	return (0);
 }
