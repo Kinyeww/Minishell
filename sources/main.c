@@ -5,17 +5,18 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
 	t_token *tokens;
 	char	*line;
 
-	tokens = malloc(sizeof(t_token));
+	(void) ac;
+	(void) av;
+	(void) envp;
 	while (line = readline("YEESHUNQI GAYYYY$  "))
 	{
-		// if (tokenising(line, tokens) == false)
-		// 	return (1);
-		printf("access denied, ur not aura enough to use our shell.\n", line);
+		if (parsing(line))
+		printf("access denied, ur not aura enough to use our shell.\n");
 		free(line);
 	}
 	return (0);

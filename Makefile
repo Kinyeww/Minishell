@@ -2,7 +2,13 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -lreadline
 
-SRCS = sources/main.c #sources/parsing.c
+PARSING = sources/main.c\
+		  sources/parsing.c\
+		  sources/
+
+EXECUTION = sources/
+
+SRCS = $(PARSING) $(EXECUTION)
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
