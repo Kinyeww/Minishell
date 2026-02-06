@@ -3,10 +3,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -lreadline
 
 PARSING = sources/main.c\
-		  sources/parsing.c\
-		  sources/
+# 		  sources/parsing.c\
+# 		  sources/
 
-EXECUTION = sources/
+# EXECUTION = sources/
 
 SRCS = $(PARSING) $(EXECUTION)
 OBJS = $(SRCS:.c=.o)

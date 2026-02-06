@@ -15,8 +15,9 @@ int	main(int ac, char **av, char **envp)
 	(void) envp;
 	while (line = readline("YEESHUNQI GAYYYY$  "))
 	{
-		if (parsing(line))
+		// if (parsing(line))
 		printf("access denied, ur not aura enough to use our shell.\n");
+		printf("%d %d %d %d %d", WORD, PIPE, APPEND, REDIR_IN, REDIR_OUT);
 		free(line);
 	}
 	return (0);

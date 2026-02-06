@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-int	parsing(char *str, t_token *tokens)
+int	parsing(char *str)
 {
 	t_token *tokens;
 	int	size;
