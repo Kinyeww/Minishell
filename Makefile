@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -lreadline
 
 PARSING = sources/main.c\
-# 		  sources/parsing.c\
+		  sources/tokenising.c\
 # 		  sources/
 
 # EXECUTION = sources/

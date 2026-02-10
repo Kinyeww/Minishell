@@ -1,19 +1,22 @@
-#include "minishell.h"
-#include "parsing.h"
+#include "../includes/minishell.h"
+#include "../includes/parsing.h"
 #include <stdbool.h>
 #include <stdlib.h>
+
+static int	get_token_size(char *line);
 
 int	parsing(char *str)
 {
 	t_token *tokens;
 	int	size;
 
-	size = get_token_size(tokens);
-	tokens =
-	tokens = tokenising(str, tokens);
-	if (!tokens)
-		return (false);
-	
+	size = get_token_size(str);
+	printf("token size = %d\n", size);
+	// tokens = malloc(sizeof(t_token) * size);
+	// tokens = tokenising(str, tokens);
+	// if (!tokens)
+	// 	return (false);
+	return (1);
 }
 
 t_token *tokenising(char *str, t_token *tokens)
@@ -41,4 +44,38 @@ t_token *tokenising(char *str, t_token *tokens)
 		i++;
 	}
 	return (true);
+}
+
+static int	get_token_size(char *line)
+{
+	int	i;
+	int	word;
+	int	s_quote;
+	int	d_quote;
+	int	intoken;
+
+	i = 0;
+	word = 0;
+	intoken = 0;
+	s_quote = 0;
+	d_quote = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'' && !d_quote)
+			s_quote = !s_quote;
+		else if (line[i] == '"' && !s_quote)
+			d_quote = !d_quote;
+		if (line[i] != ' ' || s_quote || d_quote)
+		{
+			if (!intoken)
+			{
+				word++;
+				intoken = 1;
+			}
+		}
+		else
+			intoken = 0;
+		i++;
+	}
+	return (word);
 }
