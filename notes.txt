@@ -11,4 +11,3 @@ cd
 ls -l
  
 return (true); // push to one token [ "ls", "-l", "|", "grep", "txt" ]
-		}
