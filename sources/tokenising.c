@@ -12,24 +12,21 @@ static void		get_token_length_utils(char *line, int *i, int *word, int intoken);
 static size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void			print_list_size(t_token *tokens);
 
-int	parsing(char *line)
+t_token	*tokenising(char *line)
 {
-	t_token *new_tokens;
-	t_token *head;
-	t_token *last;
-	int	size;
-	int	len;
-	int	i;
+	t_token	*new_tokens;
+	t_token	*head;
+	t_token	*last;
+	int		len;
+	int		i;
 
-	size = get_token_size(line);
-	printf("\ntoken size = %d\n", size);
 	i = 0;
 	head = NULL;
 	last = NULL;
 	while (line[i])
 	{
 		len = get_token_length(line, i);
-		printf("token length = %d\n", len);
+		printf("len = %d, i = %d\n", len, i);
 		new_tokens = malloc (sizeof(t_token));
 		new_tokens->content = malloc (sizeof(char) * (len + 1));
 		while (line[i] && line[i] == ' ')
@@ -44,7 +41,7 @@ int	parsing(char *line)
 	}
 	last->next = NULL;
 	print_list_size(head);
-	return (1);
+	return (head);
 }
 
 void	print_list_size(t_token *tokens)
@@ -102,33 +99,6 @@ static int	get_token_length(char *line, int index)
 			i++;
 		}
 		return (i);
-	}
-}
-
-static void get_token_length_utils(char *line, int *i, int *word, int tokennum)
-{
-	t_tokenising	state;
-
-	state.singleq = 0;
-	state.doubleq = 0;
-	state.intoken = 0;
-	while (line[*i] && *word < tokennum)
-	{
-		if (line[*i] == '\'' && !state.doubleq)
-			state.singleq = !state.singleq;
-		else if (line[*i] == '"' && !state.singleq)
-			state.doubleq = !state.doubleq;
-		if (line[*i] != ' ' || state.singleq || state.doubleq)
-		{
-			if (!state.intoken)
-			{
-				(*word)++;
-				state.intoken = 1;
-			}
-		}
-		else
-			state.intoken = 0;
-		(*i)++;
 	}
 }
 

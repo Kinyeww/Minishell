@@ -8,14 +8,16 @@
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
+	t_token *tokens;
 
 	(void) ac;
 	(void) av;
 	(void) envp;
 	while (line = readline("Minishell$ "))
 	{
-		// if (parsing(line))
-		if (parsing(line) == 1)	
+		tokens = tokenising(line);
+		if (tokens == NULL)
+			return (1);
 		// printf("access denied, ur not aura enough to use our shell.\n");
 		// printf("%d %d %d %d %d", WORD, PIPE, APPEND, REDIR_IN, REDIR_OUT);
 		free(line);
