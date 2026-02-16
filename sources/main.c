@@ -13,13 +13,12 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	(void) envp;
-	while (line = readline("Minishell$ "))
+	while ((line = readline("Minishell$ ")))
 	{
 		tokens = tokenising(line);
 		if (tokens == NULL)
 			return (1);
-		// printf("access denied, ur not aura enough to use our shell.\n");
-		// printf("%d %d %d %d %d", WORD, PIPE, APPEND, REDIR_IN, REDIR_OUT);
+		tokens = parsing(tokens);
 		free(line);
 	}
 	return (0);

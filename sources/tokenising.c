@@ -1,14 +1,10 @@
 #include "../includes/minishell.h"
 #include "../includes/parsing.h"
-#include "../includes/tokenising.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-static int		get_token_size(char *line);
-static int		get_word_count(char *line, int intoken, int singleq, int doubleq);
 static int		get_token_length(char *line, int tokennum);
-static void		get_token_length_utils(char *line, int *i, int *word, int intoken);
 static size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void			print_list_size(t_token *tokens);
 
@@ -26,7 +22,6 @@ t_token	*tokenising(char *line)
 	while (line[i])
 	{
 		len = get_token_length(line, i);
-		printf("len = %d, i = %d\n", len, i);
 		new_tokens = malloc (sizeof(t_token));
 		new_tokens->content = malloc (sizeof(char) * (len + 1));
 		while (line[i] && line[i] == ' ')
@@ -65,7 +60,7 @@ static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	i = 0;
 	while (src[i] != '\0')
 		i++;
-	if (size == 0)
+	if (size == 0 || i == 0)
 		return (i);
 	j = 0;
 	while (j < size - 1 && src[j])
@@ -100,46 +95,4 @@ static int	get_token_length(char *line, int index)
 		}
 		return (i);
 	}
-}
-
-static int	get_token_size(char *line)
-{
-	int	word;
-	int	s_quote;
-	int	d_quote;
-	int	intoken;
-
-	intoken = 0;
-	s_quote = 0;
-	d_quote = 0;
-	word = get_word_count(line, intoken, s_quote, d_quote);
-	return (word);
-}
-
-static int get_word_count(char *line, int intoken, int singleq, int doubleq)
-{
-	int	i;
-	int	word;
-
-	i = 0;
-	word = 0;
-	while (line[i])
-	{
-		if (line[i] == '\'' && !doubleq)
-			singleq = !singleq;
-		else if (line[i] == '"' && !singleq)
-			doubleq = !doubleq;
-		if (line[i] != ' ' || singleq || doubleq)
-		{
-			if (!intoken)
-			{
-				word++;
-				intoken = 1;
-			}
-		}
-		else
-			intoken = 0;
-		i++;
-	}
-	return (word);
 }

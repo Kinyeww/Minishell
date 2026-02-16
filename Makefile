@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -lreadline
 
 PARSING = sources/main.c\
 		  sources/tokenising.c\
-# 		  sources/
+		  sources/parsing.c\
 
 # EXECUTION = sources/
 
