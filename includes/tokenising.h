@@ -9,6 +9,6 @@ typedef struct s_tokenising
 	int	two_q;
 	int	intoken;
 	int	i;
-} t_tokenising;
+}	t_tokenising;
 
 #endif

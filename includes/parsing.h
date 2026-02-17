@@ -1,7 +1,7 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-#include "tokenising.h"
+# include "tokenising.h"
 
 typedef enum e_token_type
 {
@@ -16,7 +16,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	t_token_type	type;
-	char 			*content;
+	char			*content;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
