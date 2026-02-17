@@ -8,7 +8,7 @@ static int		get_token_length(char *line, int tokennum);
 static size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void			print_list_size(t_token *tokens);
 
-t_token	*tokenising(char *line)
+t_token	*tokenising(char *line) //extra 4 lines
 {
 	t_token	*new_tokens;
 	t_token	*head;
@@ -22,6 +22,8 @@ t_token	*tokenising(char *line)
 	while (line[i])
 	{
 		len = get_token_length(line, i);
+		if (len == 0)
+			break ;
 		new_tokens = malloc (sizeof(t_token));
 		new_tokens->content = malloc (sizeof(char) * (len + 1));
 		while (line[i] && line[i] == ' ')
