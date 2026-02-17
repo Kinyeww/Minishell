@@ -5,8 +5,8 @@
 
 typedef struct s_tokenising
 {
-	int singleq;
-	int	doubleq;
+	int one_q;
+	int	two_q;
 	int	intoken;
 	int	i;
 } t_tokenising;

@@ -81,18 +81,18 @@ static int	get_token_length(char *line, int index)
 	int				word;
 
 	s.i = index;
-	s.singleq = 0;
-	s.doubleq = 0;
+	s.one_q = 0;
+	s.two_q = 0;
 	i = 0;
 	{
 		while (line[i + s.i] && line[i + s.i] == ' ')
 			s.i++;
-		while (line[i + s.i] && (line[i + s.i] != ' ' || s.singleq || s.doubleq))
+		while (line[i + s.i] && (line[i + s.i] != ' ' || s.one_q || s.two_q))
 		{
-			if (line[i + s.i] == '\'' && !s.doubleq)
-				s.singleq = !s.singleq;
-			else if (line[i + s.i] == '"' && !s.singleq)
-				s.doubleq = !s.doubleq;
+			if (line[i + s.i] == '\'' && !s.two_q)
+				s.one_q = !s.one_q;
+			else if (line[i + s.i] == '"' && !s.one_q)
+				s.two_q = !s.two_q;
 			i++;
 		}
 		return (i);
