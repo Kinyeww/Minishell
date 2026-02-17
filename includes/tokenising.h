@@ -5,7 +5,7 @@
 
 typedef struct s_tokenising
 {
-	int one_q;
+	int	one_q;
 	int	two_q;
 	int	intoken;
 	int	i;
