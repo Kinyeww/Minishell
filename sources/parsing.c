@@ -2,24 +2,69 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int	parsing_check(int ac, char **av, t_token *tokens)
-{
-	int	j;
-	int	a = 0;
+static int	ft_strcmp(const char *s1, const char *s2);
+static void	assign_meaning(t_token *tokens);
 
-	if (!normal_check(av))
-		return (0);
-	if (!av)
-	while (av[1][a])
-		a++;
-	tokens->token = malloc(sizeof(char) * (a + 1));
-	j = 0;
-	while (av[1][j])
+void	print_meaning(t_token *tokens)
+{
+	t_token	*head;
+
+	head = tokens;
+	while (tokens)
 	{
-		tokens->token[j] = av[1][j];
-		j++;
+		if (tokens->type == WORD)
+			printf("token[%s] = %d[word]\n", tokens->content, tokens->type);
+		else if (tokens->type == PIPE)
+			printf("token[%s] = %d[pipe]\n", tokens->content, tokens->type);
+		else if (tokens->type == REDIR_IN)
+			printf("token[%s] = %d[REDIR_IN]\n", tokens->content, tokens->type);
+		else if (tokens->type == REDIR_OUT)
+			printf("token[%s] = %d[REDIR_OUT]\n", tokens->content, tokens->type);
+		else if (tokens->type == APPEND)
+			printf("token[%s] = %d[APPEND]\n", tokens->content, tokens->type);
+		else if (tokens->type == WORD)
+			printf("token[%s] = %d[WORD]\n", tokens->content, tokens->type);
+		tokens = tokens->next;
 	}
-	tokens->token[j] = 0;
-	printf("%d", ac);
-	return (1);
+}
+
+t_token	*parsing(t_token *tokens)
+{
+	t_token	*head;
+
+	head = tokens;
+	while (tokens)
+	{
+		assign_meaning(tokens);
+		tokens = tokens->next;
+	}
+	print_meaning(tokens);
+	return (head);
+}
+
+/*always check for longer char first*/
+static void	assign_meaning(t_token *tokens)
+{
+	if (ft_strcmp(tokens->content, ">>") == 0)
+		tokens->type = APPEND;
+	else if (ft_strcmp(tokens->content, "<<") == 0)
+		tokens->type = HEREDOC;
+	else if (ft_strcmp(tokens->content, ">") == 0)
+		tokens->type = REDIR_OUT;
+	else if (ft_strcmp(tokens->content, "<") == 0)
+		tokens->type = REDIR_IN;
+	else if (ft_strcmp(tokens->content, "|") == 0)
+		tokens->type = PIPE;
+	else
+		tokens->type = WORD;
+}
+
+static int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

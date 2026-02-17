@@ -5,20 +5,41 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+static int	check_first(char *line);
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
+	t_token	*tokens;
 
 	(void) ac;
 	(void) av;
 	(void) envp;
-	while (line = readline("Minishell$ "))
+	while (1)
 	{
-		// if (parsing(line))
-		if (parsing(line) == 1)	
-		// printf("access denied, ur not aura enough to use our shell.\n");
-		// printf("%d %d %d %d %d", WORD, PIPE, APPEND, REDIR_IN, REDIR_OUT);
+		line = readline("Minishell$ ");
+		if (check_first(line) == 0)
+			continue ;
+		tokens = tokenising(line);
+		if (tokens == NULL)
+			return (1);
+		tokens = parsing(tokens);
 		free(line);
 	}
 	return (0);
+}
+
+static int	check_first(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (line[i] == '\0')
+	{
+		free (line);
+		return (0);
+	}
+	return (1);
 }

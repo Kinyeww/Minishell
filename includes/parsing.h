@@ -1,6 +1,8 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+#include "tokenising.h"
+
 typedef enum e_token_type
 {
 	WORD,
@@ -19,7 +21,7 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-int	parsing(char *str);
-// int	tokenising(char *str, t_token *tokens);
+t_token	*parsing(t_token *tokens);
+t_token	*tokenising(char *line);
 
 #endif
