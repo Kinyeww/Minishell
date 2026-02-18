@@ -12,10 +12,10 @@ ls -l
 
 typical minishell flow:
 
-< = 
-<< =
-> = 
->> = 
+< = redirect input
+<< = heredoc
+> = redirect output
+>> = ammend
 | = pipe
 
 1. store readline

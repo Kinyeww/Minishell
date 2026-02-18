@@ -10,6 +10,7 @@ void	print_meaning(t_token *tokens)
 	t_token	*head;
 
 	head = tokens;
+	printf("printing tokens\n");
 	while (tokens)
 	{
 		if (tokens->type == WORD)
@@ -22,7 +23,7 @@ void	print_meaning(t_token *tokens)
 			printf("token[%s] = %d[REDIR_OUT]\n", tokens->content, tokens->type);
 		else if (tokens->type == APPEND)
 			printf("token[%s] = %d[APPEND]\n", tokens->content, tokens->type);
-		else if (tokens->type == WORD)
+		else if (tokens->type == HEREDOC)
 			printf("token[%s] = %d[WORD]\n", tokens->content, tokens->type);
 		tokens = tokens->next;
 	}
@@ -33,11 +34,13 @@ t_token	*parsing(t_token *tokens)
 	t_token	*head;
 
 	head = tokens;
+	printf("--- assigning meaning ---\n");
 	while (tokens)
 	{
 		assign_meaning(tokens);
 		tokens = tokens->next;
 	}
+	tokens = head;
 	print_meaning(tokens);
 	return (head);
 }
@@ -45,6 +48,7 @@ t_token	*parsing(t_token *tokens)
 /*always check for longer char first*/
 static void	assign_meaning(t_token *tokens)
 {
+	printf("assigning meaning for %s\n", tokens->content);
 	if (ft_strcmp(tokens->content, ">>") == 0)
 		tokens->type = APPEND;
 	else if (ft_strcmp(tokens->content, "<<") == 0)
