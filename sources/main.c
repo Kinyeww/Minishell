@@ -14,7 +14,6 @@ int	main(int ac, char **av, char **envp)
 
 	(void) ac;
 	(void) av;
-	(void) envp;
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -24,6 +23,7 @@ int	main(int ac, char **av, char **envp)
 		if (tokens == NULL)
 			return (1);
 		tokens = parsing(tokens);
+		tokens = expand(tokens, envp);
 		free(line);
 	}
 	return (0);
