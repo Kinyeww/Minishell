@@ -24,7 +24,7 @@ void	print_meaning(t_token *tokens)
 		else if (tokens->type == APPEND)
 			printf("token[%s] = %d[APPEND]\n", tokens->content, tokens->type);
 		else if (tokens->type == HEREDOC)
-			printf("token[%s] = %d[WORD]\n", tokens->content, tokens->type);
+			printf("token[%s] = %d[HEREDOC]\n", tokens->content, tokens->type);
 		tokens = tokens->next;
 	}
 }
