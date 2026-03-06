@@ -19,14 +19,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_command
-{
-	char	**args;
-
-	
-	
-}	t_command;
-
 t_token	*parsing(t_token *tokens);
 t_token	*tokenising(char *line);
 
