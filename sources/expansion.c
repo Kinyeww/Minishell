@@ -13,6 +13,8 @@ t_token	*expand(t_token *tokens, char **envp)
 	printf("--- expanding ---\n");
 	if (error_handling(tokens) != 0)
 		return (NULL);
+	printf("no error found\n");
+	
 	return (tokens);
 }
 
@@ -25,7 +27,8 @@ static int	error_handling(t_token *tokens)
 	}
 	while (tokens)
 	{
-		if (tokens->type == REDIR_IN || tokens->type == REDIR_OUT)
+		if (tokens->type == REDIR_IN || tokens->type == REDIR_OUT
+			|| tokens->type == APPEND || tokens->type == HEREDOC)
 		{
 			if (tokens->next == NULL || tokens->next->type != WORD)
 			{
@@ -35,7 +38,7 @@ static int	error_handling(t_token *tokens)
 		}
 		else if (tokens->type == PIPE)
 		{
-			if (tokens->next->type == PIPE)
+			if (tokens->next && tokens->next->type == PIPE)
 			{
 				printf("no double pipes, we're not doing tat sorry :)\n");
 				return (1);
