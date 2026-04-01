@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-static int	check_first(char *line)
+static int	check_first(char *line) //empty line check
 {
 	int	i;
 

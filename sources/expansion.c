@@ -14,8 +14,20 @@ t_token	*expand(t_token *tokens, char **envp)
 	if (error_handling(tokens) != 0)
 		return (NULL);
 	printf("no error found\n");
-	
+	parse_pipeline(tokens);
+	parse_command(tokens);
 	return (tokens);
+}
+
+static void	parse_pipeline(t_token *tokens)
+{
+	t_token	*pipe;
+	t_ast	*AST;
+
+	pipe = find_pipe(tokens);
+	if (!pipe)
+		return (parse_command(tokens));
+	AST = create_ast()
 }
 
 static int	error_handling(t_token *tokens)
@@ -47,4 +59,15 @@ static int	error_handling(t_token *tokens)
 		tokens = tokens->next;
 	}
 	return (0);
+}
+
+static t_token	*find_pipe(t_token *tokens)
+{
+	while (tokens)
+	{
+		if (tokens->type == PIPE)
+			return (tokens);
+		tokens = tokens->next;
+	}
+	return (NULL);
 }
