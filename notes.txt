@@ -24,3 +24,7 @@ typical minishell flow:
 4. expand
 5. execute
 6. free everything
+
+
+syee
+- currently just have an ast to do shit 
