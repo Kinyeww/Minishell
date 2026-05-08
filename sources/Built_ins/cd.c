@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/08 17:44:11 by syee              #+#    #+#             */
+/*   Updated: 2026/05/08 17:44:58 by syee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ast.h"
+
 #include "../utils/utils.c"
 #define TOO_MANY_ARG_ERR "minishell : cd: too many arguments\n"
 #define HOME_NOT_SET "minishell :cd: HOME not set\n"
