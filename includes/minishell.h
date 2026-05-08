@@ -35,4 +35,21 @@ typedef struct s_ast
 	char			**argv; //under exceve format ("cat", "ahshda") or grep ("grep", "-a", "-o")
 }	t_ast;
 
+/* =============== env =============== */
+typedef struct s_env t_env;
+
+//store as a linked list/
+typedef struct s_data
+{
+	t_env *envp_list;
+
+} t_data;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+} t_env;
+
 #endif

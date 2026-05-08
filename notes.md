@@ -21,12 +21,13 @@ typical minishell flow:
 
 
 ## syee : 
+1. traverse ast
 1. built ins
     - [ ] echo
         - [ ] n 
     - [ ] cd
-        - [ ] relative path
-        - [ ] absolute path
+        - [ ] relative path : location relative to current folder
+        - [ ] absolute path : full location starting from the root directory /homw/root/john
     - [ ] pwd
     - [ ] export
     - [ ] unset 
@@ -46,7 +47,7 @@ typical minishell flow:
 5. exit codes ($?)
 
 ### code planning
-1. write builtins
+1. 
 2. 
 
 ### imporatnt resources / references
@@ -65,4 +66,14 @@ This link breaksdown :
 - overall guide for minishell 
 
 ## misc
-- heredoc is under parser ?
+- manipulate envp ?
+- 
+
+1. under main :
+/*
+- envp has to be copied because the original envp is pointing to the address but if we want to add stuff to it its impossible 
+1. count envp
+2. the envp list inside the data should be initialized with amt * sizeof(t_env *), so that can go to each t_env and set the key and value 
+3. find the delimited "=" then strdup the KEY then strdup the value 
+4. 
+*/

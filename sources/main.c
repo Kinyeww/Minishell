@@ -4,24 +4,8 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "ast.h"
 
 static int	check_first(char *line);
-typedef struct s_env t_env;
-
-//store as a linked list/
-typedef struct s_data
-{
-	t_env *envp_list;
-
-} t_data;
-
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-} t_env;
 
 /*
 count the amount of envp 
@@ -64,13 +48,7 @@ char *ft_strchr(char *string, char c)
 	return (NULL);
 }
 
-/*
-- envp has to be copied because the original envp is pointing to the address but if we want to add stuff to it its impossible 
-1. count envp
-2. the envp list inside the data should be initialized with amt * sizeof(t_env *), so that can go to each t_env and set the key and value 
-3. find the delimited "=" then strdup the KEY then strdup the value 
-4. 
-*/
+
 char *ft_strndup(char *string , int size)
 {
 	int		i;
@@ -116,7 +94,7 @@ void copy_envp(t_data *data, char **envp)
 		j++;
 	}
 }
-//need to make a copy of the envp to maniplate , whenever print export it manipulates the oopy of envp instead
+//need to make a copy of the envp to manipulate , whenever print export it manipulates the oopy of envp instead
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
@@ -135,7 +113,7 @@ int	main(int ac, char **av, char **envp)
 		if (tokens == NULL)
 			return (1);
 		tokens = parsing(tokens);
-		//execution? 
+		//sq execution command here ?
 		free(line);
 	}
 	return (0);

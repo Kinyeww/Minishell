@@ -6,15 +6,16 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:44:11 by syee              #+#    #+#             */
-/*   Updated: 2026/05/08 17:44:58 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/08 20:04:48 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "../includes/minishell.h"
 #include "../utils/utils.c"
+
 #define TOO_MANY_ARG_ERR "minishell : cd: too many arguments\n"
 #define HOME_NOT_SET "minishell :cd: HOME not set\n"
 
@@ -28,7 +29,7 @@ void print_err_cd(char *path);
 	return if there is more then 2
 save current directory to update env later
 	if there is only 1 (cd) then go to home directory 
-3. if there is exactly 2 (cd xx) , run the command to chang directory and update env // it could be absolute or relative 
+3. if there is exactly 2 (cd xx) , run the command to change directory and update env // it could be absolute or relative 
 4. once done update env n(OLDPWD && PWD)
 5. if error , print error 
 6. return error flag to update $?
