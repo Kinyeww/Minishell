@@ -8,6 +8,8 @@ static int		get_token_length(char *line, int tokennum);
 static size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void			print_list_size(t_token *tokens);
 
+/*what this does is return a tokenised linked list for example like hello world = hello->world*/
+
 t_token	*tokenising(char *line) //extra 4 lines
 {
 	t_token	*new_tokens;
@@ -74,6 +76,14 @@ static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 
+/*
+ one thing to note about the split token is that
+ whenever we see space, we split it into tokens
+ however we do not want to split it when it is inside the quotes
+ because it is counted as string literal
+ that means the space inside quotes shouldn't be splitted
+*/
+
 static int	get_token_length(char *line, int index)
 {
 	t_tokenising	s;
@@ -84,17 +94,15 @@ static int	get_token_length(char *line, int index)
 	s.one_q = 0;
 	s.two_q = 0;
 	i = 0;
+	while (line[i + s.i] && line[i + s.i] == ' ')
+		s.i++;
+	while (line[i + s.i] && (line[i + s.i] != ' ' || s.one_q || s.two_q))
 	{
-		while (line[i + s.i] && line[i + s.i] == ' ')
-			s.i++;
-		while (line[i + s.i] && (line[i + s.i] != ' ' || s.one_q || s.two_q))
-		{
-			if (line[i + s.i] == '\'' && !s.two_q)
-				s.one_q = !s.one_q;
-			else if (line[i + s.i] == '"' && !s.one_q)
-				s.two_q = !s.two_q;
-			i++;
-		}
-		return (i);
+		if (line[i + s.i] == '\'' && !s.two_q)
+			s.one_q = !s.one_q;
+		else if (line[i + s.i] == '"' && !s.one_q)
+			s.two_q = !s.two_q;
+		i++;
 	}
+	return (i);
 }

@@ -1,12 +1,22 @@
 #include "../includes/minishell.h"
+#include <stdlib.h>
 #include <stdio.h>
+
+static int	error_handling(t_token *tokens);
+static void	parse_pipeline(t_token *tokens);
+static t_token	*find_pipe(t_token *tokens);
+
 /*
 to-do
-1. validate (make sense)
-2. create a grammar rule and follow (error handling)
-3. can start doing the expansion, but we need to decide how to do it first
+1. parse tokens to t_redir
+2. expand env like $HOME = /home/king
+3. make execution without pipe works, then with redir, then with pipes
+
+echo hi > out      // REDIR_OUT: create/truncate file, stdout goes there
+echo hi >> out     // APPEND: create/append file, stdout goes there
+cat < in           // REDIR_IN: stdin comes from file
+cat << EOF         // HEREDOC: stdin comes from temporary heredoc input
 */
-static int	error_handling(t_token *tokens);
 
 t_token	*expand(t_token *tokens, char **envp)
 {
@@ -14,7 +24,7 @@ t_token	*expand(t_token *tokens, char **envp)
 	if (error_handling(tokens) != 0)
 		return (NULL);
 	printf("no error found\n");
-	parse_pipeline(tokens);
+	parse_pipeline(tokens); /* check if theres pipe first */
 	parse_command(tokens);
 	return (tokens);
 }
@@ -22,12 +32,54 @@ t_token	*expand(t_token *tokens, char **envp)
 static void	parse_pipeline(t_token *tokens)
 {
 	t_token	*pipe;
-	t_ast	*AST;
+	t_ast	*ast;
 
 	pipe = find_pipe(tokens);
 	if (!pipe)
 		return (parse_command(tokens));
-	AST = create_ast()
+	ast = create_ast(tokens, pipe);
+}
+
+static void	parse_command(t_token **curr_tokens)
+{
+	t_cmd	*cmd;
+
+	cmd = cmd_init();
+	while (*curr_tokens && (*curr_tokens)->type != PIPE)
+	{
+		if (is_redir(*curr_tokens->type))
+		{
+			add_redir()
+			cur->next;
+		}
+		else if (==word)
+		{
+			add_arg
+			cur->next
+		}
+	}
+	return (cmd);
+}
+
+static int	is_redir(t_token_type type)
+{
+	return (type == REDIR_IN
+		|| type == REDIR_OUT
+		|| type == APPEND
+		|| type == HEREDOC);
+}
+
+static t_cmd	*cmd_init(void)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof (t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->argv = NULL;
+	cmd->redir = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }
 
 static int	error_handling(t_token *tokens)
