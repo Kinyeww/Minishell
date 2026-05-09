@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "parsing.h"
+//#include "parsing.h"
 
 
 
@@ -54,4 +54,12 @@ typedef struct s_data
 	t_env	*envp_list;
 	//t_exit	exit_status;
 } t_data;
+
+/* ============ Utils =====================*/
+int	ft_strcmp(const char *s1, const char *s2);
+int ft_strlen(char *str);
+char *ft_strdup(char *string);
+char *ft_strchr(char *string, char c);
+char *ft_strndup(char *string , int size);
+
 #endif

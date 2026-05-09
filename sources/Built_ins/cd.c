@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:44:11 by syee              #+#    #+#             */
-/*   Updated: 2026/05/08 20:04:48 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/10 06:18:50 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../includes/minishell.h"
 #include "../utils/utils.c"
 
-#define TOO_MANY_ARG_ERR "minishell : cd: too many arguments\n"
+#define TOO_MANY_ARG_ERR "minishell : export: 'too many arguments'\n"
 #define HOME_NOT_SET "minishell :cd: HOME not set\n"
 
 char *get_env_value(t_data *data, char *key);

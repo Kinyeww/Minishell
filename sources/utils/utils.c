@@ -1,11 +1,7 @@
 #include <stdlib.h>
+#include "../../includes/minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2);
-int ft_strlen(char *str);
-char *ft_strdup(char *string);
-char *ft_strchr(char *string, char c);
-char *ft_strndup(char *string , int size);
-
+#define NOT_VALID1 "minishell : cd: too many arguments\n"
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
@@ -67,10 +63,11 @@ char *ft_strchr(char *string, char c)
 	if (!string)
 		return (NULL);
 	i = 0;
-	while (string[i])
+	while (string[i] != '\0')
 	{
 		if (string[i] == c)
 			return (string + i);
+		i++;
 	}
 	return (NULL);
 }
@@ -85,10 +82,11 @@ char *ft_strndup(char *string , int size)
 	if (!string)
 		return (NULL);
 	return_str = malloc(size + 1);
-	while (string[i] != '\0')
+	while (i <size && string[i] != '\0')
 	{
 		return_str[i] = string[i];
 		i++;
 	}
+	return_str[i] = '\0';
 	return (return_str);
 }
