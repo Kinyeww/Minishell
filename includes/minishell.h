@@ -3,6 +3,8 @@
 
 #include "parsing.h"
 
+
+
 /* =============== AST =============== */
 typedef enum e_token_type
 {
@@ -38,13 +40,6 @@ typedef struct s_ast
 /* =============== env =============== */
 typedef struct s_env t_env;
 
-//store as a linked list/
-typedef struct s_data
-{
-	t_env *envp_list;
-
-} t_data;
-
 typedef struct s_env
 {
 	char			*key;
@@ -52,4 +47,11 @@ typedef struct s_env
 	struct s_env	*next;
 } t_env;
 
+/* =============== MainStruct =============== */
+
+typedef struct s_data
+{
+	t_env	*envp_list;
+	//t_exit	exit_status;
+} t_data;
 #endif

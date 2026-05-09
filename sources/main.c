@@ -5,81 +5,51 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static int	check_first(char *line);
-
-/*
-count the amount of envp 
-malloc 
-*/
-
-char *ft_strdup(char *string)
+int	main(int ac, char **av, char **envp)
 {
-	int i; 
-	char *str;
+	(void) ac;
+	(void) av;
+	t_data	*data;
 
-	if (!string)
-        return (NULL);
-	i = 0;
-	while (string[i])
-		i++;
-	str = malloc(i + 1);
-	i = 0;
-	while (string[i])
-	{
-		str[i] = string[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	data = malloc (sizeof(t_data));
+	*data = (t_data){0};
+	create_envp_list(&data->envp_list, envp); //if envp list fails?
+	//loop_main();
+	//shell_cleanup();
+	//return(); //return the exit code ?
+
+	return (0);
 }
-
-char *ft_strchr(char *string, char c)
-{
-	int i;
-
-	if (!string)
-		return (NULL);
-	i = 0;
-	while (string[i])
-	{
-		if (string[i] == c)
-			return (string + i);
-	}
-	return (NULL);
-}
-
-
-char *ft_strndup(char *string , int size)
+//**envp = array of strings 
+void create_envp_list(t_env **envp_list, char **envp)
 {
 	int		i;
-	char	*return_str;
+	t_env	*new;
 
 	i = 0;
-	if (!string)
-		return (NULL);
-	return_str = malloc(size + 1);
-	while (string[i] != '\0')
+	while (envp[i])
 	{
-		return_str[i] = string[i];
+		new = malloc(sizeof(t_env));
+		if (!new)
+			return;
+		new->key = get_key(envp[i]); //ft_strndup(envp[]);
+		new->value = get_value(envp[i]);
+		new->next = NULL;
+		add_back(envp_list, new);
 		i++;
 	}
-	return (return_str);
+	return;
 }
-/*
-1. create an array of envp struct, on when more values need to be added then malloc
-2. 
-*/
+
 void copy_envp(t_data *data, char **envp)
 {
-	int		envp_count;
+	
 	char	*ptr;
 	int		i;
 	int		j;
 
-	envp_count = 0;
-	while (envp[envp_count] != NULL)
-		envp_count++;
-	data->envp_list = malloc(sizeof(t_env) * (envp_count + 1));
+	
+	
 	j = 0;
 	while (j < envp_count)
 	{
@@ -94,64 +64,15 @@ void copy_envp(t_data *data, char **envp)
 		j++;
 	}
 }
-//need to make a copy of the envp to manipulate , whenever print export it manipulates the oopy of envp instead
-int	main(int ac, char **av, char **envp)
+//delet envp
+//replace envp
+//
+
+void list_add_back(t_env **envp_list, t_data **data)
 {
-	char	*line;
-	t_data	data;
-	t_token	*tokens;
-
-	(void) ac;
-	(void) av;
-	copy_envp(&data, envp);
-	while (1)
-	{
-		line = readline("Minishell$ ");
-		if (check_first(line) == 0)
-			continue ;
-		tokens = tokenising(line);
-		if (tokens == NULL)
-			return (1);
-		tokens = parsing(tokens);
-		//sq execution command here ?
-		free(line);
-	}
-	return (0);
-}
-//fake ast to test
-int main(int ac, char **av, char **envp) //tehcnically i do not need to use anything from the parsing for now 
-{
-	(void)ac;
-	(void)av;
-	t_ast ast1;
-	t_ast ast2;
-
-	char *ast_arr[4];
-	ast1.token_type = COMMAND;
-	ast1.left = NULL; //should i have a funciton to set it as null in the first place : yes
-	ast1.right = NULL;
-	ast1.argv = ast_arr;
-	ast1.argv[0] = "ehco";
-	ast1.argv[1] = "-n";
-	ast1.argv[2] = "hello";
-	ast1.argv[3] = NULL;
-
-
-	execute_ast();
-	
+	//if first
+	//if last
+	//if in between
 }
 
-static int	check_first(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] && line[i] == ' ')
-		i++;
-	if (line[i] == '\0')
-	{
-		free (line);
-		return (0);
-	}
-	return (1);
-}
+void list

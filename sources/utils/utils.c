@@ -1,8 +1,11 @@
 #include <stdlib.h>
 
-/*
-if correct then return 0 
-*/
+int	ft_strcmp(const char *s1, const char *s2);
+int ft_strlen(char *str);
+char *ft_strdup(char *string);
+char *ft_strchr(char *string, char c);
+char *ft_strndup(char *string , int size);
+
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
@@ -36,3 +39,56 @@ int ft_strlen(char *str)
 	return (i);
 }
 
+char *ft_strdup(char *string)
+{
+	int i; 
+	char *str;
+
+	if (!string)
+        return (NULL);
+	i = 0;
+	while (string[i])
+		i++;
+	str = malloc(i + 1);
+	i = 0;
+	while (string[i])
+	{
+		str[i] = string[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+char *ft_strchr(char *string, char c)
+{
+	int i;
+
+	if (!string)
+		return (NULL);
+	i = 0;
+	while (string[i])
+	{
+		if (string[i] == c)
+			return (string + i);
+	}
+	return (NULL);
+}
+
+
+char *ft_strndup(char *string , int size)
+{
+	int		i;
+	char	*return_str;
+
+	i = 0;
+	if (!string)
+		return (NULL);
+	return_str = malloc(size + 1);
+	while (string[i] != '\0')
+	{
+		return_str[i] = string[i];
+		i++;
+	}
+	return (return_str);
+}

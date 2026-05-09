@@ -21,7 +21,15 @@ typical minishell flow:
 
 
 ## syee : 
-1. traverse ast
+1. store env
+    - [ ] as linked list
+    - [ ] as array
+    - [ ] 
+2. Signals 
+    - die 
+2. traverse ast
+    - [ ] store ast nodes as ..
+    - 
 1. built ins
     - [ ] echo
         - [ ] n 
