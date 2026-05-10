@@ -3,20 +3,6 @@
 
 # include "parsing.h"
 
-typedef struct s_redir
-{
-	t_token_type	redir_type;
-	char			*file_name;
-	struct t_redir	*next_redir;
-}	t_redir;
-
-typedef struct s_cmd
-{
-	char			**argv; // because execve expects execve(path, argv, envp);
-	t_redir			*redir; // redir only setup for the fd, not needed by execve
-	struct s_cmd	*next;
-}	t_cmd;
-
 typedef enum e_node_type
 {
 	NODE_COMMAND,

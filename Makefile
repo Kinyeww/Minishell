@@ -6,6 +6,8 @@ PARSING = sources/main.c\
 		  sources/tokenising.c\
 		  sources/parsing.c\
 		  sources/expansion.c\
+		  sources/parsing_utils.c\
+		  
 
 # EXECUTION = sources/
 

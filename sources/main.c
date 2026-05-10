@@ -11,9 +11,11 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_token	*tokens;
+	t_cmd	*cmds;
 
 	(void) ac;
 	(void) av;
+	(void) envp;
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -22,8 +24,8 @@ int	main(int ac, char **av, char **envp)
 		tokens = tokenising(line);
 		if (tokens == NULL)
 			return (1);
-		tokens = parsing(tokens);
-		tokens = expand(tokens, envp);
+		cmds = parsing(tokens);
+		// tokens = expand(cmds, envp);
 		free(line);
 	}
 	return (0);

@@ -88,7 +88,7 @@ static int	get_token_length(char *line, int index)
 {
 	t_tokenising	s;
 	int				i;
-	int				word;
+	// int				word;
 
 	s.i = index;
 	s.one_q = 0;
