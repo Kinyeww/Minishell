@@ -18,19 +18,22 @@ int	main(int ac, char **av, char **envp)
 	data = malloc (sizeof(t_data));
 	*data = (t_data){0};
 	create_envp_list(&data->envp_list, envp);
-	
-	//print_env_list(data->envp_list);
 		char *args[] = {
 		"export",
-		"KEY=value",
-		"_dwdwdwVAR=123",
-		"42ABC=test",
-		"MY-VAR=hello",
-		"HOME",
+		"ZZZ1=value",
+		"YYY2=123",
 		NULL
 	};
-	export (args, data);
 
+	export (args, data);
+	char *args1[] = {
+		"unset",
+		"PYENV_VIRTUALENV_INIT",
+		"YYY2",
+		"ZZZ1",
+		NULL
+	};
+	unset (args1, data);
 	data_clean(data);
 	//loop_main();
 	//shell_cleanup();

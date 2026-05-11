@@ -1,7 +1,8 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -lreadline
+CFLAGS = -Wall -Wextra -lreadline 
+IFLAGS = -Iincludes -Isources
 
 # Source files for export.c testing
 CORE = sources/main.c\
@@ -9,12 +10,12 @@ CORE = sources/main.c\
 	   #sources/parsing.c\
 
 BUILTINS = sources/Built_ins/export.c\
+		   sources/Built_ins/unset.c\
 		   #sources/Built_ins/echo.c\
 		   #sources/Built_ins/env.c\
 		   #sources/Built_ins/exit.c\
 		   #sources/Built_ins/pwd.c\
 		   #sources/Built_ins/cd.c\
-		   #sources/Built_ins/unset.c\
 
 ENVP_UTILS = sources/envp_list_utils.c/list_add_back.c\
 		   sources/envp_list_utils.c/list_bubble_sort.c\
@@ -37,13 +38,11 @@ EXECUTION = sources/executions/execute.c\
 SRCS = $(CORE) $(BUILTINS) $(ENVP_UTILS) $(LIBFT_UTILS) #$(EXECUTION)
 OBJS = $(SRCS:.c=.o)
 
-INCLUDES = -Iincludes/
-
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) -o $(NAME)
+	$(CC) $(OBJS) $(CFLAGS) $(IFLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 all: $(NAME)
 

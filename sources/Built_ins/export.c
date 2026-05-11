@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 06:45:20 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 15:00:07 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/11 17:52:21 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void add_key_to_list(char *args, t_env *envp_list)
     list_add_back(&envp_list, new);
 }
 
-void print_export_list (t_env *list)
+void print_export_list (t_env *envp_list)
 {
     t_env   *temp_list;
 	t_env	*current;
 	
 	temp_list = NULL;
-    envp_list_dup(list, &temp_list);
+    envp_list_dup(envp_list, &temp_list);
     envp_bubble_sort_list(&temp_list);
 	current = temp_list;
 	while (current != NULL)

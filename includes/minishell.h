@@ -4,9 +4,10 @@
 /* ============ Libraries ===========*/
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 /* ============ Libft_Utils ===========*/
-#include "../sources/libft_utils/libft_utils.h"
+#include "libft_utils/libft_utils.h"
 
 /* =============== AST =============== */
 typedef enum e_token_type
@@ -74,5 +75,9 @@ void envp_list_dup(t_env *original_list, t_env **temp_list);
 void print_export_list (t_env *list); 
 bool is_valid_key(char *args);
 void add_key_to_list(char *args, t_env *envp_list);
+
+/* =============== unset =============== */
+int unset(char **args, t_data *data);
+void envp_list_remove(t_env **envp_list, char *args_key);
 
 #endif

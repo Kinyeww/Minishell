@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/11 17:32:23 by syee              #+#    #+#             */
+/*   Updated: 2026/05/11 17:32:39 by syee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/minishell.h"
 #include <stdlib.h>
+
 //env with no options or arguments, so only printing all there is inside env?
 #define TOO_MANY_ARG_ERR "minishell : env: too many arguments\n" //might be an error later 
 
