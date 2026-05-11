@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 06:45:20 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 17:52:21 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/11 21:04:00 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int export(char **args, t_data *data)
+int export(char **argv, t_data *data)
 {
     int i;
 
     i = 1;
     
-    if (!args[i])
+    if (!argv[i])
     {
         print_export_list(data->envp_list);
         return (0);
     }
-	while (args[i])
+	while (argv[i])
     {
-        if (!is_valid_key(args[i]))
+        if (!is_valid_key(argv[i]))
         {
             write(2, "minishell: export: `", 20);
-            write(2, args[i], ft_strlen(args[i]));
+            write(2, argv[i], ft_strlen(argv[i]));
             write(2, "': is not a valid identifier\n", 29);
             i++;
             continue ;
         }
-		printf("validkey : %s\n", args[i]);
-        add_key_to_list(args[i], data->envp_list);
+		printf("validkey : %s\n", argv[i]);
+        add_key_to_list(argv[i], data->envp_list);
         i++;
     }
     return (0);
@@ -50,20 +50,20 @@ MY VAR      # spaces invalid
 VAR!        # '!' invalid
 =HELLO      # cannot start with '='
 */
-bool is_valid_key(char *args)
+bool is_valid_key(char *argv)
 {
 	int	i;
 
 	i = 0;
-	if (!ft_isalpha(args[i]) && args[i] != '_')
+	if (!ft_isalpha(argv[i]) && argv[i] != '_')
 		return (false);
 	i++;
-	while (args[i] && ft_isalnum(args[i]))
+	while (argv[i] && ft_isalnum(argv[i]))
 		i++;
-	return (args[i] == '=');
+	return (argv[i] == '=');
 }
 
-void add_key_to_list(char *args, t_env *envp_list)
+void add_key_to_list(char *argv, t_env *envp_list)
 {
     t_env   *new;
     char    *ptr;
@@ -71,9 +71,9 @@ void add_key_to_list(char *args, t_env *envp_list)
 
     j = 0;
     new = malloc(sizeof(t_env));
-    ptr = ft_strchr(args, '=');
-    j = ptr - args;
-    new->key = ft_strndup(args, j);
+    ptr = ft_strchr(argv, '=');
+    j = ptr - argv;
+    new->key = ft_strndup(argv, j);
     new->value = ft_strdup(ptr + 1);
     new->next = NULL;
     list_add_back(&envp_list, new);

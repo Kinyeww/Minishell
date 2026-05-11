@@ -85,3 +85,6 @@ This link breaksdown :
 3. find the delimited "=" then strdup the KEY then strdup the value 
 4. 
 */
+
+case :
+- whehn x|x|x , then usleep then quit, rmb to free child 

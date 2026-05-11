@@ -6,33 +6,20 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:32:23 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 17:32:39 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/11 21:16:39 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include <stdlib.h>
-
-//env with no options or arguments, so only printing all there is inside env?
+#include "minishell.h"
 #define TOO_MANY_ARG_ERR "minishell : env: too many arguments\n" //might be an error later 
 
 int env(char **argv, t_data *data)
 {
-	int		argc;
-	t_env	*current;
-
-	argc = 0;
-	while (argv[argc])
-		argc++;
-	if (argc > 1)
-		return (write(2, TOO_MANY_ARG_ERR, ft_strlen(TOO_MANY_ARG_ERR)), 1);
-	
-	current = data->envp_list;
-	while (current != NULL)
+	if (!(*(argv++)))
 	{
-		printf("%s",current->key);
-		printf("=%s\n",current->value);
-		current = current->next;
+		write(2, TOO_MANY_ARG_ERR, ft_strlen(TOO_MANY_ARG_ERR));
+		return(1);
 	}
+	print_env_list(data->envp_list);
 	return (0);
 }
