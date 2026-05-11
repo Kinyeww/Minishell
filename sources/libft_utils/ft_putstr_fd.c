@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/11 07:59:54 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 10:56:18 by syee             ###   ########.fr       */
+/*   Created: 2025/05/29 20:54:21 by syee              #+#    #+#             */
+/*   Updated: 2026/05/11 12:24:40 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_utils.h"
-#include <stdlib.h>
+#include <unistd.h>
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	ft_putstr_fd(char *s, int fd)
 {
-	size_t	i;
+	int		i;
+	char	c;
 
 	i = 0;
-	if (!s1 && !s2)
-		return (0);
-	if (!s1 || !s2)
-		return (1);
-	while (s1[i] || s2[i])
+	while (s[i])
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		c = s[i++];
+		write (fd, &c, 1);
 	}
-	return (0);
 }

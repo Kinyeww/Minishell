@@ -6,10 +6,7 @@
 #include <readline/history.h>
 
 void create_envp_list(t_env **envp_list, char **envp); 
-void list_add_back(t_env **envp_list, t_env *new); 
-void print_env_list(t_env *list);
-t_env *list_get_last(t_env *envp_list);
-void envp_list_clean(t_env **envp_list);
+
 void data_clean(t_data *data);
 
 int	main(int ac, char **av, char **envp)
@@ -23,8 +20,10 @@ int	main(int ac, char **av, char **envp)
 	create_envp_list(&data->envp_list, envp);
 	
 	//print_env_list(data->envp_list);
-	data_clean(data);
+	char *args[] = {"export", NULL};
+	export (args, data);
 
+	data_clean(data);
 	//loop_main();
 	//shell_cleanup();
 	//return(); //return the exit code ?
@@ -57,54 +56,8 @@ void create_envp_list(t_env **envp_list, char **envp)
 	return ;
 }
 
-void list_add_back(t_env **envp_list, t_env *new)
-{
-	t_env	*last;
-
-	if (!envp_list || !new)
-		return;
-	if (*envp_list == NULL)
-		*envp_list = new;
-	else
-	{
-		last = list_get_last(*envp_list);
-		last->next = new;
-	}
-	return ;
-}
-t_env *list_get_last(t_env *envp_list)
-{
-	if (!envp_list)
-    	return NULL;
-	while (envp_list->next != NULL)
-		envp_list = envp_list->next;
-	return (envp_list);
-}
-
-void envp_list_clean(t_env **envp_list)
-{
-	t_env	*temp;
-
-	while (*envp_list != NULL)
-	{
-		temp = (*envp_list)->next;
-		free((*envp_list)->key);
-		free((*envp_list)->value);
-		free(*envp_list);
-		*envp_list = temp;
-	}
-}
 void data_clean(t_data *data)
 {
 	envp_list_clean(&data->envp_list);
 	free(data);
-}
-/*=====testing envp=====*/
-void print_env_list(t_env *list)
-{
-    while (list)
-    {
-        printf("KEY: %s | VALUE: %s\n", list->key, list->value);
-        list = list->next;
-    }
 }

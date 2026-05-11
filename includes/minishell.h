@@ -1,9 +1,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//#include "parsing.h"
+#include <unistd.h>
 
-
+/* ============ Libft_Utils =========== ======*/
+#include "../sources/libft_utils/libft_utils.h"
 
 /* =============== AST =============== */
 typedef enum e_token_type
@@ -55,11 +56,19 @@ typedef struct s_data
 	//t_exit	exit_status;
 } t_data;
 
-/* ============ Utils =====================*/
-int	ft_strcmp(const char *s1, const char *s2);
-int ft_strlen(char *str);
-char *ft_strdup(char *string);
-char *ft_strchr(char *string, char c);
-char *ft_strndup(char *string , int size);
+/* =============== envp_utils =============== */
+
+void list_add_back(t_env **envp_list, t_env *new); 
+t_env *list_get_last(t_env *envp_list);
+void envp_list_clean(t_env **envp_list);
+void print_env_list(t_env *list); //debug purpose
+void envp_bubble_sort_list(t_env **temp_list);
+
+/* =============== built_ins =============== */
+
+/* =============== export =============== */
+int export(char **args, t_data *data);
+void envp_list_dup(t_env *original_list, t_env **temp_list);
+void print_export_list (t_env *list); 
 
 #endif

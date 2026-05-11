@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   list_add_back.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/11 07:59:54 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 10:56:18 by syee             ###   ########.fr       */
+/*   Created: 2026/05/11 10:21:13 by syee              #+#    #+#             */
+/*   Updated: 2026/05/11 10:21:15 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_utils.h"
+#include "../../includes/minishell.h"
 #include <stdlib.h>
 
-int	ft_strcmp(const char *s1, const char *s2)
+void list_add_back(t_env **envp_list, t_env *new)
 {
-	size_t	i;
+	t_env	*last;
 
-	i = 0;
-	if (!s1 && !s2)
-		return (0);
-	if (!s1 || !s2)
-		return (1);
-	while (s1[i] || s2[i])
+	if (!envp_list || !new)
+		return;
+	if (*envp_list == NULL)
+		*envp_list = new;
+	else
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		last = list_get_last(*envp_list);
+		last->next = new;
 	}
-	return (0);
+	return ;
+}
+t_env *list_get_last(t_env *envp_list)
+{
+	if (!envp_list)
+    	return NULL;
+	while (envp_list->next != NULL)
+		envp_list = envp_list->next;
+	return (envp_list);
 }

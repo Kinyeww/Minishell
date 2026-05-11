@@ -1,32 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/11 07:59:54 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 10:56:18 by syee             ###   ########.fr       */
+/*   Created: 2025/05/29 21:02:18 by syee              #+#    #+#             */
+/*   Updated: 2026/05/11 12:28:40 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_utils.h"
-#include <stdlib.h>
+#include <unistd.h>
 
-int	ft_strcmp(const char *s1, const char *s2)
+static void	writenbr(long long n, int fd)
 {
-	size_t	i;
+	char	c;
 
-	i = 0;
-	if (!s1 && !s2)
-		return (0);
-	if (!s1 || !s2)
-		return (1);
-	while (s1[i] || s2[i])
+	if (n != 0)
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		writenbr(n / 10, fd);
+		c = (n % 10) + '0';
+		write (fd, &c, 1);
 	}
-	return (0);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	long long	x;
+
+	x = (long long)n;
+	if (n < 0)
+	{
+		write (fd, "-", 1);
+		x = -1 * x;
+	}
+	if (n == 0)
+	{
+		write (fd, "0", 1);
+		return ;
+	}
+	writenbr (x, fd);
 }
