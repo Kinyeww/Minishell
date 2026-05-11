@@ -29,6 +29,7 @@ LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
 		    sources/libft_utils/ft_strndup.c\
 			sources/libft_utils/ft_putstr_fd.c\
 			sources/libft_utils/ft_putnbr_fd.c\
+			sources/libft_utils/ft_isalpha.c\
 
 EXECUTION = sources/executions/execute.c\
 			sources/executions/handle_built_ins.c\

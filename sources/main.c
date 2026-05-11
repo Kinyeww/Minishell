@@ -20,7 +20,15 @@ int	main(int ac, char **av, char **envp)
 	create_envp_list(&data->envp_list, envp);
 	
 	//print_env_list(data->envp_list);
-	char *args[] = {"export", NULL};
+		char *args[] = {
+		"export",
+		"KEY=value",
+		"_dwdwdwVAR=123",
+		"42ABC=test",
+		"MY-VAR=hello",
+		"HOME",
+		NULL
+	};
 	export (args, data);
 
 	data_clean(data);

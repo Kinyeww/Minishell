@@ -1,9 +1,11 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/* ============ Libraries ===========*/
 #include <unistd.h>
+#include <stdbool.h>
 
-/* ============ Libft_Utils =========== ======*/
+/* ============ Libft_Utils ===========*/
 #include "../sources/libft_utils/libft_utils.h"
 
 /* =============== AST =============== */
@@ -70,5 +72,7 @@ void envp_bubble_sort_list(t_env **temp_list);
 int export(char **args, t_data *data);
 void envp_list_dup(t_env *original_list, t_env **temp_list);
 void print_export_list (t_env *list); 
+bool is_valid_key(char *args);
+void add_key_to_list(char *args, t_env *envp_list);
 
 #endif

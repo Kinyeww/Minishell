@@ -9,5 +9,7 @@ char *ft_strchr(char *string, char c);
 char *ft_strndup(char *string , int size);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+int	ft_isalnum(int c);
+int	ft_isalpha(int c);
 
 #endif
