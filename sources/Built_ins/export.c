@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/10 06:45:20 by syee              #+#    #+#             */
+/*   Updated: 2026/05/11 07:52:19 by syee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -26,7 +37,7 @@ int export(char **args, t_data *data)
     }
     return ;
 }
-
+//use is alnum
 int is_valid_key(char *args)
 {
     if (*args == '=' || (*args >= '0' && *args <= '9'))
@@ -58,7 +69,7 @@ void add_key_to_list(char *args, t_env *envp_list)
 }
 void print_export_list (t_data *list)
 {
-
+    
 }
 
 /*
