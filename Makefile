@@ -13,7 +13,7 @@ BUILTINS = sources/Built_ins/export.c\
 		   sources/Built_ins/unset.c\
 		   sources/Built_ins/env.c\
 		   sources/Built_ins/pwd.c\
-		   #sources/Built_ins/echo.c\
+		   sources/Built_ins/echo.c\
 		   #sources/Built_ins/exit.c\
 		   #sources/Built_ins/cd.c\
 

@@ -1,47 +1,36 @@
-#include "ast.h"
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/12 22:38:31 by syee              #+#    #+#             */
+/*   Updated: 2026/05/12 23:40:30 by syee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//check for -n 
-//check for the words to print 
-//print out using write  
+#include "minishell.h"
 
-#define NO_NEWLINE 0
-#define YES_NEWLINE 1
-/*
--assuming the values are passed into as argv = "echo", "-n", "tetx"
-*/
-int check_n(char **cmd) //true returns 1
+int	echo(char **argv, t_data *data)
 {
-	if (ft_strcmp(cmd[1], "-n"))
-		return (YES_NEWLINE);
-	else 
-		return(NO_NEWLINE);
-}
-
-/*
-check for -n 
-if there is newline flag then start printing at cmd[2] (after the -n)
-after every cmd[i], need space 
-if there is a newline then end with \n
-prints to stdout ??
-*/
-int echo (char **argv) // i have to know what fd t is 
-{
-	int newline_flag;
-	int i;
-	i = 0;
-
-	newline_flag = check_n(argv);
-	if (newline_flag == YES_NEWLINE)
-		i = 2;
+	int		i;
+	bool	newline_flag;
+	
+	(void)data;
+	i = 1;
+	newline_flag = 1;
+	while (ft_strcmp(argv[i], "-n") == 0)
+		i++;
+	if (i > 1)
+		newline_flag = 0;
 	while (argv[i] != NULL)
 	{
 		write (1, argv[i], ft_strlen(argv[i]));
 		write (1, " ", 1);
+		i++;
 	}
-	if (newline_flag == YES_NEWLINE)
-		write(1, "/n", 1);
-
-	return (0); //exit 0 on success 
+	if (newline_flag == 1)
+		write(1, "\n", 1);
+	return (0);
 }
-

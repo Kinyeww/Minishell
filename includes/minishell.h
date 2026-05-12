@@ -87,4 +87,7 @@ int env(char **argv, t_data *data);
 /* =============== env =============== */
 int pwd(char **argv, t_data *data);
 
+/* =============== echo =============== */
+int	echo(char **argv, t_data *data);
+
 #endif
