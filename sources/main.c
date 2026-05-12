@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **envp)
 		NULL
 	};
 
-	env(argv, data);
+	pwd(argv, data);
 	data_clean(data);
 	//loop_main();
 	//shell_cleanup();

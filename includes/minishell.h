@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* ============ Libft_Utils ===========*/
 #include "libft_utils/libft_utils.h"
@@ -82,5 +83,8 @@ void envp_list_remove(t_env **envp_list, char *argv_key);
 
 /* =============== env =============== */
 int env(char **argv, t_data *data);
+
+/* =============== env =============== */
+int pwd(char **argv, t_data *data);
 
 #endif
