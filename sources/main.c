@@ -19,14 +19,14 @@ int	main(int ac, char **av, char **envp)
 	*data = (t_data){0};
 	create_envp_list(&data->envp_list, envp);
 		char *argv[] = {
-		"echo",
+		"cd",
 		"hi",
 		"hi",
 		"hi",
 		NULL
 	};
 
-	echo(argv, data);
+	cd(argv, data);
 	data_clean(data);
 	//loop_main();
 	//shell_cleanup();
