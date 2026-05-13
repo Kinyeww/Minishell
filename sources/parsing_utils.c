@@ -1,4 +1,4 @@
-#include "../includes/parsing.h"
+#include "parsing.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -31,4 +31,25 @@ int	is_redir(t_token_type type)
 		|| type == REDIR_OUT
 		|| type == APPEND
 		|| type == HEREDOC);
+}
+
+char	*ft_strdup(char *src)
+{
+	size_t	i;
+	char	*s1cpy;
+
+	i = 0;
+	while (src[i] != '\0')
+		i++;
+	s1cpy = malloc(sizeof(char) * (i + 1));
+	if (!s1cpy)
+		return (NULL);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		s1cpy[i] = src[i];
+		i++;
+	}
+	s1cpy[i] = '\0';
+	return (s1cpy);
 }

@@ -1,13 +1,13 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -lreadline
+CFLAGS = -Wall -Wextra -lreadline -I./includes
 
 PARSING = sources/main.c\
 		  sources/tokenising.c\
 		  sources/parsing.c\
 		  sources/expansion.c\
 		  sources/parsing_utils.c\
-		  
+		  sources/parsing_addrc.c
 
 # EXECUTION = sources/
 

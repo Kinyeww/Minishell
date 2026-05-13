@@ -1,5 +1,4 @@
-#include "../includes/parsing.h"
-#include "../includes/ast.h"
+#include "parsing.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -27,6 +26,7 @@ t_cmd	*parsing(t_token *tokens)
 	if (error_handling(head) == 1)
 		return (NULL);
 	print_meaning(tokens);
+	printf("\n---parsing command---\n");
 	cmds = parse_pipeline(&tokens);
 	if (!cmds)
 		return (NULL);

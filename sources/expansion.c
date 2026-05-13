@@ -1,10 +1,8 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-static int		is_redir(t_token_type type);
-static t_cmd	*cmd_init(void);
-static t_token	*find_pipe(t_token *tokens);
+
 
 /*
 to-do

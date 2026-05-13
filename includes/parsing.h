@@ -1,13 +1,6 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-typedef struct s_tokenising
-{
-	int	one_q;
-	int	two_q;
-	int	intoken;
-	int	i;
-}	t_tokenising;
 
 typedef enum e_token_type
 {
@@ -31,7 +24,7 @@ typedef struct s_redir
 {
 	t_token_type	redir_type;
 	char			*file_name;
-	struct t_redir	*next;
+	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_cmd
@@ -41,11 +34,20 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+/*tokenising*/
 t_token	*tokenising(char *line);
 
+/*parsing*/
 t_cmd	*parsing(t_token *tokens);
+
+/*parsing_utils*/
 int		ft_strcmp(const char *s1, const char *s2);
 t_cmd	*cmd_init(void);
-int	is_redir(t_token_type type);
+int		is_redir(t_token_type type);
+char	*ft_strdup(char *src);
+
+/*parsing_r&c*/
+int		add_redir(t_cmd	*cmd_list, t_token_type r_type, char *file_name);
+int		add_arg(t_cmd *cmd_list, char *content);
 
 #endif
