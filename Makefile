@@ -33,7 +33,7 @@ EXECUTION = sources/execution/execute.c\
 			sources/execution/handle_built_ins.c\
 
 PARSING = sources/parsing/tokenising.c\
-		  sources/parsing/parsing.c\
+		  sources/parsing/parsing/parsing.c\
 		  sources/parsing/expansion.c\
 		  sources/parsing/parsing/parsing_utils.c\
 		  sources/parsing/parsing/parsing_addrc.c
