@@ -12,15 +12,15 @@ ls -l
 
 typical minishell flow:
 
-< = 
-<< =
-> = 
->> = 
+< = redirect input
+<< = heredoc
+> = redirect output
+>> = ammend
 | = pipe
 
 1. store readline
 2. tokenise (finished on 12/2) (error, prints garbage while reading spaces)
-3. parse ->doing this now (scan for text and assign value)
+3. parse (finished on 16/2) scanning for text and assign meaning to it
 4. expand
 5. execute
 6. free everything
