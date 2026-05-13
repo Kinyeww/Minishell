@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 static int	check_first(char *line);
 static void	print_command(t_cmd *cmd);
