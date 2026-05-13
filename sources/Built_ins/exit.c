@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 23:42:33 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 19:41:19 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/13 22:08:06 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ in main
 
 int	exit(char **argv, t_data *data)
 {
+	int	i;
+
+	if (argv[1])
 	if (!(*(argv++)))
 		return (0);
 	
 	data->exit_code = true;
+	printf ("exit\n");
 	return (0);
 }
