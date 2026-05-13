@@ -14,8 +14,8 @@ BUILTINS = sources/Built_ins/export.c\
 		   sources/Built_ins/env.c\
 		   sources/Built_ins/pwd.c\
 		   sources/Built_ins/echo.c\
+		   sources/Built_ins/cd.c\
 		   #sources/Built_ins/exit.c\
-		   #sources/Built_ins/cd.c\
 
 ENVP_UTILS = sources/envp_list_utils.c/list_add_back.c\
 		   sources/envp_list_utils.c/list_bubble_sort.c\
@@ -31,6 +31,7 @@ LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
 			sources/libft_utils/ft_putstr_fd.c\
 			sources/libft_utils/ft_putnbr_fd.c\
 			sources/libft_utils/ft_isalpha.c\
+			sources/libft_utils/ft_strjoin.c\
 
 EXECUTION = sources/executions/execute.c\
 			sources/executions/handle_built_ins.c\

@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:31 by syee              #+#    #+#             */
-/*   Updated: 2026/05/12 23:40:30 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/13 18:10:02 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	echo(char **argv, t_data *data)
 {
 	int		i;
 	bool	newline_flag;
-	
+
 	(void)data;
 	i = 1;
 	newline_flag = 1;

@@ -57,7 +57,9 @@ typedef struct s_env
 typedef struct s_data
 {
 	t_env	*envp_list;
-	//t_exit	exit_status;
+	bool	exit_flag;
+	int		exit_code;
+
 } t_data;
 
 /* =============== envp_utils =============== */
@@ -84,7 +86,7 @@ void envp_list_remove(t_env **envp_list, char *argv_key);
 /* =============== env =============== */
 int env(char **argv, t_data *data);
 
-/* =============== env =============== */
+/* =============== pwd =============== */
 int pwd(char **argv, t_data *data);
 
 /* =============== echo =============== */
@@ -95,5 +97,8 @@ char *get_env_value(t_data *data, char *key);
 int change_dir(char *path, char *old_path, t_data *data);
 void update_env(t_data *data, char *key, char *value);
 void print_err_cd(char *path);
+
+/* =============== exit =============== */
+int exit(char **argv, t_data *data);
 
 #endif

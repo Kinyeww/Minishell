@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:35:19 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 21:04:00 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/13 18:26:29 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 - even if the value doesnt exist it still returns 0 because the desired outcome
 	which is to make the value not exist is acheived
 code :
-1. free the KEY and the VALUE & the current itself as its a pointer holding 
+1. free the KEY and the VALUE & the curr itself as its a pointer holding 
 	the address to it
-2. attach the next of the previous to the next of the current
+2. attach the next of the previous to the next of the curr
 */
-int unset(char **argv, t_data *data)
-{	
+int	unset(char **argv, t_data *data)
+{
 	argv++;
 	while (*argv != NULL)
 	{
@@ -32,31 +32,31 @@ int unset(char **argv, t_data *data)
 	return (0);
 }
 
-void envp_list_remove(t_env **envp_list, char *argv_key)
+void	envp_list_remove(t_env **envp_list, char *argv_key)
 {
-	t_env	*current;
+	t_env	*curr;
 	t_env	*temp;
 
-	current = *envp_list;
-	while (current)
+	curr = *envp_list;
+	while (curr)
 	{
-		if (current == *envp_list && ft_strcmp(argv_key, current->key) == 0)
+		if (curr == *envp_list && ft_strcmp(argv_key, curr->key) == 0)
 		{
-			*envp_list = current->next;
-			free(current->key);
-			free(current->value);
-			free(current);
-			current = *envp_list;
+			*envp_list = curr->next;
+			free(curr->key);
+			free(curr->value);
+			free(curr);
+			curr = *envp_list;
 			continue ;
 		}
-		if ((current->next != NULL) && ft_strcmp(argv_key, current->next->key) == 0)
+		if ((curr->next != NULL) && ft_strcmp(argv_key, curr->next->key) == 0)
 		{
-			temp = current->next;
-			free(current->next->key);
-			free(current->next->value);
-			current->next = current->next->next;
+			temp = curr->next;
+			free(curr->next->key);
+			free(curr->next->value);
+			curr->next = curr->next->next;
 			free (temp);
 		}
-		current = current->next;
+		curr = curr->next;
 	}
 }
