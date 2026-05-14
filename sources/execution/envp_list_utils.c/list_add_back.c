@@ -6,11 +6,11 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:21:13 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 10:21:15 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/14 18:26:25 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 #include <stdlib.h>
 
 void list_add_back(t_env **envp_list, t_env *new)

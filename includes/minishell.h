@@ -72,6 +72,6 @@ void update_env(t_data *data, char *key, char *value);
 void print_err_cd(char *path);
 
 /* =============== exit =============== */
-int exit(char **argv, t_data *data);
+int built_in_exit(char **argv, t_data *data);
 
 #endif

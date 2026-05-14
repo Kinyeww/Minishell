@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 19:51:13 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 18:33:12 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/14 14:51:22 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int built_ins(char **argv, t_data *data)
 	else if (ft_strcmp ("env", argv[0]) == 0)
 		status = env(argv, data);
 	else if (ft_strcmp ("exit", argv[0]) == 0)
-		status = exit(argv, data);
+		status = built_in_exit(argv, data);
 	else
 		return (1);
 

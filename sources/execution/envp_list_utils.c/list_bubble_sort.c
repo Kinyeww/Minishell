@@ -6,11 +6,11 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:39:39 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 13:11:33 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/14 18:26:25 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
 

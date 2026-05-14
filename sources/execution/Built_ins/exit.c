@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 23:42:33 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 22:08:06 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/14 14:51:34 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ in main
 
 */
 
-int	exit(char **argv, t_data *data)
+int	built_in_exit(char **argv, t_data *data)
 {
 	int	i;
 

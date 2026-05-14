@@ -5,18 +5,18 @@ IFLAGS = -Iincludes -Isources
 # Source files for export.c testing
 CORE = sources/main.c
 
-BUILTINS = sources/Built_ins/export.c\
-		   sources/Built_ins/unset.c\
-		   sources/Built_ins/env.c\
-		   sources/Built_ins/pwd.c\
-		   sources/Built_ins/echo.c\
-		   sources/Built_ins/cd.c\
-		   #sources/Built_ins/exit.c\
+BUILTINS = sources/execution/Built_ins/export.c\
+		   sources/execution/Built_ins/unset.c\
+		   sources/execution/Built_ins/env.c\
+		   sources/execution/Built_ins/pwd.c\
+		   sources/execution/Built_ins/echo.c\
+		   sources/execution/Built_ins/cd.c\
+		   #sources/execution/Built_ins/exit.c\
 
-ENVP_UTILS = sources/envp_list_utils/list_add_back.c\
-		   sources/envp_list_utils/list_bubble_sort.c\
-		   sources/envp_list_utils/list_clean.c\
-		   sources/envp_list_utils/print_list.c\
+ENVP_UTILS = sources/execution/envp_list_utils.c/list_add_back.c\
+		   sources/execution/envp_list_utils.c/list_bubble_sort.c\
+		   sources/execution/envp_list_utils.c/list_clean.c\
+		   sources/execution/envp_list_utils.c/print_list.c\
 
 LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
 		    sources/libft_utils/ft_strchr.c\
