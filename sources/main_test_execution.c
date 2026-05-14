@@ -26,7 +26,8 @@ int	main(int ac, char **av, char **envp)
 		NULL
 	};
 
-	cd(argv, data);
+	execute_binary(argv, data);
+	create_envp_arr();
 	data_clean(data);
 	//loop_main();
 	//shell_cleanup();
@@ -47,8 +48,6 @@ void create_envp_list(t_env **envp_list, char **envp)
 	while (envp[i])
 	{
 		new = malloc(sizeof(t_env));
-		if (!new)
-			return;
 		ptr = ft_strchr(envp[i], '=');
 		j = ptr - envp[i];
 		new->key = ft_strndup(envp[i], j);

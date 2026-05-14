@@ -12,5 +12,7 @@ void	ft_putnbr_fd(int n, int fd);
 int	ft_isalnum(int c);
 int	ft_isalpha(int c);
 char	*ft_strjoin(char const *s1, char const *s2);
+int	ft_atoi(const char *str);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif

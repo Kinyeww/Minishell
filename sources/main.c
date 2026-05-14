@@ -12,10 +12,12 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
+	t_data	*data;
 
 	(void) ac;
 	(void) av;
-	(void) envp;
+	data = malloc (sizeof(t_data));
+	create_envp_list(&data->envp_list, envp);
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -28,6 +30,7 @@ int	main(int ac, char **av, char **envp)
 		print_command(cmds);
 		// tokens = expand(cmds, envp);
 		free(line);
+		
 	}
 	return (0);
 }

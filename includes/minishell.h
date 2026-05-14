@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -73,5 +74,8 @@ void print_err_cd(char *path);
 
 /* =============== exit =============== */
 int built_in_exit(char **argv, t_data *data);
+
+/* =============== execute_binary =============== */
+
 
 #endif

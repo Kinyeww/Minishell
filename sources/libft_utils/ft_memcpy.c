@@ -1,44 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/20 14:13:51 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 21:56:39 by syee             ###   ########.fr       */
+/*   Created: 2025/05/20 18:48:26 by syee              #+#    #+#             */
+/*   Updated: 2026/05/14 22:31:28 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-void traverse_cmd(t_cmd *cmd)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	char **argv;
-	argv = cmd->argv;
-	//first chekc if the cmd is empty
-	/*
-	if (redir)
-	{
-		if ()
-		else if ()
-		else if ()
-	}
-	*/
-}
-void execute_cmd(char **argv, t_data *data)
-{
-	if (built_ins(argv, data) == -1)
-		;
-	else if (binary(argv, data) == -1)
-		;
-	else
-		;
-		
-}
+	unsigned char	*tempsrc;
+	unsigned char	*tempdest;
 
-/*
-passed : echo "hi" > file.txt
-argv = "echo", "hi"
-
-*/
+	tempdest = (unsigned char *) dest;
+	tempsrc = (unsigned char *) src;
+	if (!tempsrc && !tempdest)
+		return (dest);
+	while (n-- > 0)
+		*(tempdest++) = *(tempsrc++);
+	return (dest);
+}
