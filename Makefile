@@ -31,6 +31,8 @@ LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
 			sources/libft_utils/ft_strjoin.c\
 			sources/libft_utils/ft_memcpy.c\
 			sources/libft_utils/ft_atoi.c\
+			sources/libft_utils/ft_strnstr.c\
+			sources/libft_utils/ft_split.c\
 
 EXECUTION = sources/execution/execute.c\
 			sources/execution/handle_built_ins.c\

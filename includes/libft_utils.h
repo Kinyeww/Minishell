@@ -16,5 +16,7 @@ int	ft_isalpha(int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 int	ft_atoi(const char *str);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+char	*ft_strnstr(const char *big, const char *little, size_t len);
+char	**ft_split(char const *s, char c);
 
 #endif
