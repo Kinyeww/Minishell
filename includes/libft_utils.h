@@ -1,6 +1,8 @@
 #ifndef LIBFT_UTILS_H
 # define LIBFT_UTILS_H
 
+#include <stdlib.h>
+
 // #include "../../includes/minishell.h"
 int	ft_strcmp(const char *s1, const char *s2);
 int ft_strlen(char *str);

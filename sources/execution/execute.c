@@ -6,11 +6,11 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 14:13:51 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 21:56:39 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/15 13:04:51 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void traverse_cmd(t_cmd *cmd)
 {

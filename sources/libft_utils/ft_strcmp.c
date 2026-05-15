@@ -6,12 +6,13 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:59:54 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 10:56:18 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/15 12:59:10 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_utils.h"
 #include <stdlib.h>
+#include <stddef.h>
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

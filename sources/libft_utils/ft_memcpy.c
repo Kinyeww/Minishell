@@ -6,9 +6,11 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 18:48:26 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 22:31:28 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/15 12:59:27 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {

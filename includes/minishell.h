@@ -30,6 +30,7 @@ typedef struct s_env
 
 typedef struct s_data
 {
+	//head of the list 
 	t_env	*envp_list;
 	bool	exit_flag;
 	int		exit_code;
@@ -76,6 +77,6 @@ void print_err_cd(char *path);
 int built_in_exit(char **argv, t_data *data);
 
 /* =============== execute_binary =============== */
-
+int binary(char **argv, t_data *data);
 
 #endif

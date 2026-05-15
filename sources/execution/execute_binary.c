@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 23:43:59 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/15 14:09:08 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,24 @@ char **create_envp_arr(char **envp_list)
 	char	*joined;
 	int		i;
 
-	*envp_list = current;
+	current = envp_list;
 	i = 0;
 	while (current)
 	{
 		i++;
 		current = current->next;
 	}
-	envp_arr = malloc((sizeof(char *) * i + 1));
+	envp_arr = malloc((sizeof(char *) * (i + 1)));
 	current = envp_list;
 	i = 0;
 	while (current)
 	{
 		joined = strjoin_envp(current->key, current->value);
-		envp_list[i++] = joined;
+		envp_arr[i++] = joined;
 		current = current->next;
 	}
-	envp_list[i] = NULL;
+	envp_arr[i] = NULL;
+	return (envp_arr);
 }
 /*
 
@@ -88,16 +89,22 @@ void	free_envp_arr(char **envp_arr)
 		free(envp_arr[i++]);
 	free(envp_arr);
 }
+
 int binary(char **argv, t_data *data)
 {
 	char **envp_arr;
 	char *path_name;
 	
-	path_name = get_path(argv[0]);
+	//path_name = get_path(argv[0]);
 		
 	envp_arr = create_envp_arr(data->envp_list);
+	printf("after array create\n");
 	
-	printf ("%s\n", envp_arr);
+	for (int i = 0 ; envp_arr[i] ; i++)
+	{
+		printf ("%s\n", envp_arr[i]);
+		
+	}
 	//execve(get_path, argv, envp_arr);
 	free_envp_arr(envp_arr);
 }
