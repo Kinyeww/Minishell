@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/16 18:39:42 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/16 19:46:10 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ char *get_path(char *arg, char *envp_path)
 {
 	char	*path;
 	char	*program_name;
-	char	*string;
 	char	**envp_path_arr;
 	int		i;
 
-	printf("debug in get_path : path = %s\n", envp_path);
+	//printf("debug in get_path : path = %s\n", envp_path);
 	
 	/*
 	if its already an absolue path to the program 
@@ -82,15 +81,15 @@ char *get_path(char *arg, char *envp_path)
 	// }
 	
 	
-	printf("\ndebug path after strjoin: %s\n", program_name);
+	//printf("\ndebug path after strjoin: %s\n", program_name);
 	i = 0;
 	while (envp_path_arr[i] != NULL)
 	{
 		path = ft_strjoin(envp_path_arr[i], program_name);
 		
-		if (access(path, X_OK))
+		if (access(path, X_OK) == 0)
 		{
-			printf ("full path name result %s\n", path);
+			//printf ("full path name result %s\n", path);
 			free (program_name);
 			break ;
 		}
@@ -126,7 +125,7 @@ char *strjoin_envp(char *key, char *value)
 	return (joined_str);
 }
 
-char **create_envp_arr(char **envp_list)
+char **create_envp_arr(t_env *envp_list)
 {
 	char	**envp_arr;
 	t_env	*current;
@@ -179,7 +178,7 @@ Steps in binary
 int binary(char **argv, t_data *data)
 {
 	char **envp_arr;
-	char **exceve_argv;
+	char **execve_argv;
 	char *path_name;
 	char *envp_path;
 	
@@ -189,11 +188,16 @@ int binary(char **argv, t_data *data)
 
 	//====== get the path of the program =======
 	path_name = get_path(argv[0], envp_path);
-	printf("path name : %s\n", path_name);
+	//printf("path name : %s\n", path_name);
 	
 	//====== check if there are arguments for the program =======
 	if (argv[1] != NULL)
-		exceve_argv = argv + 1;
+		execve_argv = argv + 1;
+	else 
+		execve_argv = argv ; //to nullify werning
+		
+	//for (int i = 0; execve_argv[i] != NULL ; i++)
+	//	printf("execve arguments : %s\n", execve_argv[i]);
 		
 	//====== creating envp arr to pass into exceve =======
 	envp_arr = create_envp_arr(data->envp_list);
@@ -201,7 +205,7 @@ int binary(char **argv, t_data *data)
 	//=======run exceve=======
 	
 	//when PATH is unset, the path_name will just be the strdup of the name 
-	if (execve(path_name, argv, envp_arr) != 0)
+	if (execve(path_name, argv, envp_arr) == -1)
 	{
 		if (ft_strchr(path_name, '/'))
 			execve_fail(argv[0]);
