@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/16 22:04:11 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/16 22:07:21 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void free_str_arr(char **str_arr)
 	free(str_arr);
 }
 
+//check the freeing here, after revamping to return NULL on failure some stuff are not freed properly
 char *get_path(char *arg, char *envp_path)
 {
 	char	*return_path;
@@ -181,3 +182,6 @@ int binary(char **argv, t_data *data)
 	return (126); //based on the code within 
 }
 
+/*
+just check the error codes 
+*/
