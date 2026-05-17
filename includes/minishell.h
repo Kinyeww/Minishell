@@ -37,7 +37,7 @@ typedef struct s_data
 
 } t_data;
 
-/* =============== envp_utils =============== */
+/* =================== envp_utils ====================== */
 
 void list_add_back(t_env **envp_list, t_env *new); 
 t_env *list_get_last(t_env *envp_list);
@@ -45,7 +45,7 @@ void envp_list_clean(t_env **envp_list);
 void print_env_list(t_env *list); //debug purpose
 void envp_bubble_sort_list(t_env **temp_list);
 
-/* =============== built_ins =============== */
+/* ===================== built_ins ==================== */
 
 /* =============== export =============== */
 int export(char **argv, t_data *data);
@@ -76,7 +76,15 @@ void print_err_cd(char *path);
 /* =============== exit =============== */
 int built_in_exit(char **argv, t_data *data);
 
-/* =============== execute_binary =============== */
+/* =================== execute_binary =================== */
 int binary(char **argv, t_data *data);
+char *get_path(char *arg, char *envp_path);
+
+/* ==== execute_binary helper funcitons ====*/
+char	*get_key_value(char *key, t_env *envp_list);
+void free_str_arr(char **str_arr);
+char *strjoin_envp(char *key, char *value);
+void	print_err_binary(char *file_dir);
+
 
 #endif

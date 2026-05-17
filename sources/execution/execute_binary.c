@@ -6,14 +6,16 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/17 14:21:04 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/17 19:45:32 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
+#include <sys/types.h> //this is for forks 
 
-void	binary_fail(char *file_dir)
+
+void	print_err_binary(char *file_dir)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(file_dir, 2);
@@ -151,6 +153,9 @@ if invalidprogramname (NULL)
 	runs exceve , 127
 if ./nopermission
 	runs exceve , 126
+	
+execve does not return at all if succeed and returns -1 if fail
+- error code is for the shell to debug 
 */
 
 int binary(char **argv, t_data *data)
@@ -158,6 +163,7 @@ int binary(char **argv, t_data *data)
 	char **envp_arr;
 	char *path_name;
 	char *envp_path;
+	pid_t	child_process;
 	
 	envp_path = get_key_value("PATH", data->envp_list);
 	path_name = get_path(argv[0], envp_path);
@@ -165,14 +171,23 @@ int binary(char **argv, t_data *data)
 	{
 		errno = ENOENT;
 		free(envp_path);
-		binary_fail(argv[0]);
+		print_err_binary(argv[0]);
 		return (127);
 	}
 	
 	envp_arr = create_envp_arr(data->envp_list);
 	
-	execve(path_name, argv, envp_arr);
-	binary_fail(argv[0]);
+	child_process = fork();
+	if (child_process == 0)
+	{
+		execve(path_name, argv, envp_arr);
+	}
+	else
+	{
+		wait()
+	}
+		
+	print_err_binary(argv[0]);
 
 	free(path_name);
 	free(envp_path);

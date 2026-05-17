@@ -79,6 +79,8 @@ execve :
 exit codes :
 
 
+pipe() and fork():
+https://www.geeksforgeeks.org/c/c-program-demonstrate-fork-and-pipe/
 
 ## misc
 - manipulate envp ?
