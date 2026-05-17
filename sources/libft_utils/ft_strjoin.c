@@ -6,11 +6,12 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 17:23:58 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 12:13:09 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/17 14:09:56 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft_utils.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

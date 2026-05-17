@@ -73,6 +73,13 @@ This link breaksdown :
 - explainations on redirections, binaries, built-ins
 - overall guide for minishell 
 
+execve :
+(https://www.youtube.com/watch?v=Wtd-8OiZOjk)
+
+exit codes :
+
+
+
 ## misc
 - manipulate envp ?
 - 

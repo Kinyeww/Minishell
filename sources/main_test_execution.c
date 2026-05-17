@@ -19,7 +19,7 @@ int	main(int ac, char **av, char **envp)
 	*data = (t_data){0};
 	create_envp_list(&data->envp_list, envp);
 		char *argv[] = {
-		"gay",
+		"./helo.sh",
 		"-a",
 		NULL
 	};

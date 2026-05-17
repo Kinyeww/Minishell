@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 23:42:33 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 21:07:20 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/17 14:09:16 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	built_in_exit(char **argv, t_data *data)
 		int	error_code;
 		
 		//if (ft_isalpha(argv[1]) == 1 || over_MAX_MIN(argv[1]) == 0)
-		if (ft_isalpha(argv[1]) == 1 )
+		if (ft_isalpha(argv[1][0]) == 1 )
 		{
 			printf ("exit\n");
 			ft_putstr_fd("minishell: exit:", 2);
@@ -77,4 +77,9 @@ types of operators:
 - binary : & , << , 
 - unary = ! - 
 - bitwise ; 
+*/
+
+/*
+what if
+-a
 */
