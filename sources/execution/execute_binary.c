@@ -6,14 +6,14 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/17 19:45:32 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/18 18:01:28 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
 #include <sys/types.h> //this is for forks 
-
+#include <sys/wait.h>
 
 void	print_err_binary(char *file_dir)
 {
@@ -164,7 +164,8 @@ int binary(char **argv, t_data *data)
 	char *path_name;
 	char *envp_path;
 	pid_t	child_process;
-	
+	int		child_exit_status;
+
 	envp_path = get_key_value("PATH", data->envp_list);
 	path_name = get_path(argv[0], envp_path);
 	if (!path_name)
@@ -178,22 +179,34 @@ int binary(char **argv, t_data *data)
 	envp_arr = create_envp_arr(data->envp_list);
 	
 	child_process = fork();
+	if (child_process == -1)
+	{
+		perror("fork");
+		free(path_name);
+		free(envp_path);
+		free_str_arr(envp_arr);
+		return (1); //unexpexted error
+	}
 	if (child_process == 0)
 	{
 		execve(path_name, argv, envp_arr);
+		print_err_binary(argv[0]);
+		//freeing in the child process
+		free(path_name);
+		free(envp_path);
+		free_str_arr(envp_arr);
+
+		if (errno == ENOENT)
+			exit (127);
+		exit (126);
 	}
 	else
-	{
-		wait()
-	}
-		
-	print_err_binary(argv[0]);
-
+		waitpid(child_process, &child_exit_status, 0);
 	free(path_name);
 	free(envp_path);
-	free_str_arr(envp_arr);
-
-	if (errno == ENOENT)
-		return (127);
-	return (126);
+	free_str_arr(envp_arr);	
+	return(WEXITSTATUS(child_exit_status)); //?
 }
+
+/*
+fork failure */

@@ -41,10 +41,14 @@ typical minishell flow:
     - [ ] unset 
     - [ ] env
     - [ ] exit
+        - [ ] update exit codes
+        - [ ] free the stuff
+
 2. binary
     - [ ] locate where binary is , run
     - [ ] create child processes
     - [ ] manage fd
+
 3. redirections
     - [ ] << (Heredoc)
     - [ ] < (redir in / input) : wc -l < file.txt // takes input for command instead of keyboard
