@@ -24,11 +24,19 @@ int	main(int ac, char **av, char **envp)
 		if (check_first(line) == 0)
 			continue ;
 		tokens = tokenising(line);
-		if (tokens == NULL)
-			return (1);
+		if (!tokens)
+		{
+			free(line);
+			continue ;
+		}
 		cmds = parsing(tokens);
+		free_tokens(tokens);
+		if (!cmds)
+		{
+			free(line);
+			continue ;
+		}
 		print_command(cmds);
-		// tokens = expand(cmds, envp);
 		free(line);
 	}
 	return (0);

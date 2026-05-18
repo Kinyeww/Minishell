@@ -16,11 +16,5 @@ cat < in           // REDIR_IN: stdin comes from file
 cat << EOF         // HEREDOC: stdin comes from temporary heredoc input
 */
 
-t_token	*expand(t_token *tokens, char **envp)
-{
-	(void)envp;
-	printf("--- expanding ---\n");
-	printf("no error found\n");
-	return (tokens);
-}
+
 
