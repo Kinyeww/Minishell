@@ -51,7 +51,7 @@ void	free_tokens(t_token *tokens)
 	{
 		next = tokens->next;
 		free(tokens->content);
-		free(token);
+		free(tokens);
 		tokens = next;
 	}
 }
