@@ -1,4 +1,5 @@
 #include "../includes/minishell.h"
+#include "../includes/test_cases.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -14,23 +15,28 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	t_data	*data;
+	t_cmd	*test1;
+	t_cmd	*test2;
+	t_cmd	*test3;
+	t_cmd	*test4;
+	t_cmd	*test5;
 
 	data = malloc (sizeof(t_data));
 	*data = (t_data){0};
 	create_envp_list(&data->envp_list, envp);
-		char *argv[] = {
-		"./helo.sh",
-		"-a",
-		NULL
-	};
 
-	binary(argv, data);
+	test1 = test_case_1();
+	test2 = test_case_2();
+	test3 = test_case_3();
+	test4 = test_case_4();
+	test5 = test_case_5();
+
+	/* Use your own traverser function here */
+	/* traverse_cmd(test1); */
+	/* traverse_cmd(test2); */
+	/* etc... */
 	
-	//create_envp_arr();
 	data_clean(data);
-	//loop_main();
-	//shell_cleanup();
-	//return(); //return the exit code ?
 
 	return (0);
 }

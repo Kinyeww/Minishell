@@ -44,7 +44,7 @@ PARSING = sources/parsing/tokenising.c\
 		  sources/parsing/parsing/parsing_utils.c\
 		  sources/parsing/parsing/parsing_addrc.c
 
-SRCS = $(CORE) $(BUILTINS) $(ENVP_UTILS) $(LIBFT_UTILS) $(EXECUTION) #$(PARSING) #$(EXECUTION)
+SRCS = $(CORE) sources/test_cases.c $(BUILTINS) $(ENVP_UTILS) $(LIBFT_UTILS) $(EXECUTION)
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)

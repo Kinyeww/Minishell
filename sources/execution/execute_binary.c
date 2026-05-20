@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/18 18:01:28 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/20 12:26:32 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int binary(char **argv, t_data *data)
 		free(path_name);
 		free(envp_path);
 		free_str_arr(envp_arr);
-		return (1); //unexpexted error
+		return (1); //unexpexted error for forking 
 	}
 	if (child_process == 0)
 	{

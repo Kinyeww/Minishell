@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 14:13:51 by syee              #+#    #+#             */
-/*   Updated: 2026/05/17 15:03:59 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/20 13:57:59 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,21 @@
 void traverse_cmd(t_cmd *cmd)
 {
 	char **argv;
-	argv = cmd->argv;
-	//first chekc if the cmd is empty
-	/*
-	if (redir)
-	{
-		if ()
-		else if ()
-		else if ()
-	}
-	*/
+	
+	// while (cmd->next)
+	// {
+		
+	// 	cmd = cmd->next;
+	// }
 }
 void execute_cmd(char **argv, t_data *data)
 {
-	if (built_ins(argv, data) == -1)
-		;
-	else if (binary(argv, data) == -1)
-		;
-	else
-		;
+	// if (built_ins(argv, data) == -1)
+	// 	;
+	// else if (binary(argv, data) == -1)
+	// 	;
+	// else
+	// 	;
 		
 }
 

@@ -6,11 +6,12 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 20:15:24 by syee              #+#    #+#             */
-/*   Updated: 2026/05/15 20:16:22 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/20 13:56:46 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stdlib.h"
+#include "libft_utils.h"
 
 static void	freeptr(char ***arradd, int index)
 {

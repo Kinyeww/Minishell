@@ -68,6 +68,7 @@ int pwd(char **argv, t_data *data);
 int	echo(char **argv, t_data *data);
 
 /* =============== cd =============== */
+int cd(char **argv, t_data *data);
 char *get_env_value(t_data *data, char *key);
 int change_dir(char *path, char *old_path, t_data *data);
 void update_env(t_data *data, char *key, char *value);
