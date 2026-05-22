@@ -7,7 +7,8 @@ PARSING = sources/main.c\
 		  sources/parsing.c\
 		  sources/expansion.c\
 		  sources/parsing_utils.c\
-		  sources/parsing_addrc.c
+		  sources/parsing_addrc.c\
+		  sources/free_parsing.c
 
 # EXECUTION = sources/
 

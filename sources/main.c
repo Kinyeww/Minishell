@@ -36,7 +36,18 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
+		printf("--- before expansion ---\n");
 		print_command(cmds);
+		if (!(expand_cmds(cmds, envp, 0)))
+		{
+			printf("expansion failed\n");
+			free_cmd(cmds);
+			free(line);
+			continue ;
+		}
+		printf("----- after expansion -----\n");
+		print_command(cmds);
+		free_cmd(cmds);
 		free(line);
 	}
 	return (0);
@@ -66,7 +77,7 @@ static void	print_command(t_cmd *cmd)
 	cmd_i = 0;
 	while (cmd)
 	{
-		printf("\n--- command[%d] ---\n", cmd_i);
+		printf("\n---command[%d]\n", cmd_i);
 		arg_i = 0;
 		if (!cmd->argv)
 			printf("argv = NULL\n");
@@ -86,7 +97,6 @@ static void	print_command(t_cmd *cmd)
 		cmd = cmd->next;
 		cmd_i++;
 	}
-	printf("\nend of command list\n");
 }
 
 static char	*redir_name(t_token_type redir_name)
