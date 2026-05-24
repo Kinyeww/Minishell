@@ -6,19 +6,19 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 19:51:13 by syee              #+#    #+#             */
-/*   Updated: 2026/05/24 20:18:22 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/24 21:07:11 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
 
-int built_ins(char **argv, t_data *data) 
+int execute_built_ins(char **argv, t_data *data) 
 {
 	int status;
 	
 	status = 0;
-	if (ft_strcmp(argv[0], "echo") == 0)
+	if (ft_strcmp("echo", argv[0]) == 0)
 		status = echo(argv, data);
 	else if (ft_strcmp ("cd", argv[0]) == 0)
 		status = cd(argv, data);
@@ -36,11 +36,4 @@ int built_ins(char **argv, t_data *data)
 		return (-1);
 
 	return (status);
-}
-
-//i create a list of built_ins and check string by string
-int check_built_in(char *argv1)
-{
-	char **built_ins;
-	
 }

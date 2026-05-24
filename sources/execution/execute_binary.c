@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/24 20:03:35 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/24 21:44:16 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ based on chiang's reccomendation
 : might as well just run execve while testing ;
 rather than using access to check the state of the file
 */
-int binary(char **argv, t_data *data)
+int execute_binary(char **argv, t_data *data)
 {
 	char **envp_arr;
 	char *path_name;
