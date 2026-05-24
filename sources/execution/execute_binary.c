@@ -6,16 +6,14 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/20 12:26:32 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/24 20:03:35 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
-#include <sys/types.h> //this is for forks 
-#include <sys/wait.h>
 
-void	print_err_binary(char *file_dir)
+void	binary_fail(char *file_dir)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(file_dir, 2);
@@ -143,7 +141,6 @@ char **create_envp_arr(t_env *envp_list)
 }
 
 
-
 /*
 if ./programdontexist 
 	runs exceve, 127
@@ -153,60 +150,40 @@ if invalidprogramname (NULL)
 	runs exceve , 127
 if ./nopermission
 	runs exceve , 126
-	
-execve does not return at all if succeed and returns -1 if fail
-- error code is for the shell to debug 
 */
 
+
+/*
+based on chiang's reccomendation 
+: might as well just run execve while testing ;
+rather than using access to check the state of the file
+*/
 int binary(char **argv, t_data *data)
 {
 	char **envp_arr;
 	char *path_name;
 	char *envp_path;
-	pid_t	child_process;
-	int		child_exit_status;
-
+	
 	envp_path = get_key_value("PATH", data->envp_list);
 	path_name = get_path(argv[0], envp_path);
 	if (!path_name)
 	{
 		errno = ENOENT;
 		free(envp_path);
-		print_err_binary(argv[0]);
+		binary_fail(argv[0]);
 		return (127);
 	}
 	
 	envp_arr = create_envp_arr(data->envp_list);
 	
-	child_process = fork();
-	if (child_process == -1)
-	{
-		perror("fork");
-		free(path_name);
-		free(envp_path);
-		free_str_arr(envp_arr);
-		return (1); //unexpexted error for forking 
-	}
-	if (child_process == 0)
-	{
-		execve(path_name, argv, envp_arr);
-		print_err_binary(argv[0]);
-		//freeing in the child process
-		free(path_name);
-		free(envp_path);
-		free_str_arr(envp_arr);
+	execve(path_name, argv, envp_arr);
+	binary_fail(argv[0]);
 
-		if (errno == ENOENT)
-			exit (127);
-		exit (126);
-	}
-	else
-		waitpid(child_process, &child_exit_status, 0);
 	free(path_name);
 	free(envp_path);
-	free_str_arr(envp_arr);	
-	return(WEXITSTATUS(child_exit_status)); //?
-}
+	free_str_arr(envp_arr);
 
-/*
-fork failure */
+	if (errno == ENOENT)
+		return (127);
+	return (126);
+}

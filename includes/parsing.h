@@ -11,6 +11,7 @@ typedef enum e_token_type
 	HEREDOC,
 }	t_token_type;
 
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -28,6 +29,7 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
+	int				fd[2];
 	char			**argv; // because execve expects execve(path, argv, envp);
 	t_redir			*redir; // redir only setup for the fd, not needed by execve
 	struct s_cmd	*next;

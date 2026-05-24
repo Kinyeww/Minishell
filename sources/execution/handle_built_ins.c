@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 19:51:13 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 21:33:06 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/24 20:18:22 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,9 @@ int built_ins(char **argv, t_data *data)
 	return (status);
 }
 
+//i create a list of built_ins and check string by string
+int check_built_in(char *argv1)
+{
+	char **built_ins;
+	
+}
