@@ -120,13 +120,12 @@ int	expand_cmds(t_cmd *cmd, char **envp, int last_status)
 {
 	while (cmd)
 	{
-		if (!(expand_argv(cmd, envp, 0)))
+		if (!(expand_argv(cmd, envp, last_status)))
 			return (0);
-		if (!(expand_redir(cmd, envp, 0)))
+		if (!(expand_redir(cmd, envp, last_status)))
 			return (0);
 		cmd = cmd->next;
 	}
-	(void) last_status;
 	printf("finished expanding\n");
 	return (1);
 }

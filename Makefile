@@ -8,7 +8,8 @@ PARSING = sources/main.c\
 		  sources/expansion.c\
 		  sources/parsing_utils.c\
 		  sources/parsing_addrc.c\
-		  sources/free_parsing.c
+		  sources/free_parsing.c\
+		  sources/heredoc.c
 
 # EXECUTION = sources/
 
