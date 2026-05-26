@@ -17,12 +17,12 @@ cat << EOF         // HEREDOC: stdin comes from temporary heredoc input
 char	*append_str(char *result, char *to_add);
 char	*append_char(char *result, char c);
 int		ft_strlen(char *str);
-int		expand_argv(t_cmd *cmd, char **envp ,int last_status);
-int		expand_cmds(t_cmd *cmd, char **envp, int last_status);
-int		expand_redir(t_cmd *cmd, char **envp, int last_status);
-char	*expand_string(char *str, char **envp, int last_status);
-char	*expand_var(char *str, int *i, char **envp, int last_stat);
-char	*get_env_value(char *name, char **envp);
+int		expand_argv(t_cmd *cmd, t_env *envp ,int last_status);
+int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
+int		expand_redir(t_cmd *cmd, t_env *envp, int last_status);
+char	*expand_string(char *str, t_env *envp, int last_status);
+char	*expand_var(char *str, int *i, t_env *envp, int last_stat);
+char	*get_env_value(char *name, t_env *envp);
 int		is_var_char(char c);
 int		ft_varlen(char *str);
 char	*ft_itoa(int n);
@@ -116,7 +116,18 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-int	expand_cmds(t_cmd *cmd, char **envp, int last_status)
+/*above all are utils*/
+
+/*
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+} t_env;
+*/
+
+int	expand_cmds(t_cmd *cmd, t_env *envp, int last_status)
 {
 	while (cmd)
 	{
@@ -130,7 +141,7 @@ int	expand_cmds(t_cmd *cmd, char **envp, int last_status)
 	return (1);
 }
 
-int	expand_argv(t_cmd *cmd, char **envp ,int last_status)
+int	expand_argv(t_cmd *cmd, t_env *envp ,int last_status)
 {
 	int		i;
 	char	*expanded;
@@ -148,7 +159,7 @@ int	expand_argv(t_cmd *cmd, char **envp ,int last_status)
 	return (1);
 }
 
-int	expand_redir(t_cmd *cmd, char **envp, int last_status)
+int	expand_redir(t_cmd *cmd, t_env *envp, int last_status)
 {
 	t_redir	*redir;
 	char	*expanded;
@@ -169,7 +180,7 @@ int	expand_redir(t_cmd *cmd, char **envp, int last_status)
 	return (1);
 }
 
-char	*expand_string(char *str, char **envp, int last_status)
+char	*expand_string(char *str, t_env *envp, int last_status)
 {
 	int		i;
 	int		in_single;
@@ -212,11 +223,10 @@ char	*expand_string(char *str, char **envp, int last_status)
 		}
 		i++;
 	}
-	(void) last_status;
 	return (result);
 }
 
-char	*expand_var(char *str, int *i, char **envp, int last_stat)
+char	*expand_var(char *str, int *i, t_env *envp, int last_stat)
 {
 	int		start;
 	int		len;
@@ -242,18 +252,18 @@ char	*expand_var(char *str, int *i, char **envp, int last_stat)
 	return (value);
 }
 
-char	*get_env_value(char *name, char **envp)
+char	*get_env_value(char *name, t_env *envp)
 {
-	int	i;
 	int	len;
+	t_env	*current;
 
-	i = 0;
 	len = ft_strlen(name);
-	while (envp && envp[i])
+	current = envp;
+	while (current)
 	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-			return (envp[i] + len + 1);
-		i++;
+		if (ft_strncmp(current->key, name, len) == 0 && current->key[len] == '\0')
+			return (current->value);
+		current = current->next;
 	}
 	return ("");
 }
@@ -295,7 +305,10 @@ char	*append_char(char *result, char c)
 	len = ft_strlen(result);
 	new = malloc(sizeof(char) * (len + 2));
 	if (!new)
+	{
+		free (result);
 		return (NULL);
+	}
 	i = 0;
 	while (i < len)
 	{

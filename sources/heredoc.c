@@ -1,5 +1,8 @@
 #include "minishell.h"
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <readline/readline.h>
 
 char	*remove_quotes(char *str)
 {
@@ -77,7 +80,11 @@ int	read_heredoc(t_redir *redir, char **envp, int last_status)
 {
 	char	*line;
 	char	*expanded;
+	int		fd;
 
+	fd = open_heredoc_file(redir);
+	if (fd == -1)
+		return (0);
 	while (1)
 	{
 		line = readline("> ");
@@ -93,10 +100,17 @@ int	read_heredoc(t_redir *redir, char **envp, int last_status)
 			expanded = expand_heredoc_line(line, envp, last_status);
 			free(line);
 			line = expanded;
+			if (!line)
+			{
+				close (fd);
+				return (0);
+			}
 		}
-		//write line into pipe/temp file
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
 	}
+	close(fd);
 	return (1);
 }
 
@@ -121,4 +135,34 @@ int	prepare_heredoc(t_cmd *cmds, char **envp, int last_status)
 		cmd = cmd->next;
 	}
 	return (1);
+}
+
+static char	create_hd_filename(void)
+{
+	static int	i;
+	char		*num;
+	char		*file;
+
+	num = ft_itoa(i);
+	if (!num)
+		return (NULL);
+	file = ft_strjoin("/tmp/minishell_hd_", num);
+	free(num);
+	if (!file)
+		return (NULL);
+	i++;
+	return (file);
+}
+
+static int	open_hd_file(t_redir *redir)
+{
+	int	fd;
+
+	redir->heredoc_file = create_hd_filename();
+	if (redir->heredoc_file)
+		return (-1);
+	fd = open(redir->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC | 0600);
+	if (fd == -1)
+		return (-1);
+	return (fd);
 }

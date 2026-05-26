@@ -25,6 +25,7 @@ typedef struct s_redir
 	t_token_type	redir_type;
 	char			*file_name;
 	int				heredoc_quote; // only used for heredoc, for other redir types, this will be -1
+	char			*heredoc_file;
 	struct s_redir	*next;
 }	t_redir;
 

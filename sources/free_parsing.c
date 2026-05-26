@@ -24,6 +24,11 @@ void	free_redir(t_redir *redir)
 	{
 		next = redir->next;
 		free(redir->file_name);
+		if (redir->heredoc_file)
+		{
+			unlink(redir->heredoc_file);
+			free(redir->heredoc_file);
+		}
 		free(redir);
 		redir = next;
 	}

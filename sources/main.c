@@ -111,3 +111,50 @@ static char	*redir_name(t_token_type redir_name)
 		return ("HEREDOC");
 	return ("no redir found");
 }
+
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+
+void	print_heredoc_files(t_cmd *cmds)
+{
+	t_cmd	*cmd;
+	t_redir	*redir;
+	int		fd;
+	char	buf[1025];
+	int		bytes;
+
+	cmd = cmds;
+	while (cmd)
+	{
+		redir = cmd->redir;
+		while (redir)
+		{
+			if (redir->redir_type == HEREDOC)
+			{
+				printf("\n--- HEREDOC DEBUG ---\n");
+				printf("delimiter = %s\n", redir->file_name);
+				printf("quoted = %d\n", redir->heredoc_quote);
+				printf("temp file = %s\n", redir->heredoc_file);
+
+				fd = open(redir->heredoc_file, O_RDONLY);
+				if (fd == -1)
+				{
+					perror("open heredoc debug");
+					return ;
+				}
+				bytes = read(fd, buf, 1024);
+				while (bytes > 0)
+				{
+					buf[bytes] = '\0';
+					printf("%s", buf);
+					bytes = read(fd, buf, 1024);
+				}
+				close(fd);
+				printf("\n--- END HEREDOC DEBUG ---\n");
+			}
+			redir = redir->next;
+		}
+		cmd = cmd->next;
+	}
+}
