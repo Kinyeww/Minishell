@@ -8,6 +8,8 @@
 static int	check_first(char *line);
 static void	print_command(t_cmd *cmd);
 static char	*redir_name(t_token_type redir_name);
+void print_env_list(t_env *list);
+void	print_heredoc_files(t_cmd *cmds);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -19,6 +21,7 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	create_envp_list(&envp_list, envp);
+	print_env_list(envp_list);
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -59,10 +62,20 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		print_command(cmds);
+		print_heredoc_files(cmds);
 		free_cmd(cmds);
 		free(line);
 	}
 	return (0);
+}
+
+void print_env_list(t_env *list)
+{
+    while (list)
+    {
+        printf("%s=%s\n", list->key, list->value);
+        list = list->next;
+    }
 }
 
 static int	check_first(char *line) //empty line check
@@ -148,7 +161,6 @@ void	print_heredoc_files(t_cmd *cmds)
 				printf("delimiter = %s\n", redir->file_name);
 				printf("quoted = %d\n", redir->heredoc_quote);
 				printf("temp file = %s\n", redir->heredoc_file);
-
 				fd = open(redir->heredoc_file, O_RDONLY);
 				if (fd == -1)
 				{

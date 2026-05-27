@@ -19,6 +19,8 @@ char	*ft_combine(size_t len1, size_t len2, char const *s1, char const *s2)
 	char	*temp;
 
 	temp = malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!temp)
+		return (NULL);
 	i = 0;
 	while (i < len1)
 	{

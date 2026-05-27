@@ -69,6 +69,8 @@ static t_redir	*new_redir(t_token_type r_type, char *file_name)
 		free(new);
 		return (NULL);
 	}
+	new->heredoc_quote = 0;
+	new->heredoc_file = NULL;
 	new->next = NULL;
 	return (new);
 }

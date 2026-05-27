@@ -7,7 +7,7 @@ PARSING = sources/main.c\
 		  sources/parsing.c\
 		  sources/expansion.c\
 		  sources/parsing_utils.c\
-		  sources/parsing_addrc.c\
+		  sources/init_cmd.c\
 		  sources/free_parsing.c\
 		  sources/heredoc.c\
 		  sources/heredoc_exe.c

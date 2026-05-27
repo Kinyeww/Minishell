@@ -36,7 +36,7 @@ t_token	*tokenising(char *line)
 		else
 			len = get_token_length(line, i);
 		if (len <= 0)
-			break ;// do the free function later
+			break ;
 		new = new_token(line + i, len);
 		if (!head)
 			head = new;
