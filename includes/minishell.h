@@ -33,7 +33,7 @@ typedef struct s_data
 	//head of the list 
 	t_env	*envp_list;
 	bool	exit_flag;
-	int		exit_code;
+	int		exit_code; //kinyew using 
 
 } t_data;
 
