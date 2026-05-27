@@ -1,5 +1,7 @@
 #include "parsing.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
 void	free_argv(char **argv)
 {

@@ -16,7 +16,6 @@ cat << EOF         // HEREDOC: stdin comes from temporary heredoc input
 
 char	*append_str(char *result, char *to_add);
 char	*append_char(char *result, char c);
-int		ft_strlen(char *str);
 int		expand_argv(t_cmd *cmd, t_env *envp ,int last_status);
 int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
 int		expand_redir(t_cmd *cmd, t_env *envp, int last_status);
@@ -25,7 +24,6 @@ char	*expand_var(char *str, int *i, t_env *envp, int last_stat);
 char	*get_env_value(char *name, t_env *envp);
 int		is_var_char(char c);
 int		ft_varlen(char *str);
-char	*ft_itoa(int n);
 char	*ft_substr(char *s, int start, int len);
 
 static int	ft_numlen(long num)

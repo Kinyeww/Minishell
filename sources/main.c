@@ -14,10 +14,11 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
+	t_env	*envp_list;
 
 	(void) ac;
 	(void) av;
-	(void) envp;
+	create_envp_list(&envp_list, envp);
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -36,16 +37,27 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
-		printf("--- before expansion ---\n");
-		print_command(cmds);
-		if (!(expand_cmds(cmds, envp, 0)))
+		if (!process_heredoc_q(cmds))
+		{
+			printf("heredoc quote processing failed\n");
+			free_cmd(cmds);
+			free(line);
+			continue ;
+		}
+		if (!expand_cmds(cmds, envp_list, 0))
 		{
 			printf("expansion failed\n");
 			free_cmd(cmds);
 			free(line);
 			continue ;
 		}
-		printf("----- after expansion -----\n");
+		if (!prepare_heredoc(cmds, envp_list, 0))
+		{
+			printf("heredoc preparation failed\n");
+			free_cmd(cmds);
+			free(line);
+			continue ;
+		}
 		print_command(cmds);
 		free_cmd(cmds);
 		free(line);

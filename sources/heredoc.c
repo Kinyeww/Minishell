@@ -4,6 +4,55 @@
 #include <unistd.h>
 #include <readline/readline.h>
 
+int			prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
+int			read_heredoc(t_redir *redir, t_env *envp, int last_status);
+int			process_heredoc_q(t_cmd *cmds);
+static char	*create_hd_filename(void);
+static int	open_hd_file(t_redir *redir);
+char		*expand_heredoc(char *line, t_env *envp, int last_status);
+
+
+char	*ft_combine(size_t len1, size_t len2, char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*temp;
+
+	temp = malloc(sizeof(char) * (len1 + len2 + 1));
+	i = 0;
+	while (i < len1)
+	{
+		temp[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (j < len2)
+	{
+		temp[i + j] = s2[j];
+		j++;
+	}
+	temp[len1 + len2] = '\0';
+	return (temp);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*str;
+	size_t	len1;
+	size_t	len2;
+
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = 0;
+	while (s1[len1] != '\0')
+		len1++;
+	len2 = 0;
+	while (s2[len2] != '\0')
+		len2++;
+	str = ft_combine(len1, len2, s1, s2);
+	return (str);
+}
+
 char	*remove_quotes(char *str)
 {
 	int		i;
@@ -76,13 +125,13 @@ int	process_heredoc_q(t_cmd *cmds)
 	return (1);
 }
 
-int	read_heredoc(t_redir *redir, char **envp, int last_status)
+int	read_heredoc(t_redir *redir, t_env *envp, int last_status)
 {
 	char	*line;
 	char	*expanded;
 	int		fd;
 
-	fd = open_heredoc_file(redir);
+	fd = open_hd_file(redir);
 	if (fd == -1)
 		return (0);
 	while (1)
@@ -97,7 +146,7 @@ int	read_heredoc(t_redir *redir, char **envp, int last_status)
 		}
 		if (redir->heredoc_quote == 0)
 		{
-			expanded = expand_heredoc_line(line, envp, last_status);
+			expanded = expand_heredoc(line, envp, last_status);
 			free(line);
 			line = expanded;
 			if (!line)
@@ -114,7 +163,7 @@ int	read_heredoc(t_redir *redir, char **envp, int last_status)
 	return (1);
 }
 
-int	prepare_heredoc(t_cmd *cmds, char **envp, int last_status)
+int	prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status)
 {
 	t_cmd	*cmd;
 	t_redir	*redir;
@@ -137,7 +186,7 @@ int	prepare_heredoc(t_cmd *cmds, char **envp, int last_status)
 	return (1);
 }
 
-static char	create_hd_filename(void)
+static char	*create_hd_filename(void)
 {
 	static int	i;
 	char		*num;
@@ -159,10 +208,51 @@ static int	open_hd_file(t_redir *redir)
 	int	fd;
 
 	redir->heredoc_file = create_hd_filename();
-	if (redir->heredoc_file)
+	if (!redir->heredoc_file)
 		return (-1);
-	fd = open(redir->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC | 0600);
+	fd = open(redir->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC , 0600);
 	if (fd == -1)
+	{
+		free(redir->heredoc_file);
+		redir->heredoc_file = NULL;
 		return (-1);
+	}
 	return (fd);
+}
+
+char	*expand_heredoc(char *line, t_env *envp, int last_status)
+{
+	int		i;
+	char	*result;
+	char	*value;
+
+	i = 0;
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			value = expand_var(line, &i, envp, last_status);
+			if (!value)
+			{
+				free (result);
+				return (NULL);
+			}
+			result = append_str(result, value);
+			free(value);
+			if (!result)
+				return (NULL);
+			continue ;
+		}
+		else
+		{
+			result = append_char(result, line[i]);
+			if (!result)
+				return (NULL);
+			i++;
+		}
+	}
+	return (result);
 }

@@ -4,11 +4,8 @@
 # include "parsing.h"
 # include "expansion.h"
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-} t_env;
+void create_envp_list(t_env **envp_list, char **envp);
+int	process_heredoc_q(t_cmd *cmds);
+int	prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
 
 #endif
