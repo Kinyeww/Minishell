@@ -1,7 +1,6 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-
 typedef enum e_token_type
 {
 	WORD,
