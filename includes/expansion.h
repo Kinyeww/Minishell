@@ -1,12 +1,6 @@
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-} t_env;
 
 char	*expand_var(char *str, int *i, t_env *envp, int last_status);
 char	*get_env_value(char *name, t_env *envp);

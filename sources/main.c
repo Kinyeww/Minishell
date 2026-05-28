@@ -16,17 +16,24 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
-	t_env	*envp_list;
+	t_data	data;
 
 	(void) ac;
 	(void) av;
+	data.envp_list = NULL;
 	create_envp_list(&envp_list, envp);
 	print_env_list(envp_list);
 	while (1)
 	{
 		line = readline("Minishell$ ");
+		if (!line)
+		{
+			printf("exit\n");
+			break ;
+		}
 		if (check_first(line) == 0)
-			continue ;
+			continue ;			
+		add_history(line);
 		tokens = tokenising(line);
 		if (!tokens)
 		{
