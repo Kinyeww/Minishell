@@ -1,35 +1,20 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-<<<<<<< HEAD
-# include "parsing.h"
-# include "expansion.h"
-
-typedef struct s_data
-{
-	t_env	*envp_list;
-	bool	exit_flag;
-	int		exit_code;
-}	t_data;
-
-void create_envp_list(t_env **envp_list, char **envp);
-int	process_heredoc_q(t_cmd *cmds);
-int	prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
-=======
 /* ============ Libraries ===========*/
-#include <unistd.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
->>>>>>> 9f8ebc4fda036c67b6a9bcdff3fd8fb744c9ee6b
+# include <unistd.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 /* ============ Libft_Utils ===========*/
-#include "libft_utils.h"
+# include "libft_utils.h"
 
 /* ============ parsing ===========*/
-#include "parsing.h"
+# include "parsing.h"
+# include "expansion.h"
 
 /* =============== env =============== */
 typedef struct s_env t_env;
@@ -39,7 +24,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-} t_env;
+}	t_env;
 
 /* =============== MainStruct =============== */
 
@@ -49,45 +34,60 @@ typedef struct s_data
 	bool	exit_flag;
 	int		exit_code;
 
-} t_data;
+}	t_data;
 
 /* =============== envp_utils =============== */
 
-void list_add_back(t_env **envp_list, t_env *new); 
-t_env *list_get_last(t_env *envp_list);
-void envp_list_clean(t_env **envp_list);
-void print_env_list(t_env *list); //debug purpose
-void envp_bubble_sort_list(t_env **temp_list);
+void	list_add_back(t_env **envp_list, t_env *new); 
+t_env	*list_get_last(t_env *envp_list);
+void	envp_list_clean(t_env **envp_list);
+void 	print_env_list(t_env *list); //debug purpose
+void 	envp_bubble_sort_list(t_env **temp_list);
 
 /* =============== built_ins =============== */
 
 /* =============== export =============== */
-int export(char **argv, t_data *data);
-void envp_list_dup(t_env *original_list, t_env **temp_list);
-void print_export_list (t_env *list); 
-bool is_valid_key(char *argv);
-void add_key_to_list(char *argv, t_env *envp_list);
+int		export(char **argv, t_data *data);
+void	envp_list_dup(t_env *original_list, t_env **temp_list);
+void	print_export_list (t_env *list); 
+bool	is_valid_key(char *argv);
+void	add_key_to_list(char *argv, t_env *envp_list);
 
 /* =============== unset =============== */
-int unset(char **argv, t_data *data);
-void envp_list_remove(t_env **envp_list, char *argv_key);
+int		unset(char **argv, t_data *data);
+void	envp_list_remove(t_env **envp_list, char *argv_key);
 
 /* =============== env =============== */
-int env(char **argv, t_data *data);
+int		env(char **argv, t_data *data);
 
 /* =============== pwd =============== */
-int pwd(char **argv, t_data *data);
+int		pwd(char **argv, t_data *data);
 
 /* =============== echo =============== */
-int	echo(char **argv, t_data *data);
+int		echo(char **argv, t_data *data);
 
 /* =============== cd =============== */
-char *get_env_value(t_data *data, char *key);
-int change_dir(char *path, char *old_path, t_data *data);
-void update_env(t_data *data, char *key, char *value);
-void print_err_cd(char *path);
+char	*get_env_value(t_data *data, char *key);
+int 	change_dir(char *path, char *old_path, t_data *data);
+void	update_env(t_data *data, char *key, char *value);
+void	print_err_cd(char *path);
 
 /* =============== exit =============== */
-int built_in_exit(char **argv, t_data *data);
+int 	built_in_exit(char **argv, t_data *data);
+
+/* ============================ PARSING =====================================*/
+
+/* =============== heredoc ================*/
+int		prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
+int		read_heredoc(t_redir *redir, t_env *envp, int last_status);
+int		process_heredoc_q(t_cmd *cmds);
+
+/* =============== expansion ==============*/
+int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
+char	*expand_var(char *str, int *i, t_env *envp, int last_status);
+char	*get_env_val(char *name, t_env *envp);
+int		is_var_char(char c);
+char	*append_char(char *result, char c);
+char	*append_str(char *result, char *to_add);
 
 #endif

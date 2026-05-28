@@ -42,10 +42,8 @@ t_token	*tokenising(char *line);
 t_cmd	*parsing(t_token *tokens);
 
 /*parsing_utils*/
-int		ft_strcmp(const char *s1, const char *s2);
 t_cmd	*cmd_init(void);
 int		is_redir(t_token_type type);
-char	*ft_strdup(char *src);
 
 /*parsing_r&c*/
 int		add_redir(t_cmd	*cmd_list, t_token_type r_type, char *file_name);

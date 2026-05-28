@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 
-char *ft_strdup(char *string)
+char	*ft_strdup(char *string)
 {
 	int i; 
 	char *str;

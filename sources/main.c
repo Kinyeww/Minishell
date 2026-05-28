@@ -6,8 +6,8 @@
 static int	check_first(char *line);
 static void	print_command(t_cmd *cmd);
 static char	*redir_name(t_token_type redir_name);
-void print_env_list(t_env *list);
-void	print_heredoc_files(t_cmd *cmds);
+void		print_heredoc_files(t_cmd *cmds);
+void	create_envp_list(t_env **envp_list, char **envp); 
 
 int	main(int ac, char **av, char **envp)
 {
@@ -19,8 +19,8 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	data.envp_list = NULL;
-	create_envp_list(&envp_list, envp);
-	print_env_list(envp_list);
+	create_envp_list(&data.envp_list, envp);
+	print_env_list(data.envp_list);
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -52,14 +52,14 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
-		if (!expand_cmds(cmds, envp_list, 0))
+		if (!expand_cmds(cmds, data.envp_list, 0))
 		{
 			printf("expansion failed\n");
 			free_cmd(cmds);
 			free(line);
 			continue ;
 		}
-		if (!prepare_heredoc(cmds, envp_list, 0))
+		if (!prepare_heredoc(cmds, data.envp_list, 0))
 		{
 			printf("heredoc preparation failed\n");
 			free_cmd(cmds);
@@ -74,13 +74,29 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-void print_env_list(t_env *list)
+void create_envp_list(t_env **envp_list, char **envp)
 {
-    while (list)
-    {
-        printf("%s=%s\n", list->key, list->value);
-        list = list->next;
-    }
+	int		i;
+	int		j;
+	char	*ptr;
+	t_env	*new;
+
+	i = 0;
+	j = 0;
+	while (envp[i])
+	{
+		new = malloc(sizeof(t_env));
+		if (!new)
+			return;
+		ptr = ft_strchr(envp[i], '=');
+		j = ptr - envp[i];
+		new->key = ft_strndup(envp[i], j);
+		new->value = ft_strdup(ptr + 1);
+		new->next = NULL;
+		list_add_back(envp_list, new);
+		i++;
+	}
+	return ;
 }
 
 static int	check_first(char *line) //empty line check

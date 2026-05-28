@@ -21,109 +21,10 @@ int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
 int		expand_redir(t_cmd *cmd, t_env *envp, int last_status);
 char	*expand_string(char *str, t_env *envp, int last_status);
 char	*expand_var(char *str, int *i, t_env *envp, int last_stat);
-char	*get_env_value(char *name, t_env *envp);
+char	*get_env_val(char *name, t_env *envp);
 int		is_var_char(char c);
 int		ft_varlen(char *str);
-char	*ft_substr(char *s, int start, int len);
 
-static int	ft_numlen(long num)
-{
-	int	len;
-
-	len = 0;
-	if (num <= 0)
-		len++;
-	while (num != 0)
-	{
-		num /= 10;
-		len++;
-	}
-	return (len);
-}
-
-static void	ft_putnbr(char *str, long num, int len)
-{
-	str[len] = '\0';
-	len--;
-	if (num < 0)
-	{
-		str[0] = '-';
-		num = -num;
-	}
-	if (num == 0)
-	{
-		str[0] = '0';
-		return ;
-	}
-	while (num > 0 && len >= 0)
-	{
-		str[len] = (num % 10) + '0';
-		num /= 10;
-		len--;
-	}
-}
-
-char	*ft_itoa(int n)
-{
-	char	*str;
-	int		len;
-	long	num;
-
-	num = n;
-	len = ft_numlen(num);
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	ft_putnbr(str, num, len);
-	return (str);
-}
-
-char	*ft_substr(char *s, int start, int len)
-{
-	int		i;
-	char	*str;
-
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (i < len && s[start + i] != '\0')
-	{
-		str[i] = s[start + i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n && s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-		i++;
-	if (i == n)
-		return (0);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-/*above all are utils*/
-
-/*
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-} t_env;
-*/
 
 int	expand_cmds(t_cmd *cmd, t_env *envp, int last_status)
 {
@@ -244,13 +145,13 @@ char	*expand_var(char *str, int *i, t_env *envp, int last_stat)
 	name = ft_substr(str, start, len);
 	if (!name)
 		return (NULL);
-	value = ft_strdup(get_env_value(name, envp));
+	value = ft_strdup(get_env_val(name, envp));
 	free(name);
 	*i = start + len;
 	return (value);
 }
 
-char	*get_env_value(char *name, t_env *envp)
+char	*get_env_val(char *name, t_env *envp)
 {
 	int	len;
 	t_env	*current;
@@ -280,16 +181,6 @@ int	ft_varlen(char *str)
 
 	i = 0;
 	while (str[i] && is_var_char(str[i]))
-		i++;
-	return (i);
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
 		i++;
 	return (i);
 }
