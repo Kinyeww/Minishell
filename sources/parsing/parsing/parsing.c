@@ -110,7 +110,12 @@ static int	error_handling(t_token *tokens)
 		}
 		else if (tokens->type == PIPE)
 		{
-			if (tokens->next && tokens->next->type == PIPE)
+			if (tokens->next == NULL)
+			{
+				printf("pipe cannot be last\n");
+				return (1);
+			}
+			if (tokens->next->type == PIPE)
 			{
 				printf("no double pipes, we're not doing tat sorry :)\n");
 				return (1);

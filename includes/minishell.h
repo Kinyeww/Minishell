@@ -1,6 +1,21 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+<<<<<<< HEAD
+# include "parsing.h"
+# include "expansion.h"
+
+typedef struct s_data
+{
+	t_env	*envp_list;
+	bool	exit_flag;
+	int		exit_code;
+}	t_data;
+
+void create_envp_list(t_env **envp_list, char **envp);
+int	process_heredoc_q(t_cmd *cmds);
+int	prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
+=======
 /* ============ Libraries ===========*/
 #include <unistd.h>
 #include <stdbool.h>
@@ -8,6 +23,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+>>>>>>> 9f8ebc4fda036c67b6a9bcdff3fd8fb744c9ee6b
 
 /* ============ Libft_Utils ===========*/
 #include "libft_utils.h"

@@ -6,30 +6,81 @@
 static int	check_first(char *line);
 static void	print_command(t_cmd *cmd);
 static char	*redir_name(t_token_type redir_name);
+void print_env_list(t_env *list);
+void	print_heredoc_files(t_cmd *cmds);
 
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
+	t_data	data;
 
 	(void) ac;
 	(void) av;
-	(void) envp;
+	data.envp_list = NULL;
+	create_envp_list(&envp_list, envp);
+	print_env_list(envp_list);
 	while (1)
 	{
 		line = readline("Minishell$ ");
+		if (!line)
+		{
+			printf("exit\n");
+			break ;
+		}
 		if (check_first(line) == 0)
-			continue ;
+			continue ;			
+		add_history(line);
 		tokens = tokenising(line);
-		if (tokens == NULL)
-			return (1);
+		if (!tokens)
+		{
+			free(line);
+			continue ;
+		}
 		cmds = parsing(tokens);
+		free_tokens(tokens);
+		if (!cmds)
+		{
+			free(line);
+			continue ;
+		}
+		if (!process_heredoc_q(cmds))
+		{
+			printf("heredoc quote processing failed\n");
+			free_cmd(cmds);
+			free(line);
+			continue ;
+		}
+		if (!expand_cmds(cmds, envp_list, 0))
+		{
+			printf("expansion failed\n");
+			free_cmd(cmds);
+			free(line);
+			continue ;
+		}
+		if (!prepare_heredoc(cmds, envp_list, 0))
+		{
+			printf("heredoc preparation failed\n");
+			free_cmd(cmds);
+			free(line);
+			continue ;
+		}
 		print_command(cmds);
-		// tokens = expand(cmds, envp);
+		print_heredoc_files(cmds);
+		free_cmd(cmds);
 		free(line);
 	}
 	return (0);
+}
+
+void print_env_list(t_env *list)
+{
+    while (list)
+    {
+        printf("%s=%s\n", list->key, list->value);
+        list = list->next;
+    }
 }
 
 static int	check_first(char *line) //empty line check
@@ -56,7 +107,7 @@ static void	print_command(t_cmd *cmd)
 	cmd_i = 0;
 	while (cmd)
 	{
-		printf("\n--- command[%d] ---\n", cmd_i);
+		printf("\n---command[%d]\n", cmd_i);
 		arg_i = 0;
 		if (!cmd->argv)
 			printf("argv = NULL\n");
@@ -76,7 +127,6 @@ static void	print_command(t_cmd *cmd)
 		cmd = cmd->next;
 		cmd_i++;
 	}
-	printf("\nend of command list\n");
 }
 
 static char	*redir_name(t_token_type redir_name)
@@ -90,4 +140,50 @@ static char	*redir_name(t_token_type redir_name)
 	else if (redir_name == HEREDOC)
 		return ("HEREDOC");
 	return ("no redir found");
+}
+
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+
+void	print_heredoc_files(t_cmd *cmds)
+{
+	t_cmd	*cmd;
+	t_redir	*redir;
+	int		fd;
+	char	buf[1025];
+	int		bytes;
+
+	cmd = cmds;
+	while (cmd)
+	{
+		redir = cmd->redir;
+		while (redir)
+		{
+			if (redir->redir_type == HEREDOC)
+			{
+				printf("\n--- HEREDOC DEBUG ---\n");
+				printf("delimiter = %s\n", redir->file_name);
+				printf("quoted = %d\n", redir->heredoc_quote);
+				printf("temp file = %s\n", redir->heredoc_file);
+				fd = open(redir->heredoc_file, O_RDONLY);
+				if (fd == -1)
+				{
+					perror("open heredoc debug");
+					return ;
+				}
+				bytes = read(fd, buf, 1024);
+				while (bytes > 0)
+				{
+					buf[bytes] = '\0';
+					printf("%s", buf);
+					bytes = read(fd, buf, 1024);
+				}
+				close(fd);
+				printf("\n--- END HEREDOC DEBUG ---\n");
+			}
+			redir = redir->next;
+		}
+		cmd = cmd->next;
+	}
 }

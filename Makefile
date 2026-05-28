@@ -32,11 +32,15 @@ LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
 EXECUTION = sources/execution/execute.c\
 			sources/execution/handle_built_ins.c\
 
-PARSING = sources/parsing/tokenising.c\
-		  sources/parsing/parsing/parsing.c\
-		  sources/parsing/expansion.c\
-		  sources/parsing/parsing/parsing_utils.c\
-		  sources/parsing/parsing/parsing_addrc.c
+PARSING = sources/main.c\
+		  sources/tokenising.c\
+		  sources/parsing.c\
+		  sources/expansion.c\
+		  sources/parsing_utils.c\
+		  sources/init_cmd.c\
+		  sources/free_parsing.c\
+		  sources/heredoc.c\
+		  sources/heredoc_exe.c
 
 SRCS = $(CORE) $(BUILTINS) $(ENVP_UTILS) $(LIBFT_UTILS) $(PARSING) #$(EXECUTION)
 OBJS = $(SRCS:.c=.o)
