@@ -31,8 +31,9 @@ static int tc_add_arg(t_cmd *cmd, char *content)
 		new_argv[i] = cmd->argv[i];
 		i++;
 	}
-	new_argv[i] = ft_strdup(content);
+	new_argv[i] = ft_strdup(content); //yeah it should return NULL
 	new_argv[i + 1] = NULL;
+	//printf("new argv : %s", new_argv[0]);
 	free(cmd->argv);
 	cmd->argv = new_argv;
 	return (1);
@@ -64,8 +65,8 @@ t_cmd *test_case_1(void)
 	t_cmd *cmd;
 
 	cmd = tc_cmd_init();
-	tc_add_arg(cmd, "cat");
-	tc_add_redir(cmd, REDIR_IN, "input.txt");
+	tc_add_arg(cmd, "\0");
+	tc_add_redir(cmd, REDIR_IN, "notes.txt");
 	return (cmd);
 }
 

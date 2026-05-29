@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:08:44 by syee              #+#    #+#             */
-/*   Updated: 2026/05/29 15:49:41 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/29 19:40:35 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 #include <errno.h>
 #include <sys/wait.h>
 
+
+/*
+GAY edge case 
+> file
+
+*/
 
 /*
 1. check if it is a built in
@@ -36,6 +42,13 @@ int execute_cmd(t_cmd *cmd, t_data *data)
 	int	return_val;
 	
 	return_val = 0;
+	//if !argv and cmd == TRUE , 
+	if ((cmd->argv == NULL || cmd->argv[0] == NULL) && cmd->redir)
+	{
+		if (setup_redirections(cmd) != 0) //if it fails , redirections are setup first before execution
+			return (dup_restore_fd (data), 1);
+		return (0);
+	}
 	if (check_built_in(cmd->argv[0]) != 0)
 		return_val = built_in_redir_setup(cmd, data);
 	else
@@ -131,34 +144,36 @@ void	print_err_redir(char *file_name)
 int setup_redirections(t_cmd *cmd)
 {
 	int file_fd;
-	
-	while (cmd->redir)
+	t_redir *current;
+
+	current = cmd->redir;
+	while (current)
 	{
-		if (cmd->redir->redir_type == REDIR_IN) //cmd < file
+		if (current->redir_type == REDIR_IN) //cmd < file
 		{
-			file_fd = open(cmd->redir->file_name, O_RDONLY); //O
+			file_fd = open(current->file_name, O_RDONLY); //O
 			if (file_fd == -1)
-				return (print_err_redir(cmd->redir->file_name), 1);
+				return (print_err_redir(current->file_name), 1);
 			dup2(file_fd , STDIN_FILENO); //i dont have to care because if stdin is manipulated, it's file description will be manipulated | the stdout will now point to the file_fd
 			close (file_fd);
 		}
-		else if (cmd->redir->redir_type == REDIR_OUT) // cmd > file
+		else if (current->redir_type == REDIR_OUT) // cmd > file
 		{
-			file_fd = open(cmd->redir->file_name , O_WRONLY | O_TRUNC | O_CREAT, 0644); //do i need permission or is chatgpt hallucinating 
+			file_fd = open(current->file_name , O_WRONLY | O_TRUNC | O_CREAT, 0644); //do i need permission or is chatgpt hallucinating 
 			if (file_fd == -1)
-				return (print_err_redir(cmd->redir->file_name), 1);
+				return (print_err_redir(current->file_name), 1);
 			dup2(file_fd , STDOUT_FILENO); //stdout now points to file fd
 			close (file_fd);
 		}
-		else if (cmd->redir->redir_type == APPEND) // cmd >> file
+		else if (current->redir_type == APPEND) // cmd >> file
 		{
-			file_fd = open(cmd->redir->file_name , O_WRONLY | O_TRUNC | O_CREAT, 0644);
+			file_fd = open(current->file_name , O_WRONLY | O_APPEND | O_CREAT, 0644);
 			if (file_fd == -1)
-				return (print_err_redir(cmd->redir->file_name), 1);
+				return (print_err_redir(current->file_name), 1);
 			dup2(file_fd, STDOUT_FILENO);
 			close (file_fd);
 		}
-		cmd->redir = cmd->redir-> next;
+		current = current->next;
 	}
 	return (0);
 }
