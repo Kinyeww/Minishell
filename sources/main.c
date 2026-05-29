@@ -189,6 +189,7 @@ void	print_heredoc_files(t_cmd *cmds)
 					return ;
 				}
 				bytes = read(fd, buf, 1024);
+				printf("heredoc content:\n");
 				while (bytes > 0)
 				{
 					buf[bytes] = '\0';

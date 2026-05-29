@@ -4,3 +4,12 @@ history
 merge
 see if child need free from parsing
 multiple pipe concept
+
+[ ] use data.exit_code instead of hardcoded 0
+[ ] initialize data.exit_flag and data.exit_code
+[ ] set exit_code = 2 for syntax/token/parser errors
+[ ] set exit_code = 1 for malloc/open/heredoc preparation failure
+[ ] print errors to stderr
+[ ] remove debug prints
+[ ] add cleanup for history and env list
+[ ] fix small allocation failure leaks
