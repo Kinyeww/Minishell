@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -31,6 +34,7 @@ typedef struct s_env
 typedef struct s_data
 {
 	//head of the list 
+	int		fd_copy[2];
 	t_env	*envp_list;
 	bool	exit_flag;
 	int		exit_code; //kinyew using 
@@ -44,8 +48,10 @@ t_env *list_get_last(t_env *envp_list);
 void envp_list_clean(t_env **envp_list);
 void print_env_list(t_env *list); //debug purpose
 void envp_bubble_sort_list(t_env **temp_list);
+void create_envp_list(t_env **envp_list, char **envp);
 
 /* ===================== built_ins ==================== */
+int execute_built_ins(char **argv, t_data *data);
 
 /* =============== export =============== */
 int export(char **argv, t_data *data);
@@ -77,15 +83,34 @@ void print_err_cd(char *path);
 /* =============== exit =============== */
 int built_in_exit(char **argv, t_data *data);
 
-/* =================== execute_binary =================== */
-int binary(char **argv, t_data *data);
+/* ============ execute_binary ============= */
+int execute_binary(char **argv, t_data *data);
 char *get_path(char *arg, char *envp_path);
 
-/* ==== execute_binary helper funcitons ====*/
-char	*get_key_value(char *key, t_env *envp_list);
-void free_str_arr(char **str_arr);
-char *strjoin_envp(char *key, char *value);
+/* ======== execute_binary helper funcitons ========*/
 void	print_err_binary(char *file_dir);
+void	free_str_arr(char **str_arr);
+char	*get_key_value(char *key, t_env *envp_list);
+char	*strjoin_envp(char *key, char *value);
+char	**create_envp_arr(t_env *envp_list);
+
+/* ==== pipeline setup ====*/
+void	create_stdin_stdout_cpy(t_data *data);
+int		traverse_pipe_cmd(t_cmd *cmd, t_data *data);
+
+/* ===== execute redirections =====*/
+void	dup_restore_fd(t_data *data);
+void	print_err_redir(char *file_name);
+int 	check_built_in(char *argv1);
+int		execute_cmd(t_cmd *cmd, t_data *data);
+int		setup_redirections(t_cmd *cmd);
+
+int		built_in_redir_setup(t_cmd *cmd, t_data *data);
+int		binary_setup_and_execute(t_cmd *cmd, t_data *data);
+int		setup_redirections(t_cmd *cmd);
+
 
 
 #endif
+
+

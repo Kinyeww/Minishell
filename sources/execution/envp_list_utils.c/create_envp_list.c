@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   create_envp_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 17:23:58 by syee              #+#    #+#             */
-/*   Updated: 2026/05/29 14:34:47 by syee             ###   ########.fr       */
+/*   Created: 2026/05/29 15:01:32 by syee              #+#    #+#             */
+/*   Updated: 2026/05/29 15:02:02 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_utils.h"
-#include <stdlib.h>
-#include "libft_utils.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void create_envp_list(t_env **envp_list, char **envp)
 {
-	char	*newword;
-	int		len;
 	int		i;
 	int		j;
+	char	*ptr;
+	t_env	*new;
 
 	i = 0;
 	j = 0;
-	len = ft_strlen((char *)s1) + ft_strlen((char *)s2);
-	newword = (char *)malloc(len + 1);
-	while (s1[j])
-		newword[i++] = s1[j++];
-	j = 0;
-	while (s2[j])
-		newword[i++] = s2[j++];
-	newword[i] = '\0';
-	return (newword);
+	while (envp[i])
+	{
+		new = malloc(sizeof(t_env));
+		ptr = ft_strchr(envp[i], '=');
+		j = ptr - envp[i];
+		new->key = ft_strndup(envp[i], j);
+		new->value = ft_strdup(ptr + 1);
+		new->next = NULL;
+		list_add_back(envp_list, new);
+		i++;
+	}
+	return ;
 }

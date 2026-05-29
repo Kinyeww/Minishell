@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static t_cmd *cmd_init(void)
+static t_cmd *tc_cmd_init(void)
 {
 	t_cmd *cmd;
 
@@ -14,7 +14,7 @@ static t_cmd *cmd_init(void)
 	return (cmd);
 }
 
-static int add_arg(t_cmd *cmd, char *content)
+static int tc_add_arg(t_cmd *cmd, char *content)
 {
 	char **new_argv;
 	int av_len;
@@ -38,7 +38,7 @@ static int add_arg(t_cmd *cmd, char *content)
 	return (1);
 }
 
-static int add_redir(t_cmd *cmd, t_token_type r_type, char *file_name)
+static int tc_add_redir(t_cmd *cmd, t_token_type r_type, char *file_name)
 {
 	t_redir *new;
 	t_redir *tmp;
@@ -63,9 +63,9 @@ t_cmd *test_case_1(void)
 {
 	t_cmd *cmd;
 
-	cmd = cmd_init();
-	add_arg(cmd, "cat");
-	add_redir(cmd, REDIR_IN, "input.txt");
+	cmd = tc_cmd_init();
+	tc_add_arg(cmd, "cat");
+	tc_add_redir(cmd, REDIR_IN, "input.txt");
 	return (cmd);
 }
 
@@ -73,10 +73,10 @@ t_cmd *test_case_2(void)
 {
 	t_cmd *cmd;
 
-	cmd = cmd_init();
-	add_arg(cmd, "echo");
-	add_arg(cmd, "hello");
-	add_redir(cmd, REDIR_OUT, "out.txt");
+	cmd = tc_cmd_init();
+	tc_add_arg(cmd, "echo");
+	tc_add_arg(cmd, "hello");
+	tc_add_redir(cmd, REDIR_OUT, "out.txt");
 	return (cmd);
 }
 
@@ -84,9 +84,9 @@ t_cmd *test_case_3(void)
 {
 	t_cmd *cmd;
 
-	cmd = cmd_init();
-	add_arg(cmd, "ls");
-	add_redir(cmd, APPEND, "append.txt");
+	cmd = tc_cmd_init();
+	tc_add_arg(cmd, "ls");
+	tc_add_redir(cmd, APPEND, "append.txt");
 	return (cmd);
 }
 
@@ -94,10 +94,10 @@ t_cmd *test_case_4(void)
 {
 	t_cmd *cmd;
 
-	cmd = cmd_init();
-	add_arg(cmd, "grep");
-	add_arg(cmd, "test");
-	add_redir(cmd, HEREDOC, "EOF");
+	cmd = tc_cmd_init();
+	tc_add_arg(cmd, "grep");
+	tc_add_arg(cmd, "test");
+	tc_add_redir(cmd, HEREDOC, "EOF");
 	return (cmd);
 }
 
@@ -105,10 +105,10 @@ t_cmd *test_case_5(void)
 {
 	t_cmd *cmd;
 
-	cmd = cmd_init();
-	add_arg(cmd, "cat");
-	add_arg(cmd, "file.txt");
-	add_redir(cmd, REDIR_IN, "input.txt");
-	add_redir(cmd, REDIR_OUT, "output.txt");
+	cmd = tc_cmd_init();
+	tc_add_arg(cmd, "cat");
+	tc_add_arg(cmd, "file.txt");
+	tc_add_redir(cmd, REDIR_IN, "input.txt");
+	tc_add_redir(cmd, REDIR_OUT, "output.txt");
 	return (cmd);
 }

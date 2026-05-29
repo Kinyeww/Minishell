@@ -57,6 +57,7 @@ typical minishell flow:
     - [ ] > (redir out / replace ) : echo "hello" > file.txt
 4. pipes
     - [ ] | 
+	
 5. exit codes ($?)
 
 ### code planning

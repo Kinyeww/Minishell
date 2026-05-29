@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:08:44 by syee              #+#    #+#             */
-/*   Updated: 2026/05/29 07:53:13 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/29 15:49:41 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parsing.h"
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/wait.h>
 
 
 /*
@@ -29,14 +30,14 @@
 5. return 0 on success
 */
 
-//update the exit code here ?
+//update exit code in execute pipes, because here is where the process exists and talks to parent process
 int execute_cmd(t_cmd *cmd, t_data *data)
 {
 	int	return_val;
 	
 	return_val = 0;
 	if (check_built_in(cmd->argv[0]) != 0)
-		return_val = built_in_setup_and_execute(cmd, data);
+		return_val = built_in_redir_setup(cmd, data);
 	else
 		return_val = binary_setup_and_execute(cmd, data);
 		
@@ -104,9 +105,9 @@ int binary_setup_and_execute(t_cmd *cmd, t_data *data)
 				exit (1); //if i return, to the parent
 			}
 		}
-		exit(execute_binary(cmd, data)); //everything from here onwards is a fork
+		exit(execute_binary(cmd->argv, data)); //everything from here onwards is a fork
 	}
-	waitpid(child_pid, &child_status, 0); 
+	waitpid (child_pid, &child_status, 0); 
 	if (WIFSIGNALED(child_status)) //if the child exited via termination
 		return (128 + WTERMSIG(child_status));
 	else if (WIFEXITED(child_status))  //if the child exited normally
@@ -120,7 +121,7 @@ int binary_setup_and_execute(t_cmd *cmd, t_data *data)
 
 void	print_err_redir(char *file_name)
 {
-	ft_putstr_fd("minishell:", 2);
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(file_name, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2); //will show be no such file name or directory
@@ -137,7 +138,7 @@ int setup_redirections(t_cmd *cmd)
 		{
 			file_fd = open(cmd->redir->file_name, O_RDONLY); //O
 			if (file_fd == -1)
-				return(print_err_redir(cmd->redir->file_name), 1);
+				return (print_err_redir(cmd->redir->file_name), 1);
 			dup2(file_fd , STDIN_FILENO); //i dont have to care because if stdin is manipulated, it's file description will be manipulated | the stdout will now point to the file_fd
 			close (file_fd);
 		}
@@ -145,7 +146,7 @@ int setup_redirections(t_cmd *cmd)
 		{
 			file_fd = open(cmd->redir->file_name , O_WRONLY | O_TRUNC | O_CREAT, 0644); //do i need permission or is chatgpt hallucinating 
 			if (file_fd == -1)
-				return(print_err_redir(cmd->redir->file_name), 1);
+				return (print_err_redir(cmd->redir->file_name), 1);
 			dup2(file_fd , STDOUT_FILENO); //stdout now points to file fd
 			close (file_fd);
 		}
@@ -153,7 +154,7 @@ int setup_redirections(t_cmd *cmd)
 		{
 			file_fd = open(cmd->redir->file_name , O_WRONLY | O_TRUNC | O_CREAT, 0644);
 			if (file_fd == -1)
-				return(print_err_redir(cmd->redir->file_name), 1);
+				return (print_err_redir(cmd->redir->file_name), 1);
 			dup2(file_fd, STDOUT_FILENO);
 			close (file_fd);
 		}
