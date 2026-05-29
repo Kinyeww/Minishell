@@ -19,8 +19,9 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	data.envp_list = NULL;
+	data.exit_code = 0;
+	data.exit_flag = false;
 	create_envp_list(&data.envp_list, envp);
-	print_env_list(data.envp_list);
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -35,6 +36,7 @@ int	main(int ac, char **av, char **envp)
 		tokens = tokenising(line);
 		if (!tokens)
 		{
+			data.exit_code = 2;
 			free(line);
 			continue ;
 		}
@@ -42,32 +44,37 @@ int	main(int ac, char **av, char **envp)
 		free_tokens(tokens);
 		if (!cmds)
 		{
+			data.exit_code = 2;
 			free(line);
 			continue ;
 		}
 		if (!process_heredoc_q(cmds))
 		{
+			data.exit_code = 1;
 			printf("heredoc quote processing failed\n");
-			free_cmd(cmds);
-			free(line);
-			continue ;
-		}
-		if (!expand_cmds(cmds, data.envp_list, 0))
-		{
-			printf("expansion failed\n");
 			free_cmd(cmds);
 			free(line);
 			continue ;
 		}
 		if (!prepare_heredoc(cmds, data.envp_list, 0))
 		{
+			data.exit_code = 1;
 			printf("heredoc preparation failed\n");
+			free_cmd(cmds);
+			free(line);
+			continue ;
+		}
+		if (!expand_cmds(cmds, data.envp_list, 0))
+		{
+			data.exit_code = 1;
+			printf("expansion failed\n");
 			free_cmd(cmds);
 			free(line);
 			continue ;
 		}
 		print_command(cmds);
 		print_heredoc_files(cmds);
+		data.exit_code = execution(cmds, &data); // can change ltr
 		free_cmd(cmds);
 		free(line);
 	}
