@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/05/29 07:27:28 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/30 20:37:56 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char *get_path(char *arg, char *envp_path)
 	char	**envp_path_arr;
 	int		i;
 
+	if (!arg || arg[0] == '\0')
+		return (NULL);
 	if (ft_strchr(arg, '/') != 0)
 		return (ft_strdup(arg));
 	if (!envp_path)
@@ -73,6 +75,15 @@ if invalidprogramname (NULL)
 	runs exceve , 127
 if ./nopermission
 	runs exceve , 126
+	
+*/
+
+/*
+exit 0: Indicates success. This is the default if no number is given.
+exit 1: Indicates a generic error
+exit 2: Misuse of shell built-ins or incorrect arguments.
+exit 127: Command not found
+
 */
 
 /*

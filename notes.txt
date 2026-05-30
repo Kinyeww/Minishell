@@ -28,3 +28,6 @@ typical minishell flow:
 shun 
 - i keep getting confused about the values being passed, 
 	whcih can deref and which cant, mainly its in the envp_list thing
+
+
+	test

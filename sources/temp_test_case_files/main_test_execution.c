@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 15:21:47 by syee              #+#    #+#             */
-/*   Updated: 2026/05/29 19:57:19 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/30 20:05:42 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ void create_envp_list(t_env **envp_list, char **envp);
 void data_clean(t_data *data);
 void cleanup_cmd(t_cmd *cmd);
 void cleanup_cmds(t_cmd *cmd);
+t_cmd *test_case_pipe_1(void);
+t_cmd *test_case_pipe_2(void);
+t_cmd *test_case_pipe_3(void);
+void print_shit(t_cmd *cmd);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -37,11 +41,14 @@ int	main(int ac, char **av, char **envp)
 	t_cmd	*test4;
 	t_cmd	*test5;
 
+
 	data = malloc (sizeof(t_data));
 	*data = (t_data){0};
 	create_envp_list(&data->envp_list, envp);
 
-	//test1 = test_case_1();
+	// = test_case_1();
+	//execute_cmd(test1, data);
+	//cleanup_cmd(test1);
 	// cmd < file
 	/*
 	1. testing with binary "cat" with invalid  file : "minishell: input.txt: No such file or directory" //ok
@@ -64,63 +71,115 @@ int	main(int ac, char **av, char **envp)
 		bash: jdnf: No such file or directory
 	*/
 
-	 test2 = test_case_2();
+	//test2 = test_case_2();
 	//cmd > file
+	//echo hello > file
 	/*
-	1. testing with binary "cat" with invalid  file :
-	2. testing with binary "cat" with valid file : 
-	3. testing with built_in "echo" with valid file :
-	4. testing with built_in "echo" with invalid file :
-	5. testing with invalid command with valid file : 
-	6. testing with invalid command with invalid file :
-	7. testing with no command (NULL) with invalid file :
-	8. testing with no command (NULL) with valid file :
-	9. testing with "\0" with valid file : 
-	10.testing with "\0" with invalid file :
+	1. testing with binary "ls" with argument & uncreted  file :ls: cannot access 'obama': No such file or directory , no leaks //ok
+	2. testing with binary "ls"  & uncreted file : All heap blocks were freed -- no leaks are possible //ok
+	3. testing with binary "echo" with word  & uncreated file : ==350893== All heap blocks were freed -- no leaks are possible ok
+	4. testing with binary "echo" with word & created file : =351149==   total heap usage: 269 allocs, 269 frees, 7,652 bytes allocated 
+	5. testing with invalid command with created file : minishell: die: No such file or directory //ok , leak in child , file gets recreated //ok
+	6. testing with invalid command with uncretaed file : same as above and file gets created
+	7. testing with no command (NULL) with uncreated file : no leaks at all, all g
+			exit code : shd b 0
+	8. testing with no command (NULL) with created file : //ok
+	10.testing with "\0" with created file : minishell: : No such file or directory //ok
+	
 	*/
 
-	// test3 = test_case_3();
-	// test4 = test_case_4();
-	// test5 = test_case_5();
-
-	execute_cmd(test2, data);
-	cleanup_cmd(test2);
+	//test3 = test_case_3();
+	// ls >> file
+	/*
+	- all ok
+	*/
 	
-	data_clean(data);
+	// test4 = test_case_4(); //for heredoc can skip
+	
+	 //test5 = test_case_5(); //double redir
+	// cat file.txt < input.txt > output.txt :
+	/*
+	1. test with uncreated file input : file not found ok
+	2. test with valid binary & files, : ok no leaks 
+	*/ 
 
-	return (0);
+	//cmd3 & cmd1 ok
+	//execute_cmd(test3, data);
+	//cleanup_cmd(test3);
+	
+	
+	// testing with pipe function 
+	t_cmd *pipe_1 = test_case_pipe_1();  //ls |grep .c | cat
+	//t_cmd *pipe_2 = test_case_pipe_2();
+	//t_cmd *pipe_3 = test_case_pipe_3();
+	//traverse_pipe_cmd returns a value to be updated in the exit code
+
+	print_shit(pipe_1);
+	int exit_code = traverse_pipe_cmd(pipe_1 , data);
+	//update_exit_code(exit_code);
+	//printf("exit code : %d\n", exit_code); //this can ensure if the stdout is restored i supposed
+	cleanup_cmd(pipe_1);
+	data_clean(data); //clean_envp
+
+	return (exit_code); //oh my gosh so thats why they return 0
 }
+	void print_shit(t_cmd *cmd)
+	{
+		t_cmd *current;
 
+		current = cmd;
+		while(current)
+		{
+			int i = 0;
+			while (current->argv[i] != NULL)
+			{
+				printf("%s ",current->argv[i]);
+				i++;
+			}
+			if (current->redir)
+			{
+				printf("%s", current->redir->file_name);
+			}
+			
+			current = current->next;
+			if (current)
+				printf("| ");
+		}
+		printf("\n");
+	}
+	
 void cleanup_cmd(t_cmd *cmd)
 {
-	int		index;
-	t_redir	*redir;
-	t_redir	*next_redir;
+    int     index;
+    t_redir *redir;
+    t_redir *next_redir;
+    t_cmd   *next_cmd;
 
-	if (!cmd)
-		return ;
-	if (cmd->argv)
-	{
-		index = 0;
-		while (cmd->argv[index])
-		{
-			free(cmd->argv[index]);
-			index++;
-		}
-		free(cmd->argv);
-	}
-
-	redir = cmd->redir;
-	while (redir)
-	{
-		next_redir = redir->next;
-		free(redir->file_name);
-		free(redir);
-		redir = next_redir;
-	}
-	free(cmd);
+    while (cmd)
+    {
+        next_cmd = cmd->next;
+        if (cmd->argv)
+        {
+            index = 0;
+            while (cmd->argv[index])
+            {
+                free(cmd->argv[index]);
+                index++;
+            }
+            free(cmd->argv);
+        }
+        redir = cmd->redir;
+        while (redir)
+        {
+            next_redir = redir->next;
+            free(redir->file_name);
+            free(redir);
+            redir = next_redir;
+        }
+        free(cmd);
+        cmd = next_cmd;
+    }
 }
-
 void cleanup_cmds(t_cmd *cmd)
 {
 	t_cmd *next_cmd;
@@ -136,5 +195,7 @@ void cleanup_cmds(t_cmd *cmd)
 void data_clean(t_data *data)
 {
 	envp_list_clean(&data->envp_list);
+	//close dup_fd
 	free(data);
 }
+

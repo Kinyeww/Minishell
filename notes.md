@@ -59,6 +59,7 @@ typical minishell flow:
     - [ ] | 
 	
 5. exit codes ($?)
+https://www.redhat.com/en/blog/exit-codes-demystified
 
 ### code planning
 1. 
