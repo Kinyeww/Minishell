@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 15:21:47 by syee              #+#    #+#             */
-/*   Updated: 2026/05/30 20:05:42 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/31 19:58:09 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void cleanup_cmds(t_cmd *cmd);
 t_cmd *test_case_pipe_1(void);
 t_cmd *test_case_pipe_2(void);
 t_cmd *test_case_pipe_3(void);
+t_cmd *test_case_exit(void); 
 void print_shit(t_cmd *cmd);
+
 
 int	main(int ac, char **av, char **envp)
 {
@@ -109,44 +111,44 @@ int	main(int ac, char **av, char **envp)
 	
 	
 	// testing with pipe function 
-	t_cmd *pipe_1 = test_case_pipe_1();  //ls |grep .c | cat
+	
 	//t_cmd *pipe_2 = test_case_pipe_2();
 	//t_cmd *pipe_3 = test_case_pipe_3();
 	//traverse_pipe_cmd returns a value to be updated in the exit code
-
-	print_shit(pipe_1);
-	int exit_code = traverse_pipe_cmd(pipe_1 , data);
+	
+	t_cmd *testexit = test_case_exit();
+	int exit_code = traverse_pipe_cmd(testexit , data);
 	//update_exit_code(exit_code);
 	//printf("exit code : %d\n", exit_code); //this can ensure if the stdout is restored i supposed
-	cleanup_cmd(pipe_1);
-	data_clean(data); //clean_envp
+	cleanup_cmd(testexit);
+	data_clean(data); //clean_envp //exit code cannot be placed in the struct
 
 	return (exit_code); //oh my gosh so thats why they return 0
 }
-	void print_shit(t_cmd *cmd)
-	{
-		t_cmd *current;
+void print_shit(t_cmd *cmd)
+{
+	t_cmd *current;
 
-		current = cmd;
-		while(current)
+	current = cmd;
+	while(current)
+	{
+		int i = 0;
+		while (current->argv[i] != NULL)
 		{
-			int i = 0;
-			while (current->argv[i] != NULL)
-			{
-				printf("%s ",current->argv[i]);
-				i++;
-			}
-			if (current->redir)
-			{
-				printf("%s", current->redir->file_name);
-			}
-			
-			current = current->next;
-			if (current)
-				printf("| ");
+			printf("%s ",current->argv[i]);
+			i++;
 		}
-		printf("\n");
+		if (current->redir)
+		{
+			printf("%s", current->redir->file_name);
+		}
+		
+		current = current->next;
+		if (current)
+			printf("| ");
 	}
+	printf("\n");
+}
 	
 void cleanup_cmd(t_cmd *cmd)
 {

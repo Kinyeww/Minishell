@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 
-// #include "../../includes/minishell.h"
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strlen(char *str);
 char	*ft_strdup(char *string);
@@ -14,9 +13,10 @@ void	ft_putnbr_fd(int n, int fd);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 char	*ft_strjoin(char const *s1, char const *s2);
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	**ft_split(char const *s, char c);
+long	ft_atol(char *str);
 
 #endif

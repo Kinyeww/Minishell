@@ -138,6 +138,7 @@ t_cmd *test_case_pipe_1(void)
     return (cmd1);
 }
 
+
 // cmd1: cat notes.txt | cmd2: grep test
 t_cmd *test_case_pipe_2(void)
 {
@@ -173,5 +174,17 @@ t_cmd *test_case_pipe_3(void)
     tc_add_redir(cmd2, REDIR_OUT, "out.txt");
 
     cmd1->next = cmd2;
+    return (cmd1);
+}
+
+t_cmd *test_case_exit(void)
+{
+    t_cmd *cmd1;
+
+    cmd1 = tc_cmd_init();
+    tc_add_arg(cmd1, "exit");
+	tc_add_arg(cmd1, "0");
+	tc_add_arg(cmd1, "");
+
     return (cmd1);
 }

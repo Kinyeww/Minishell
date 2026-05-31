@@ -31,7 +31,8 @@ LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
               sources/libft_utils/ft_atoi.c\
               sources/libft_utils/ft_strnstr.c\
               sources/libft_utils/ft_split.c\
-              sources/libft_utils/ft_memcpy.c
+              sources/libft_utils/ft_memcpy.c\
+			  sources/libft_utils/ft_atol.c
 
 EXECUTION = sources/execution/execute_binary.c\
             sources/execution/execute_binary_helper.c\
