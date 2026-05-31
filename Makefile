@@ -3,7 +3,8 @@ CFLAGS = -Wall -Wextra -lreadline
 IFLAGS = -Iincludes -Isources
 
 # Source files for export.c testing
-CORE = sources/main.c
+CORE = sources/main.c\
+	   sources/signals.c
 
 BUILTINS = sources/execution/Built_ins/export.c\
 		   sources/execution/Built_ins/unset.c\

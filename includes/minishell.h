@@ -15,6 +15,7 @@
 /* ============ parsing ===========*/
 # include "parsing.h"
 # include "expansion.h"
+# include "signals.h"
 
 /* =============== env =============== */
 typedef struct s_env t_env;
@@ -81,6 +82,7 @@ int 	built_in_exit(char **argv, t_data *data);
 int		prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
 int		read_heredoc(t_redir *redir, t_env *envp, int last_status);
 int		process_heredoc_q(t_cmd *cmds);
+int		run_heredoc_with_signal(t_cmd *cmds, t_data *data);
 
 /* =============== expansion ==============*/
 int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);

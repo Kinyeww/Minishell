@@ -37,7 +37,7 @@ t_token	*tokenising(char *line)
 			len = get_token_length(line, i);
 		if (len < 0)
 		{
-			printf("minishell: syntax error: unclosed quote\n");
+			ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
 			free_tokens(head);
 			return (NULL);
 		}

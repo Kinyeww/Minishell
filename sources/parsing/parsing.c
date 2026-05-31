@@ -10,6 +10,14 @@ static int		error_handling(t_token *tokens);
 static t_cmd	*parse_pipeline(t_token **tokens);
 static t_cmd	*parse_command(t_token **curr_tk);
 
+static int	print_syntax_error(char *token)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(token, 2);
+	ft_putstr_fd("'\n", 2);
+	return (1);
+}
+
 t_cmd	*parsing(t_token *tokens)
 {
 	t_token	*head;
@@ -93,33 +101,23 @@ static t_cmd	*parse_command(t_token **curr_tk)
 static int	error_handling(t_token *tokens)
 {
 	if (tokens && tokens->type == PIPE)
-	{
-		printf("pipe cannot be first\n");
-		return (1);
-	}
+		return (print_syntax_error("|"));
 	while (tokens)
 	{
 		if (tokens->type == REDIR_IN || tokens->type == REDIR_OUT
 			|| tokens->type == APPEND || tokens->type == HEREDOC)
 		{
-			if (tokens->next == NULL || tokens->next->type != WORD)
-			{
-				printf("redirections must followed by a word\n");
-				return (1);
-			}
+			if (tokens->next == NULL)
+				return (print_syntax_error("newline"));
+			if (tokens->next->type != WORD)
+				return (print_syntax_error(tokens->next->content));
 		}
 		else if (tokens->type == PIPE)
 		{
 			if (tokens->next == NULL)
-			{
-				printf("pipe cannot be last\n");
-				return (1);
-			}
+				return (print_syntax_error("newline"));
 			if (tokens->next->type == PIPE)
-			{
-				printf("no double pipes, we're not doing tat sorry :)\n");
-				return (1);
-			}
+				return (print_syntax_error("|"));
 		}
 		tokens = tokens->next;
 	}
@@ -129,7 +127,6 @@ static int	error_handling(t_token *tokens)
 /*always check for longer char first*/
 static void	assign_meaning(t_token *tokens)
 {
-	printf("assigning meaning for %s\n", tokens->content);
 	if (ft_strcmp(tokens->content, ">>") == 0)
 		tokens->type = APPEND;
 	else if (ft_strcmp(tokens->content, "<<") == 0)
@@ -146,7 +143,6 @@ static void	assign_meaning(t_token *tokens)
 
 static void	print_meaning(t_token *tokens)
 {
-	printf("printing tokens\n");
 	while (tokens)
 	{
 		if (tokens->type == WORD)

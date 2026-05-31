@@ -10,7 +10,6 @@ int	add_redir(t_cmd	*cmd_list, t_token_type r_type, char *file_name)
 	t_redir	*new;
 	t_redir	*tmp;
 
-	printf("adding redir\n");
 	new = new_redir(r_type, file_name);
 	if (!new)
 		return (0);
@@ -32,7 +31,6 @@ int	add_arg(t_cmd *cmd_list, char *content)
 	int		av_len;
 	int		i;
 
-	printf("adding arg\n");
 	av_len = argv_len(cmd_list->argv);
 	new_argv = malloc(sizeof(char *) * (av_len + 2));
 	if (!new_argv)

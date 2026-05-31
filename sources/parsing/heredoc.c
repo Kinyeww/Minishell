@@ -9,7 +9,7 @@
 // int			process_heredoc_q(t_cmd *cmds);
 // static char	*create_hd_filename(void);
 // static int	open_hd_file(t_redir *redir);
-// char		*expand_heredoc(char *line, t_env *envp, int last_status);
+// char			*expand_heredoc(char *line, t_env *envp, int last_status);
 
 
 static char	*remove_quotes(char *str)
@@ -168,7 +168,18 @@ int	read_heredoc(t_redir *redir, t_env *envp, int last_status)
 	{
 		line = readline("> ");
 		if (!line)
+		{
+			if (g_signal == SIGINT)
+			{
+				close(fd);
+				return (0);
+			}
+			ft_putstr_fd("minishell: warning: here-document delimited", 2);
+			ft_putstr_fd(" by end-of-file (wanted `", 2);
+			ft_putstr_fd(redir->file_name, 2);
+			ft_putstr_fd("')\n", 2);
 			break ;
+		}
 		if (ft_strcmp(line, redir->file_name) == 0)
 		{
 			free(line);
@@ -214,4 +225,28 @@ int	prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status)
 		cmd = cmd->next;
 	}
 	return (1);
+}
+
+int	run_heredoc_with_signal(t_cmd *cmds, t_data *data)
+{
+	int	stdin_backup;
+	int	ok;
+	int	interrupted;
+
+	stdin_backup = dup(STDIN_FILENO);
+	if (stdin_backup == -1)
+		return (0);
+	set_signal_heredoc();
+	ok = prepare_heredoc(cmds, data->envp_list, data->exit_code);
+	interrupted = (g_signal == SIGINT);
+	dup2(stdin_backup, STDIN_FILENO);
+	close(stdin_backup);
+	set_signal_prompt();
+	if (interrupted)
+	{
+		data->exit_code = 130;
+		g_signal = 0;
+		return (0);
+	}
+	return (ok);
 }

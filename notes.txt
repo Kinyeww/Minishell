@@ -5,11 +5,52 @@ merge
 see if child need free from parsing
 multiple pipe concept
 
-[ ] use data.exit_code instead of hardcoded 0
-[ ] initialize data.exit_flag and data.exit_code
-[ ] set exit_code = 2 for syntax/token/parser errors
-[ ] set exit_code = 1 for malloc/open/heredoc preparation failure
-[ ] print errors to stderr
-[ ] remove debug prints
-[ ] add cleanup for history and env list
-[ ] fix small allocation failure leaks
+At prompt:
+    Ctrl-C  -> new prompt, exit code 130
+    Ctrl-\  -> ignored
+    Ctrl-D  -> exit
+
+During heredoc:
+    Ctrl-C  -> stop heredoc, do not execute command, exit code 130
+    Ctrl-\  -> ignored
+
+During execution:
+    Ctrl-C  -> kill child command, shell survives, exit code 130
+    Ctrl-\  -> quit child command, shell survives, exit code 131
+
+1. Prompt mode
+2. Heredoc mode
+3. Parent execution mode
+4. Child execution mode
+
+Prompt mode:
+    shell handles Ctrl-C itself
+
+Heredoc mode:
+    shell cancels heredoc on Ctrl-C
+
+Parent execution mode:
+    parent ignores Ctrl-C / Ctrl-\ while child is running
+
+Child execution mode:
+    child uses default signal behavior
+
+-----------------------------------------------------------------
+Before prompt readline:
+    call set_signal_prompt()
+
+Before heredoc:
+    call set_signal_heredoc()
+    if Ctrl-C happens, heredoc returns fail and command must not execute
+
+Before parent waits:
+    call set_signal_exec_parent()
+
+Inside every child after fork:
+    call set_signal_exec_child()
+
+After wait:
+    calculate exit code:
+        WIFEXITED -> WEXITSTATUS
+        WIFSIGNALED -> 128 + WTERMSIG
+    then call set_signal_prompt()
