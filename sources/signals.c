@@ -30,8 +30,8 @@ void	set_signal_prompt(void)
 	sa.sa_handler = handle_sigint_prompt;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	sigaction(SIGINT, &sa, NULL); //make sigint do whats specifiec
+	signal(SIGQUIT, SIG_IGN); // ignore sigquit?
 }
 
 void	set_signal_heredoc(void)
@@ -49,7 +49,7 @@ void	set_signal_heredoc(void)
 void	set_signal_exec_parent(void)
 {
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN); //SIG_IGN (short for "signal ignore") tells the operating system to discard a specific signal instead of taking the default action
 }
 
 void	set_signal_exec_child(void)
@@ -57,3 +57,17 @@ void	set_signal_exec_child(void)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
+//SIG_DFL means do the default behaviour 
+
+/*
+sq understanding :
+- have function sigint_heredoc to print \n
+
+in se_signal_prompt
+- clear the 
+
+sa_flag types : 
+sigaction : 
+
+bro i gen dk 
+*/
