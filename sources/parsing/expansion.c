@@ -37,7 +37,7 @@ int	expand_cmds(t_cmd *cmd, t_env *envp, int last_status)
 			return (0);
 		cmd = cmd->next;
 	}
-	printf("finished expanding\n");
+	//printf("finished expanding\n");
 	return (1);
 }
 

@@ -24,7 +24,7 @@ t_cmd	*parsing(t_token *tokens)
 	t_cmd	*cmds;
 
 	head = tokens;
-	printf("--- assigning meaning ---\n");
+	//printf("--- assigning meaning ---\n");
 	while (tokens)
 	{
 		assign_meaning(tokens);
@@ -33,8 +33,8 @@ t_cmd	*parsing(t_token *tokens)
 	tokens = head;
 	if (error_handling(head) == 1)
 		return (NULL);
-	print_meaning(tokens);
-	printf("\n---parsing command---\n");
+	//print_meaning(tokens);
+	//printf("\n---parsing command---\n");
 	cmds = parse_pipeline(&tokens);
 	if (!cmds)
 		return (NULL);

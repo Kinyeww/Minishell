@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/06/01 14:18:05 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/01 18:23:44 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int execute_binary(char **argv, t_data *data)
 	char *path_name;
 	char *envp_path;
 	
+	set_signal_exec_child();
 	envp_path = get_key_value("PATH", data->envp_list);
 	path_name = get_path(argv[0], envp_path);
 	if (!path_name)

@@ -29,9 +29,10 @@ void	set_signal_prompt(void)
 	g_signal = 0;
 	sa.sa_handler = handle_sigint_prompt;
 	sigemptyset(&sa.sa_mask);
+
 	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL); //make sigint do whats specifiec
-	signal(SIGQUIT, SIG_IGN); // ignore sigquit?
+	sigaction(SIGINT, &sa, NULL); //SIGINT = ctrl-c
+	signal(SIGQUIT, SIG_IGN); // SIGQUIT = ctrl-(backslash)
 }
 
 void	set_signal_heredoc(void)
@@ -41,11 +42,13 @@ void	set_signal_heredoc(void)
 	g_signal = 0;
 	sa.sa_handler = handle_sigint_heredoc;
 	sigemptyset(&sa.sa_mask);
+
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
-
+//depends on who is waiting 
+//
 void	set_signal_exec_parent(void)
 {
 	signal(SIGINT, SIG_IGN);
@@ -57,17 +60,32 @@ void	set_signal_exec_child(void)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
+//need create a funciton when if child, and theres sigint, or sig
+
+
 //SIG_DFL means do the default behaviour 
+//CTRL-D sends EOF to readline to indicate end
 
 /*
-sq understanding :
-- have function sigint_heredoc to print \n
-
-in se_signal_prompt
-- clear the 
-
-sa_flag types : 
-sigaction : 
-
-bro i gen dk 
+if (cmd->next) //if there is pipe
+{
+	fork()
+	if (child)
+	{
+		set_signal_exec_child();
+		if (built_in)
+			run built_in;
+		if (binary)
+		{
+			fork();
+			if (child)
+				set_signal_exec_child();
+			if (parent)
+				set_signal_exec_parent();
+		}				
+	}
+	if (parent)
+		set_signal_exec_parent();
+}
 */
+

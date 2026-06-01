@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 21:05:35 by syee              #+#    #+#             */
-/*   Updated: 2026/06/01 15:39:45 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/01 19:53:56 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 	int			last_child_pid;
 	int			last_child_status;
 	
+	set_signal_exec_parent();
 	if (cmd->next == NULL)
 	{
 		/*
@@ -49,7 +50,8 @@ int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 			pipe(pipefd);//for each command, create thier own pipes
 		pid = fork();
 		if (pid == 0)//if child proceess
-		{			
+		{		
+			set_signal_exec_child();	
 			if (prev_cmd_read_end != -1) //if there was a prev cmd
 			{
 				dup2(prev_cmd_read_end, STDIN_FILENO);
@@ -65,6 +67,7 @@ int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 		}
 		else if (pid > 0)
 		{
+			set_signal_exec_parent();
 			close(pipefd[1]); //its not writing to anywhere
 			if (cmd->next)
 			{
@@ -87,7 +90,9 @@ int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 		if (last_child_pid == pid)
 			last_child_status = child_process_status;
 	}	
-		
+	//set_signal_prompt(); //to refresh the signal's assignment 
+	
+	//i dont think theres a need for this because this signal status is based on the child 
 	if (WIFSIGNALED(last_child_status))
 		return (128 + WTERMSIG(last_child_status));
 	else if (WIFEXITED(last_child_status))  //if the child exited normally

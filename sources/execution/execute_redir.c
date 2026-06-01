@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:08:44 by syee              #+#    #+#             */
-/*   Updated: 2026/05/30 15:58:20 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/01 19:48:22 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ int execute_cmd(t_cmd *cmd, t_data *data)
 	int	return_val;
 	
 	return_val = 0;
+	
+	//set_signal_exec_parent();
+	
 	//if !argv and cmd == TRUE , 
 	if ((cmd->argv == NULL || cmd->argv[0] == NULL) && cmd->redir)
 	{
@@ -109,6 +112,7 @@ int binary_setup_and_execute(t_cmd *cmd, t_data *data)
 	child_pid = fork(); //its forked here already so its fine to use exit 
 	if (child_pid == 0)
 	{
+		set_signal_exec_child(); //before the  binary execution 
 		if (cmd->redir)
 		{
 			if (setup_redirections(cmd) != 0) //if redirections fail to setup
@@ -120,9 +124,13 @@ int binary_setup_and_execute(t_cmd *cmd, t_data *data)
 		}
 		exit(execute_binary(cmd->argv, data)); //everything from here onwards is a fork
 	}
+	set_signal_exec_parent();
 	waitpid (child_pid, &child_status, 0); 
 	if (WIFSIGNALED(child_status)) //if the child exited via termination
+	{
+		write(1, "\n", 1);
 		return (128 + WTERMSIG(child_status));
+	}
 	else if (WIFEXITED(child_status))  //if the child exited normally
 		return (WEXITSTATUS(child_status));
 	else
@@ -172,6 +180,14 @@ int setup_redirections(t_cmd *cmd)
 				return (print_err_redir(current->file_name), 1);
 			dup2(file_fd, STDOUT_FILENO);
 			close (file_fd);
+		}
+		else if (current->redir_type == HEREDOC) //new addition
+		{
+			file_fd = open(current->heredoc_file, O_RDONLY);
+			if (file_fd == -1)
+				return (perror(current->heredoc_file), 1);
+			dup2(file_fd, STDIN_FILENO);
+			close(file_fd);
 		}
 		current = current->next;
 	}

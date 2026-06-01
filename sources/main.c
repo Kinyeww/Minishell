@@ -104,8 +104,9 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 
-		print_command(cmds); //is this for debugging ?
-		print_heredoc_files(cmds);
+		//=== kinyew debug  ===
+		//print_command(cmds);
+		//print_heredoc_files(cmds);
 
 		//=== syee add , run execution ====
 		data.exit_code = traverse_pipe_cmd(cmds, &data);

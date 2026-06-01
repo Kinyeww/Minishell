@@ -51,7 +51,7 @@ t_token	*tokenising(char *line)
 		last = new;
 		i += len;
 	}
-	print_list_size(head);
+	//print_list_size(head);
 	return (head);
 }
 
