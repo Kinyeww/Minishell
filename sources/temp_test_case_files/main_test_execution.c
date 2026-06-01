@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 15:21:47 by syee              #+#    #+#             */
-/*   Updated: 2026/05/31 19:58:09 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/01 15:21:23 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,6 @@ void cleanup_cmds(t_cmd *cmd)
 void data_clean(t_data *data)
 {
 	envp_list_clean(&data->envp_list);
-	//close dup_fd
 	free(data);
 }
 

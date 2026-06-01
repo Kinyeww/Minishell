@@ -9,20 +9,46 @@ static char	*redir_name(t_token_type redir_name);
 void		print_heredoc_files(t_cmd *cmds);
 void	create_envp_list(t_env **envp_list, char **envp); 
 
+
+void init_data(t_data *data, char **envp)
+{
+	data->envp_list = NULL;
+	data->exit_flag = false;
+	data->exit_code = 0;
+	create_stdin_stdout_cpy(data);
+	create_envp_list(&data->envp_list, envp);
+}
+
+void data_clean(t_data *data)
+{
+	envp_list_clean(&data->envp_list);
+	close (data->fd_copy[0]);
+	close (data->fd_copy[1]);
+	free(data);
+}
+//rmbr to close later on?
+void	create_stdin_stdout_cpy(t_data *data)
+{
+	data->fd_copy[0] = dup(STDIN_FILENO);
+	data->fd_copy[1] = dup(STDOUT_FILENO);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
 	t_data	data;
+	int		exit_code;
 
 	(void) ac;
 	(void) av;
-	data.envp_list = NULL;
-	data.exit_code = 0;
-	data.exit_flag = false;
-	create_envp_list(&data.envp_list, envp);
+	//====syee add====
+	init_data(&data, envp);
+	exit_code = 0;
+
 	rl_catch_signals = 0;
+
 	while (1)
 	{
 		set_signal_prompt();
@@ -77,40 +103,60 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
-		print_command(cmds);
+
+		print_command(cmds); //is this for debugging ?
 		print_heredoc_files(cmds);
-		// data.exit_code = execution(cmds, &data); // can change ltr
+
+		//=== syee add , run execution ====
+		data.exit_code = traverse_pipe_cmd(cmds, &data);
+		
+		//=== kinyew frees =====
 		free_cmd(cmds);
 		free(line);
-		
+
+		//=== syee add , if exit_flag is true quit ====
+		if (data.exit_flag)
+		{
+			exit_code = data.exit_code;
+			data_clean (&data);
+			break ;
+		}
 	}
-	return (0);
+
+	return (exit_code);
 }
 
-void create_envp_list(t_env **envp_list, char **envp)
-{
-	int		i;
-	int		j;
-	char	*ptr;
-	t_env	*new;
 
-	i = 0;
-	j = 0;
-	while (envp[i])
-	{
-		new = malloc(sizeof(t_env));
-		if (!new)
-			return;
-		ptr = ft_strchr(envp[i], '=');
-		j = ptr - envp[i];
-		new->key = ft_strndup(envp[i], j);
-		new->value = ft_strdup(ptr + 1);
-		new->next = NULL;
-		list_add_back(envp_list, new);
-		i++;
-	}
-	return ;
-}
+/*
+jun 1 
+- changed data.exit_code to exit code variable in main, due to the need to clean up code before exit
+*/
+
+//commented out as merged
+// void create_envp_list(t_env **envp_list, char **envp)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*ptr;
+// 	t_env	*new;
+
+// 	i = 0;
+// 	j = 0;
+// 	while (envp[i])
+// 	{
+// 		new = malloc(sizeof(t_env));
+// 		if (!new)
+// 			return;
+// 		ptr = ft_strchr(envp[i], '=');
+// 		j = ptr - envp[i];
+// 		new->key = ft_strndup(envp[i], j);
+// 		new->value = ft_strdup(ptr + 1);
+// 		new->next = NULL;
+// 		list_add_back(envp_list, new);
+// 		i++;
+// 	}
+// 	return ;
+// }
 
 static int	check_first(char *line) //empty line check
 {
@@ -216,4 +262,10 @@ void	print_heredoc_files(t_cmd *cmds)
 		}
 		cmd = cmd->next;
 	}
+}
+
+void data_clean(t_data *data)
+{
+	envp_list_clean(&data->envp_list);
+	free(data);
 }

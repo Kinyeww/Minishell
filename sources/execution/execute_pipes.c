@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 21:05:35 by syee              #+#    #+#             */
-/*   Updated: 2026/05/30 18:12:50 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/01 15:39:45 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ pipefd[1] ---> pipe ---> pipefd[0]
    write                    read
 */
 
-//exit codes all update here?
+//exit codes will be updated after being retruned to the main
 
 int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 {
@@ -96,9 +96,4 @@ int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 		return (1); //just to silence compilar warnings
 }
 
-//rmbr to close later on?
-void	create_stdin_stdout_cpy(t_data *data)
-{
-	data->fd_copy[0] = dup(STDIN_FILENO);
-	data->fd_copy[1] = dup(STDOUT_FILENO);
-}
+
