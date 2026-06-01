@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:31 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 18:10:02 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/01 21:04:21 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	echo(char **argv, t_data *data)
 	while (argv[i] != NULL)
 	{
 		write (1, argv[i], ft_strlen(argv[i]));
-		write (1, " ", 1);
+		if (argv[i + 1] != NULL)
+			write (1, " ", 1);
 		i++;
 	}
 	if (newline_flag == 1)
