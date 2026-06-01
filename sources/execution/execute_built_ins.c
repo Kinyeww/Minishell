@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_built_ins.c                                 :+:      :+:    :+:   */
+/*   execute_built_ins.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 19:51:13 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 14:51:22 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/29 07:33:24 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
 
-int built_ins(char **argv, t_data *data) 
+int execute_built_ins(char **argv, t_data *data)
 {
 	int status;
 	
 	status = 0;
-	if (ft_strcmp(argv[0], "echo") == 0)
+	if (ft_strcmp("echo", argv[0]) == 0)
 		status = echo(argv, data);
 	else if (ft_strcmp ("cd", argv[0]) == 0)
 		status = cd(argv, data);
@@ -32,9 +32,6 @@ int built_ins(char **argv, t_data *data)
 		status = env(argv, data);
 	else if (ft_strcmp ("exit", argv[0]) == 0)
 		status = built_in_exit(argv, data);
-	else
-		return (1);
 
-	return (0); 
+	return (status);
 }
-

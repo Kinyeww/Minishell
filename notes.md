@@ -27,7 +27,8 @@ typical minishell flow:
     - [ ] 
 2. Signals 
     - die 
-2. traverse ast
+
+2. traverse cmd
     - [ ] store ast nodes as ..
     - 
 1. built ins
@@ -41,18 +42,24 @@ typical minishell flow:
     - [ ] unset 
     - [ ] env
     - [ ] exit
+        - [ ] update exit codes
+        - [ ] free the stuff
+
 2. binary
     - [ ] locate where binary is , run
     - [ ] create child processes
     - [ ] manage fd
+
 3. redirections
-    - [ ] << (Heredoc)
+    - [ ] << (Heredoc) handles by kinyew
     - [ ] < (redir in / input) : wc -l < file.txt // takes input for command instead of keyboard
     - [ ] >> (append) : echo "hello" >> file.txt
     - [ ] > (redir out / replace ) : echo "hello" > file.txt
 4. pipes
     - [ ] | 
+	
 5. exit codes ($?)
+https://www.redhat.com/en/blog/exit-codes-demystified
 
 ### code planning
 1. 
@@ -72,6 +79,15 @@ This link breaksdown :
 - external funciton sused within minishell
 - explainations on redirections, binaries, built-ins
 - overall guide for minishell 
+
+execve :
+(https://www.youtube.com/watch?v=Wtd-8OiZOjk)
+
+exit codes :
+
+
+pipe() and fork():
+https://www.geeksforgeeks.org/c/c-program-demonstrate-fork-and-pipe/
 
 ## misc
 - manipulate envp ?

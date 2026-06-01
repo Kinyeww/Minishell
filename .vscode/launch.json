@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/syee/minihell/sources/Built_ins",
-      "program": "/home/syee/minihell/sources/Built_ins/build/Debug/outDebug",
+      "cwd": "/home/syee/minihell/sources/execution",
+      "program": "/home/syee/minihell/sources/execution/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "/usr/bin/gdb",
       "setupCommands": [

@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   create_envp_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/20 14:13:51 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 23:04:38 by syee             ###   ########.fr       */
+/*   Created: 2026/05/29 15:01:32 by syee              #+#    #+#             */
+/*   Updated: 2026/05/29 15:02:02 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-
-void execute_comand()
+void create_envp_list(t_env **envp_list, char **envp)
 {
-	
-	//traverse the ast recursively with the split commands 
-	//check for built in parser and so on 
-	//handle the errors within each commands ? 
-		
+	int		i;
+	int		j;
+	char	*ptr;
+	t_env	*new;
+
+	i = 0;
+	j = 0;
+	while (envp[i])
+	{
+		new = malloc(sizeof(t_env));
+		ptr = ft_strchr(envp[i], '=');
+		j = ptr - envp[i];
+		new->key = ft_strndup(envp[i], j);
+		new->value = ft_strdup(ptr + 1);
+		new->next = NULL;
+		list_add_back(envp_list, new);
+		i++;
+	}
+	return ;
 }

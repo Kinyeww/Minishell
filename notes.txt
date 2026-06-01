@@ -54,3 +54,18 @@ After wait:
         WIFEXITED -> WEXITSTATUS
         WIFSIGNALED -> 128 + WTERMSIG
     then call set_signal_prompt()
+
+
+1. store readline
+2. tokenise (finished on 12/2) (error, prints garbage while reading spaces)
+3. parse (finished on 16/2) scanning for text and assign meaning to it
+4. expand
+5. execute
+6. free everything
+
+shun 
+- i keep getting confused about the values being passed, 
+	whcih can deref and which cant, mainly its in the envp_list thing
+
+
+	test

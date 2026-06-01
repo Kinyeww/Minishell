@@ -82,6 +82,7 @@ int	main(int ac, char **av, char **envp)
 		// data.exit_code = execution(cmds, &data); // can change ltr
 		free_cmd(cmds);
 		free(line);
+		
 	}
 	return (0);
 }

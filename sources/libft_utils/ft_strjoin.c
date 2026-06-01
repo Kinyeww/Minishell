@@ -6,12 +6,13 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 17:23:58 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 12:13:09 by syee             ###   ########.fr       */
+/*   Updated: 2026/05/29 14:34:47 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_utils.h"
 #include <stdlib.h>
+#include "libft_utils.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -22,7 +23,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	len = ft_strlen(s1) + ft_strlen(s2);
+	len = ft_strlen((char *)s1) + ft_strlen((char *)s2);
 	newword = (char *)malloc(len + 1);
 	while (s1[j])
 		newword[i++] = s1[j++];
