@@ -263,9 +263,3 @@ void	print_heredoc_files(t_cmd *cmds)
 		cmd = cmd->next;
 	}
 }
-
-void data_clean(t_data *data)
-{
-	envp_list_clean(&data->envp_list);
-	free(data);
-}
