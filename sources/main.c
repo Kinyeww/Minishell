@@ -24,7 +24,6 @@ void data_clean(t_data *data)
 	envp_list_clean(&data->envp_list);
 	close (data->fd_copy[0]);
 	close (data->fd_copy[1]);
-	free(data);
 }
 //rmbr to close later on?
 void	create_stdin_stdout_cpy(t_data *data)
