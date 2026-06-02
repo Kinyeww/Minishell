@@ -113,7 +113,7 @@ int	main(int ac, char **av, char **envp)
 		//=== kinyew frees =====
 		free_cmd(cmds);
 		free(line);
-
+		rl_clear_history();
 		//=== syee add , if exit_flag is true quit ====
 		if (data.exit_flag)
 		{

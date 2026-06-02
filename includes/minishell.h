@@ -60,8 +60,8 @@ int		binary_setup_and_execute(t_cmd *cmd, t_data *data);
 int		setup_redirections(t_cmd *cmd);
 
 /* ============ execute_binary ============= */
-int execute_binary(char **argv, t_data *data);
-char *get_path(char *arg, char *envp_path);
+int		execute_binary(char **argv, t_data *data);
+char	*get_path(char *arg, char *envp_path);
 
 /* ======== execute_binary helper funcitons ========*/
 void	print_err_binary(char *file_dir);
@@ -72,15 +72,15 @@ char	**create_envp_arr(t_env *envp_list);
 
 /* =================== envp_utils ====================== */
 
-void list_add_back(t_env **envp_list, t_env *new); 
-t_env *list_get_last(t_env *envp_list);
-void envp_list_clean(t_env **envp_list);
-void print_env_list(t_env *list); //debug purpose
-void envp_bubble_sort_list(t_env **temp_list);
-void create_envp_list(t_env **envp_list, char **envp);
+void	list_add_back(t_env **envp_list, t_env *new); 
+t_env	*list_get_last(t_env *envp_list);
+void	envp_list_clean(t_env **envp_list);
+void	print_env_list(t_env *list); //debug purpose
+void	envp_bubble_sort_list(t_env **temp_list);
+void	create_envp_list(t_env **envp_list, char **envp);
 
 /* ===================== built_ins ==================== */
-int execute_built_ins(char **argv, t_data *data);
+int		execute_built_ins(char **argv, t_data *data);
 
 /* =============== export =============== */
 int		export(char **argv, t_data *data);
@@ -103,11 +103,11 @@ int		pwd(char **argv, t_data *data);
 int		echo(char **argv, t_data *data);
 
 /* =============== cd =============== */
-int cd(char **argv, t_data *data);
-char *get_env_value(t_data *data, char *key);
-int change_dir(char *path, char *old_path, t_data *data);
-void update_env(t_data *data, char *key, char *value);
-void print_err_cd(char *path);
+int		cd(char **argv, t_data *data);
+char	*get_env_value(t_data *data, char *key);
+int		change_dir(char *path, char *old_path, t_data *data);
+void	update_env(t_data *data, char *key, char *value);
+void	print_err_cd(char *path);
 
 /* =============== exit =============== */
 int 	built_in_exit(char **argv, t_data *data);
@@ -130,5 +130,3 @@ char	*append_char(char *result, char c);
 char	*append_str(char *result, char *to_add);
 
 #endif
-
-

@@ -106,7 +106,6 @@ char	*expand_string(char *str, t_env *envp, int last_status)
 			if (!value)
 			{
 				free(result);
-				printf("failed to expand var\n");
 				return (NULL);
 			}
 			result = append_str(result, value);
