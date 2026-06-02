@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 06:45:20 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 14:44:36 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 18:57:58 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-void	print_err_export(char *key)
+int	export(char **argv, t_data *data)
 {
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(key, 2);
-	ft_putstr_fd("': not a valid identifier", 2);
-	write(2, "\n", 1);
-}
-int export(char **argv, t_data *data)
-{
-	int return_code;
+	int	return_code;
 	int	i;
 
 	i = 1;
@@ -58,7 +50,7 @@ MY VAR      # spaces invalid
 VAR!        # '!' invalid
 =HELLO      # cannot start with '='
 */
-bool is_valid_key(char *argv)
+bool	is_valid_key(char *argv)
 {
 	int	i;
 
@@ -68,11 +60,10 @@ bool is_valid_key(char *argv)
 	i++;
 	while (argv[i] && ft_isalnum(argv[i]))
 		i++;
-	//cannot be based on if there is = or not
 	return (argv[i] == '=' || argv[i] == '\0');
 }
 
-void add_key_to_list(char *argv, t_env *envp_list)
+void	add_key_to_list(char *argv, t_env *envp_list)
 {
 	t_env	*new;
 	char	*ptr;
@@ -96,11 +87,11 @@ void add_key_to_list(char *argv, t_env *envp_list)
 	list_add_back(&envp_list, new);
 }
 
-void print_export_list (t_env *envp_list)
+void	print_export_list(t_env *envp_list)
 {
 	t_env	*temp_list;
 	t_env	*current;
-	
+
 	temp_list = NULL;
 	envp_list_dup(envp_list, &temp_list);
 	envp_bubble_sort_list(&temp_list);
@@ -113,10 +104,10 @@ void print_export_list (t_env *envp_list)
 	envp_list_clean(&temp_list);
 }
 
-void envp_list_dup(t_env *original_list, t_env **temp_list)
+void	envp_list_dup(t_env *original_list, t_env **temp_list)
 {
-	t_env   *current;
-	
+	t_env	*current;
+
 	while (original_list)
 	{
 		current = malloc(sizeof(t_env));
@@ -127,4 +118,3 @@ void envp_list_dup(t_env *original_list, t_env **temp_list)
 		original_list = original_list->next;
 	}
 }
-

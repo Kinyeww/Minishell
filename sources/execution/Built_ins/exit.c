@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 23:42:33 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 14:05:49 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 18:51:05 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,21 @@ void	print_err_exit(char *argv, char *err)
 int	built_in_exit(char **argv, t_data *data)
 {
 	int		i;
-	int	exit_code;
-	
+	int		exit_code;
+
 	if (argv[1] != NULL)
-	{	
+	{
 		i = 0;
 		while (argv[1][i])
 		{
 			if (ft_isalpha(argv[1][i]) == 1 || i >= 11)
-				return(print_err_exit(argv[1], NUMERIC_ARG_ERR), 2);
+				return (print_err_exit(argv[1], NUMERIC_ARG_ERR), 2);
 			i++;
 		}
 		exit_code = ft_atol(argv[1]);
 		if (exit_code > INT_MAX || exit_code < INT_MIN)
-			return(print_err_exit(argv[1], NUMERIC_ARG_ERR), 2);
-		else if (argv[2] != NULL) //ok to deref
+			return (print_err_exit(argv[1], NUMERIC_ARG_ERR), 2);
+		else if (argv[2] != NULL)
 			return (print_err_exit("", TOO_MANY_ARG_ERR), 1);
 		exit_code = ((exit_code % 256) + 256) % 256;
 	}
@@ -49,12 +49,13 @@ int	built_in_exit(char **argv, t_data *data)
 	data->exit_flag = true;
 	if (argv[1] != NULL)
 		return ((int)exit_code);
-	return (0);	
+	return (0);
 }
 
 /*
 pipeline :
-1. check for numeric & check if it exceeds max_int / min_int via counting len of str
+1. check for numeric & check if it exceeds max_int / min_int via counting 
+	len of str
 2. check agaisnt INT_MAX  INT_MIN
 3. check for amount of arguments
 4. if all good , make the exit code using formula

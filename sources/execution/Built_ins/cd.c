@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:44:11 by syee              #+#    #+#             */
-/*   Updated: 2026/05/13 18:08:59 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 18:40:04 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ Should work cases :
 
 should not work :
 ~
-
-edge cases if youre insane :
-
 */
 
 int	cd(char **argv, t_data *data)
