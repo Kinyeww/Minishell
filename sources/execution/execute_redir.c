@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:08:44 by syee              #+#    #+#             */
-/*   Updated: 2026/06/01 19:48:22 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 15:55:03 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,27 @@ GAY edge case
 int execute_cmd(t_cmd *cmd, t_data *data)
 {
 	int	return_val;
-	
+	int	i;
 	return_val = 0;
 	
 	//set_signal_exec_parent();
 	
 	//if !argv and cmd == TRUE , 
-	if ((cmd->argv == NULL || cmd->argv[0] == NULL) && cmd->redir)
+	i = 0;
+	if ((cmd->argv == NULL || cmd->argv[i] == NULL) && cmd->redir)
 	{
 		if (setup_redirections(cmd) != 0) //if it fails , redirections are setup first before execution
 			return (dup_restore_fd (data), 1);
 		return (0);
 	}
-	if (check_built_in(cmd->argv[0]) != 0)
-		return_val = built_in_redir_setup(cmd, data);
+	if (ft_strcmp(cmd->argv[i], "\0") == 0 && (cmd->argv[i + 1] == NULL))
+		return (0);
+	while (ft_strcmp(cmd->argv[i], "\0") == 0)
+		i++;
+	if (check_built_in(cmd->argv[i]) != 0)
+		return_val = built_in_redir_setup(cmd, data, i);
 	else
 		return_val = binary_setup_and_execute(cmd, data);
-		
 	return(return_val);
 }
 
@@ -83,7 +87,7 @@ void dup_restore_fd(t_data *data)
 - but if it fails, 
 */
 
-int built_in_redir_setup(t_cmd *cmd, t_data *data)
+int built_in_redir_setup(t_cmd *cmd, t_data *data, int i)
 {
 	int	built_in_return_val;
 
@@ -92,11 +96,11 @@ int built_in_redir_setup(t_cmd *cmd, t_data *data)
 	{
 		if (setup_redirections(cmd) != 0) //if it fails , redirections are setup first before execution
 			return (dup_restore_fd (data), 1); //restore the STDIN_FILENO and STDOUT_FILENO
-		built_in_return_val = execute_built_ins(cmd->argv, data); //run in execute_built_ins.c
+		built_in_return_val = execute_built_ins((cmd->argv) + i, data); //run in execute_built_ins.c
 		dup_restore_fd(data);
 	}
 	else 
-		built_in_return_val = execute_built_ins(cmd->argv, data);
+		built_in_return_val = execute_built_ins((cmd->argv) + i, data);
 
 	return (built_in_return_val); //update exit_code using the built_in_return_val ?
 }

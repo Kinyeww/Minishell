@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/06/01 18:23:44 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 15:03:05 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ rather than using access to check the state of the file
 this code can be optimized but idk how 
 should be considered when doint the error code 
 */
+
+
 int execute_binary(char **argv, t_data *data)
 {
 	char **envp_arr;

@@ -55,7 +55,7 @@ int 	check_built_in(char *argv1);
 int		execute_cmd(t_cmd *cmd, t_data *data);
 int		setup_redirections(t_cmd *cmd);
 
-int		built_in_redir_setup(t_cmd *cmd, t_data *data);
+int		built_in_redir_setup(t_cmd *cmd, t_data *data, int i);
 int		binary_setup_and_execute(t_cmd *cmd, t_data *data);
 int		setup_redirections(t_cmd *cmd);
 
