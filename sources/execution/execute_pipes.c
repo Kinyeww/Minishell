@@ -6,14 +6,14 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 21:05:35 by syee              #+#    #+#             */
-/*   Updated: 2026/06/01 19:53:56 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 21:15:47 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <stdio.h> //for the stdout or stdin
+#include <stdio.h>
 
 /*
 dup2(old, new) <- new is now new = old
@@ -22,9 +22,6 @@ dup2(fd, 1); // stdout (1) now goes to file , 1 will point to where fd is
 pipefd[1] ---> pipe ---> pipefd[0]
    write                    read
 */
-
-//exit codes will be updated after being retruned to the main
-
 int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 {
 	int 		pipefd[2];

@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:43:17 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 15:03:05 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 21:00:43 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ terrible readability but done for norm purposes , its actually :
 
 	while (envp_path_arr[i])
 	{
-		return_path = ft_strjoin(envp_path_arr[i], program_name);
-		if (access(return_path, X_OK) == 0)
+		rtrn_path = ft_strjoin(envp_path_arr[i], program_name);
+		if (access(rtrn_path, X_OK) == 0)
 		{
 			free(program_name);
 			free_str_arr(envp_path_arr);
-			return (return_path);
+			return (rtrn_path);
 		}
-		free(return_path);
+		free(rtrn_path);
 		i++;
 	}
 	free(program_name);
@@ -38,9 +38,9 @@ terrible readability but done for norm purposes , its actually :
 	NULL err = ENOENT
 */
 
-char *get_path(char *arg, char *envp_path)
+char	*get_path(char *arg, char *envp_path)
 {
-	char	*return_path;
+	char	*rtrn_path;
 	char	*program_name;
 	char	**envp_path_arr;
 	int		i;
@@ -56,10 +56,10 @@ char *get_path(char *arg, char *envp_path)
 	i = 0;
 	while (envp_path_arr[i] != NULL)
 	{
-		return_path = ft_strjoin(envp_path_arr[i], program_name);	
-		if (access(return_path, X_OK) == 0)
-			return (free(program_name),free_str_arr(envp_path_arr),return_path);
-		free (return_path);
+		rtrn_path = ft_strjoin(envp_path_arr[i], program_name);
+		if (access(rtrn_path, X_OK) == 0)
+			return (free(program_name), free_str_arr(envp_path_arr), rtrn_path);
+		free (rtrn_path);
 		i++;
 	}
 	free (program_name);
@@ -76,35 +76,20 @@ if invalidprogramname (NULL)
 	runs exceve , 127
 if ./nopermission
 	runs exceve , 126
-	
 */
-
 /*
 exit 0: Indicates success. This is the default if no number is given.
 exit 1: Indicates a generic error
 exit 2: Misuse of shell built-ins or incorrect arguments.
 exit 127: Command not found
-
 */
 
-/*
-based on chiang's reccomendation 
-: might as well just run execve while testing ;
-rather than using access to check the state of the file
-*/
-
-/*
-this code can be optimized but idk how 
-should be considered when doint the error code 
-*/
-
-
-int execute_binary(char **argv, t_data *data)
+int	execute_binary(char **argv, t_data *data)
 {
-	char **envp_arr;
-	char *path_name;
-	char *envp_path;
-	
+	char	**envp_arr;
+	char	*path_name;
+	char	*envp_path;
+
 	set_signal_exec_child();
 	envp_path = get_key_value("PATH", data->envp_list);
 	path_name = get_path(argv[0], envp_path);
@@ -115,16 +100,12 @@ int execute_binary(char **argv, t_data *data)
 		print_err_binary(argv[0]);
 		return (127);
 	}
-	
 	envp_arr = create_envp_arr(data->envp_list);
-	
 	execve(path_name, argv, envp_arr);
 	print_err_binary(argv[0]);
-
 	free(path_name);
 	free(envp_path);
 	free_str_arr(envp_arr);
-
 	if (errno == ENOENT)
 		return (127);
 	return (126);

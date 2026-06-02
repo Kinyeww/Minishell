@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 07:24:28 by syee              #+#    #+#             */
-/*   Updated: 2026/05/29 07:25:58 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 21:04:45 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_err_binary(char *file_dir)
 
 char	*get_key_value(char *key, t_env *envp_list)
 {
-	t_env *current;
+	t_env	*current;
 
 	current = envp_list;
 	while (current != NULL)
@@ -35,9 +35,9 @@ char	*get_key_value(char *key, t_env *envp_list)
 	return (NULL);
 }
 
-void free_str_arr(char **str_arr)
+void	free_str_arr(char **str_arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str_arr[i])
@@ -45,7 +45,7 @@ void free_str_arr(char **str_arr)
 	free(str_arr);
 }
 
-char *strjoin_envp(char *key, char *value)
+char	*strjoin_envp(char *key, char *value)
 {
 	char	*joined_str;
 	int		keylen;
@@ -55,13 +55,13 @@ char *strjoin_envp(char *key, char *value)
 	valuelen = ft_strlen(value);
 	joined_str = malloc(keylen + valuelen + 2);
 	memcpy(joined_str, key, keylen);
-	memcpy(joined_str + keylen , "=", 1);
+	memcpy(joined_str + keylen, "=", 1);
 	memcpy(joined_str + keylen + 1, value, valuelen);
 	joined_str [keylen + valuelen + 1] = '\0';
 	return (joined_str);
 }
 
-char **create_envp_arr(t_env *envp_list)
+char	**create_envp_arr(t_env *envp_list)
 {
 	char	**envp_arr;
 	t_env	*current;
