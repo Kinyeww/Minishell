@@ -22,9 +22,7 @@ static char	*remove_quotes(char *str)
 	single_q = 0;
 	double_q = 0;
 	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	while (str[i])
+	while (result && str[i])
 	{
 		if (str[i] == '\'' && !double_q)
 			single_q = !single_q;
@@ -79,7 +77,7 @@ static int	open_hd_file(t_redir *redir)
 	redir->heredoc_file = create_hd_filename();
 	if (!redir->heredoc_file)
 		return (-1);
-	fd = open(redir->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC , 0600);
+	fd = open(redir->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd == -1)
 	{
 		free(redir->heredoc_file);
@@ -97,9 +95,7 @@ static char	*expand_heredoc(char *line, t_env *envp, int last_status)
 
 	i = 0;
 	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	while (line[i])
+	while (result && line[i])
 	{
 		if (line[i] == '$')
 		{
@@ -111,17 +107,10 @@ static char	*expand_heredoc(char *line, t_env *envp, int last_status)
 			}
 			result = append_str(result, value);
 			free(value);
-			if (!result)
-				return (NULL);
 			continue ;
 		}
-		else
-		{
-			result = append_char(result, line[i]);
-			if (!result)
-				return (NULL);
-			i++;
-		}
+		result = append_char(result, line[i]);
+		i++;
 	}
 	return (result);
 }

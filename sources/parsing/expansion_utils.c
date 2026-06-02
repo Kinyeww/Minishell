@@ -73,11 +73,6 @@ char	*append_str(char *result, char *to_add)
 	len1 = ft_strlen(result);
 	len2 = ft_strlen(to_add);
 	new = malloc(sizeof(char) * (len1 + len2 + 1));
-	if (!new)
-	{
-		free(result);
-		return (NULL);
-	}
 	i = 0;
 	while (i < len1)
 	{

@@ -5,8 +5,6 @@
 #include <stdlib.h>
 
 static int		get_token_length(char *line, int tokennum);
-static size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-void			print_list_size(t_token *tokens);
 t_token			*new_token(char *start, int len);
 static int		is_operator(char c);
 static int		get_operator_len(char *line, int i);
@@ -66,26 +64,6 @@ t_token	*new_token(char *start, int len)
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
-}
-
-static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while (src[i] != '\0')
-		i++;
-	if (size == 0 || i == 0)
-		return (i);
-	j = 0;
-	while (j < size - 1 && src[j])
-	{
-		dst[j] = src[j];
-		j++;
-	}
-	dst[j] = '\0';
-	return (i);
 }
 
 /*

@@ -14,31 +14,13 @@ cat < in           // REDIR_IN: stdin comes from file
 cat << EOF         // HEREDOC: stdin comes from temporary heredoc input
 */
 
-char	*append_str(char *result, char *to_add);
-char	*append_char(char *result, char c);
-int		expand_argv(t_cmd *cmd, t_env *envp ,int last_status);
-int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
-int		expand_redir(t_cmd *cmd, t_env *envp, int last_status);
-char	*expand_string(char *str, t_env *envp, int last_status);
-char	*expand_var(char *str, int *i, t_env *envp, int last_stat);
-char	*get_env_val(char *name, t_env *envp);
-int		is_var_char(char c);
-int		ft_varlen(char *str);
+int			expand_argv(t_cmd *cmd, t_env *envp, int last_status);
+int			expand_redir(t_cmd *cmd, t_env *envp, int last_status);
+char		*expand_string(char *str, t_env *envp, int last_status);
+char		*expand_var(char *str, int *i, t_env *envp, int last_stat);
+static char	*handle_char(char *res, char c, int *s_q, int *d_q);
 
-int	expand_cmds(t_cmd *cmd, t_env *envp, int last_status)
-{
-	while (cmd)
-	{
-		if (!(expand_argv(cmd, envp, last_status)))
-			return (0);
-		if (!(expand_redir(cmd, envp, last_status)))
-			return (0);
-		cmd = cmd->next;
-	}
-	return (1);
-}
-
-int	expand_argv(t_cmd *cmd, t_env *envp ,int last_status)
+int	expand_argv(t_cmd *cmd, t_env *envp, int last_status)
 {
 	int		i;
 	char	*expanded;
@@ -89,37 +71,32 @@ char	*expand_string(char *str, t_env *envp, int last_status)
 	in_single = 0;
 	in_double = 0;
 	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	while (str[i])
+	while (result && str[i])
 	{
-		if (str[i] == '\'' && !in_double)
-			in_single = !in_single;
-		else if (str[i] == '"' && !in_single)
-			in_double = !in_double;
-		else if (str[i] == '$' && !in_single)
+		if (str[i] == '$' && !in_single)
 		{
 			value = expand_var(str, &i, envp, last_status);
 			if (!value)
-			{
-				free(result);
-				return (NULL);
-			}
+				return (free(result), NULL);
 			result = append_str(result, value);
 			free(value);
-			if (!result)
-				return (NULL);
 			continue ;
 		}
-		else
-		{
-			result = append_char(result, str[i]);
-			if (!result)
-				return (NULL);
-		}
+		result = handle_char(result, str[i], &in_single, &in_double);
 		i++;
 	}
 	return (result);
+}
+
+static char	*handle_char(char *res, char c, int *s_q, int *d_q)
+{
+	if (c == '\'' && !(*d_q))
+		*s_q = !(*s_q);
+	else if (c == '"' && !(*s_q))
+		*d_q = !(*d_q);
+	else
+		res = append_char(res, c);
+	return (res);
 }
 
 char	*expand_var(char *str, int *i, t_env *envp, int last_stat)

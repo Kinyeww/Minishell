@@ -39,7 +39,8 @@ LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
               sources/libft_utils/ft_atol.c\
 			  sources/libft_utils/ft_itoa.c\
 			  sources/libft_utils/ft_strncmp.c\
-			  sources/libft_utils/ft_substr.c
+			  sources/libft_utils/ft_substr.c\
+			  sources/libft_utils/ft_strlcpy.c\
 
 EXECUTION = sources/execution/execute_binary.c\
             sources/execution/execute_binary_helper.c\

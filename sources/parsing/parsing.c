@@ -86,7 +86,7 @@ static t_cmd	*parse_command(t_token **curr_tk)
 	return (cmd);
 }
 
-static int	error_handling(t_token *tokens)
+int	error_handling(t_token *tokens)
 {
 	if (tokens && tokens->type == PIPE)
 		return (print_syntax_error("|"));
@@ -110,20 +110,4 @@ static int	error_handling(t_token *tokens)
 		tokens = tokens->next;
 	}
 	return (0);
-}
-
-static void	assign_meaning(t_token *tokens)
-{
-	if (ft_strcmp(tokens->content, ">>") == 0)
-		tokens->type = APPEND;
-	else if (ft_strcmp(tokens->content, "<<") == 0)
-		tokens->type = HEREDOC;
-	else if (ft_strcmp(tokens->content, ">") == 0)
-		tokens->type = REDIR_OUT;
-	else if (ft_strcmp(tokens->content, "<") == 0)
-		tokens->type = REDIR_IN;
-	else if (ft_strcmp(tokens->content, "|") == 0)
-		tokens->type = PIPE;
-	else
-		tokens->type = WORD;
 }

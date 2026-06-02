@@ -102,18 +102,15 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
-
 		//=== kinyew debug  ===
 		//print_command(cmds);
 		//print_heredoc_files(cmds);
 
 		//=== syee add , run execution ====
 		data.exit_code = traverse_pipe_cmd(cmds, &data);
-		
 		//=== kinyew frees =====
 		free_cmd(cmds);
 		free(line);
-		rl_clear_history();
 		//=== syee add , if exit_flag is true quit ====
 		if (data.exit_flag)
 		{
@@ -169,6 +166,19 @@ static int	check_first(char *line) //empty line check
 	{
 		free (line);
 		return (0);
+	}
+	return (1);
+}
+
+int	expand_cmds(t_cmd *cmd, t_env *envp, int last_status)
+{
+	while (cmd)
+	{
+		if (!(expand_argv(cmd, envp, last_status)))
+			return (0);
+		if (!(expand_redir(cmd, envp, last_status)))
+			return (0);
+		cmd = cmd->next;
 	}
 	return (1);
 }

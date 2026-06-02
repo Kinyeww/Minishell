@@ -22,5 +22,6 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	**ft_split(char const *s, char c);
 long	ft_atol(char *str);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 #endif
