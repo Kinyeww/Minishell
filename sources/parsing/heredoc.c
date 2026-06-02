@@ -11,7 +11,6 @@
 // static int	open_hd_file(t_redir *redir);
 // char			*expand_heredoc(char *line, t_env *envp, int last_status);
 
-
 static char	*remove_quotes(char *str)
 {
 	int		i;

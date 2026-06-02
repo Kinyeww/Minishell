@@ -2,9 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*debug*/
-static void		print_meaning(t_token *tokens);
-
 static void		assign_meaning(t_token *tokens);
 static int		error_handling(t_token *tokens);
 static t_cmd	*parse_pipeline(t_token **tokens);
@@ -24,7 +21,6 @@ t_cmd	*parsing(t_token *tokens)
 	t_cmd	*cmds;
 
 	head = tokens;
-	//printf("--- assigning meaning ---\n");
 	while (tokens)
 	{
 		assign_meaning(tokens);
@@ -33,8 +29,6 @@ t_cmd	*parsing(t_token *tokens)
 	tokens = head;
 	if (error_handling(head) == 1)
 		return (NULL);
-	//print_meaning(tokens);
-	//printf("\n---parsing command---\n");
 	cmds = parse_pipeline(&tokens);
 	if (!cmds)
 		return (NULL);
@@ -92,12 +86,6 @@ static t_cmd	*parse_command(t_token **curr_tk)
 	return (cmd);
 }
 
-/*
-1. check if pipe is first
-2. check if after redir is word onot
-3. also check if theres double pipes
-*/
-
 static int	error_handling(t_token *tokens)
 {
 	if (tokens && tokens->type == PIPE)
@@ -124,7 +112,6 @@ static int	error_handling(t_token *tokens)
 	return (0);
 }
 
-/*always check for longer char first*/
 static void	assign_meaning(t_token *tokens)
 {
 	if (ft_strcmp(tokens->content, ">>") == 0)
@@ -139,24 +126,4 @@ static void	assign_meaning(t_token *tokens)
 		tokens->type = PIPE;
 	else
 		tokens->type = WORD;
-}
-
-static void	print_meaning(t_token *tokens)
-{
-	while (tokens)
-	{
-		if (tokens->type == WORD)
-			printf("token[%s] = %d[word]\n", tokens->content, tokens->type);
-		else if (tokens->type == PIPE)
-			printf("token[%s] = %d[pipe]\n", tokens->content, tokens->type);
-		else if (tokens->type == REDIR_IN)
-			printf("token[%s] = %d[REDIR_IN]\n", tokens->content, tokens->type);
-		else if (tokens->type == REDIR_OUT)
-			printf("token[%s] = %d[REDIR_OUT]\n", tokens->content, tokens->type);
-		else if (tokens->type == APPEND)
-			printf("token[%s] = %d[APPEND]\n", tokens->content, tokens->type);
-		else if (tokens->type == HEREDOC)
-			printf("token[%s] = %d[HEREDOC]\n", tokens->content, tokens->type);
-		tokens = tokens->next;
-	}
 }

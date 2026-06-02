@@ -11,9 +11,6 @@ t_token			*new_token(char *start, int len);
 static int		is_operator(char c);
 static int		get_operator_len(char *line, int i);
 
-
-/*what this does is return a tokenised linked list for example like hello world = hello->world*/
-
 t_token	*tokenising(char *line)
 {
 	t_token	*new;
@@ -51,21 +48,7 @@ t_token	*tokenising(char *line)
 		last = new;
 		i += len;
 	}
-	//print_list_size(head);
 	return (head);
-}
-
-void	print_list_size(t_token *tokens)
-{
-	int	i = 0;
-
-	while (tokens)
-	{
-		printf("token[%d] =%s\n", i, tokens->content);
-		tokens = tokens->next;
-		i++;
-	}
-	printf("token count = %d\n", i);
 }
 
 t_token	*new_token(char *start, int len)

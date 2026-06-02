@@ -4,6 +4,10 @@ CFLAGS = # -Wall -Wextra
 LDLIBS = -lreadline
 IFLAGS = -Iincludes -Isources
 
+GREEN = \033[0;32m
+RESET = \033[0m
+BAR_WIDTH = 30
+
 BUILTINS = sources/execution/Built_ins/export.c\
            sources/execution/Built_ins/unset.c\
            sources/execution/Built_ins/env.c\
@@ -46,6 +50,7 @@ EXECUTION = sources/execution/execute_binary.c\
 PARSING = sources/parsing/tokenising.c\
           sources/parsing/parsing.c\
           sources/parsing/expansion.c\
+		  sources/parsing/expansion_utils.c\
           sources/parsing/parsing_utils.c\
           sources/parsing/init_cmd.c\
           sources/parsing/free_parsing.c\
@@ -61,13 +66,38 @@ SRCS = sources/main.c\
 
 OBJS = $(SRCS:.c=.o)
 
+TOTAL := $(words $(SRCS))
+COUNT := 0
+
+define progress_bar
+$(eval COUNT := $(shell echo $$(($(COUNT) + 1))))
+@percent=$$(( $(COUNT) * 100 / $(TOTAL) )); \
+filled=$$(( percent * $(BAR_WIDTH) / 100 )); \
+empty=$$(( $(BAR_WIDTH) - filled )); \
+bar=""; \
+i=0; \
+while [ $$i -lt $$filled ]; do \
+	bar="$${bar}█"; \
+	i=$$((i + 1)); \
+done; \
+spaces=""; \
+i=0; \
+while [ $$i -lt $$empty ]; do \
+	spaces="$${spaces} "; \
+	i=$$((i + 1)); \
+done; \
+printf "\r$(GREEN)Compiling [$$bar$$spaces] %3d%%$(RESET)" $$percent
+endef
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(IFLAGS) -o $(NAME) $(LDLIBS)
+	@printf "\n$(GREEN)Compilation complete!$(RESET)\n"
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+	$(call progress_bar)
 
 clean:
 	@rm -f $(OBJS)
@@ -76,5 +106,8 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+me: re
+	@rm -f $(OBJS)
 
 .PHONY: all clean fclean re
