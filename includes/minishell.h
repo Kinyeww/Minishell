@@ -84,7 +84,7 @@ int		execute_built_ins(char **argv, t_data *data);
 /* =============== export =============== */
 int		export(char **argv, t_data *data);
 void	envp_list_dup(t_env *original_list, t_env **temp_list);
-void	print_export_list (t_env *list);
+void	print_export_list(t_env *list);
 bool	is_valid_key(char *argv);
 void	add_key_to_list(char *argv, t_env *envp_list);
 
@@ -124,7 +124,14 @@ int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
 char	*expand_var(char *str, int *i, t_env *envp, int last_status);
 char	*get_env_val(char *name, t_env *envp);
 int		is_var_char(char c);
+int		ft_varlen(char *str);
 char	*append_char(char *result, char c);
 char	*append_str(char *result, char *to_add);
+int		expand_argv(t_cmd *cmd, t_env *envp, int last_status);
+int		expand_redir(t_cmd *cmd, t_env *envp, int last_status);
+
+/* ================ parsing ===============*/
+void	assign_meaning(t_token *tokens);
+
 
 #endif

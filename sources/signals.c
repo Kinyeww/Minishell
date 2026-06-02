@@ -18,7 +18,6 @@ static void	handle_sigint_prompt(int signum)
 static void	handle_sigint_heredoc(int signum)
 {
 	g_signal = signum;
-	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
 
@@ -31,8 +30,8 @@ void	set_signal_prompt(void)
 	sigemptyset(&sa.sa_mask);
 
 	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL); //SIGINT = ctrl-c
-	signal(SIGQUIT, SIG_IGN); // SIGQUIT = ctrl-(backslash)
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	set_signal_heredoc(void)
