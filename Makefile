@@ -50,6 +50,7 @@ EXECUTION = sources/execution/execute_binary.c\
 PARSING = sources/parsing/tokenising.c\
           sources/parsing/parsing.c\
           sources/parsing/expansion.c\
+		  sources/parsing/expansion_utils.c\
           sources/parsing/parsing_utils.c\
           sources/parsing/init_cmd.c\
           sources/parsing/free_parsing.c\

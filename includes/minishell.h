@@ -2,16 +2,16 @@
 # define MINISHELL_H
 
 /* ============ Libraries ===========*/
-#include <unistd.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <unistd.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 /* ============ Libft_Utils ===========*/
 # include "libft_utils.h"
@@ -21,7 +21,7 @@
 # include "signals.h"
 
 /* =============== env =============== */
-typedef struct s_env t_env;
+typedef struct s_env	t_env;
 
 typedef struct s_env
 {
@@ -41,8 +41,7 @@ typedef struct s_data
 
 }	t_data;
 
-
-/* ============================ EXECUTION =====================================*/
+/* ============================ EXECUTION =================================*/
 
 /* ==== pipeline setup ====*/
 void	create_stdin_stdout_cpy(t_data *data);
@@ -51,7 +50,7 @@ int		traverse_pipe_cmd(t_cmd *cmd, t_data *data);
 /* ===== execute redirections =====*/
 void	dup_restore_fd(t_data *data);
 void	print_err_redir(char *file_name);
-int 	check_built_in(char *argv1);
+int		check_built_in(char *argv1);
 int		execute_cmd(t_cmd *cmd, t_data *data);
 int		setup_redirections(t_cmd *cmd);
 
@@ -72,7 +71,7 @@ char	**create_envp_arr(t_env *envp_list);
 
 /* =================== envp_utils ====================== */
 
-void	list_add_back(t_env **envp_list, t_env *new); 
+void	list_add_back(t_env **envp_list, t_env *new);
 t_env	*list_get_last(t_env *envp_list);
 void	envp_list_clean(t_env **envp_list);
 void	print_env_list(t_env *list); //debug purpose
@@ -85,7 +84,7 @@ int		execute_built_ins(char **argv, t_data *data);
 /* =============== export =============== */
 int		export(char **argv, t_data *data);
 void	envp_list_dup(t_env *original_list, t_env **temp_list);
-void	print_export_list (t_env *list); 
+void	print_export_list (t_env *list);
 bool	is_valid_key(char *argv);
 void	add_key_to_list(char *argv, t_env *envp_list);
 
@@ -110,8 +109,7 @@ void	update_env(t_data *data, char *key, char *value);
 void	print_err_cd(char *path);
 
 /* =============== exit =============== */
-int 	built_in_exit(char **argv, t_data *data);
-
+int		built_in_exit(char **argv, t_data *data);
 
 /* ============================ PARSING =====================================*/
 
