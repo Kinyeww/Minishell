@@ -6,13 +6,13 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 15:01:32 by syee              #+#    #+#             */
-/*   Updated: 2026/05/29 15:02:02 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 19:02:30 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void create_envp_list(t_env **envp_list, char **envp)
+void	create_envp_list(t_env **envp_list, char **envp)
 {
 	int		i;
 	int		j;

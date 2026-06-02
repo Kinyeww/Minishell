@@ -6,14 +6,14 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:21:49 by syee              #+#    #+#             */
-/*   Updated: 2026/05/14 18:26:25 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 20:39:37 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
 
-void envp_list_clean(t_env **envp_list)
+void	envp_list_clean(t_env **envp_list)
 {
 	t_env	*temp;
 
