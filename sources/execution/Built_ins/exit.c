@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 23:42:33 by syee              #+#    #+#             */
-/*   Updated: 2026/06/01 20:10:12 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 14:05:49 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_err_exit(char *argv, char *err)
 int	built_in_exit(char **argv, t_data *data)
 {
 	int		i;
-	long	exit_code;
+	int	exit_code;
 	
 	if (argv[1] != NULL)
 	{	
@@ -42,7 +42,7 @@ int	built_in_exit(char **argv, t_data *data)
 		if (exit_code > INT_MAX || exit_code < INT_MIN)
 			return(print_err_exit(argv[1], NUMERIC_ARG_ERR), 2);
 		else if (argv[2] != NULL) //ok to deref
-			return (print_err_exit("", TOO_MANY_ARG_ERR), 2);
+			return (print_err_exit("", TOO_MANY_ARG_ERR), 1);
 		exit_code = ((exit_code % 256) + 256) % 256;
 	}
 	printf ("exit\n");

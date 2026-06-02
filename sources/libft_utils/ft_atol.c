@@ -6,11 +6,12 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:03:30 by syee              #+#    #+#             */
-/*   Updated: 2026/05/31 20:06:52 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 13:59:51 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include <stdio.h>
 /*
 - this funciton does not remove trailing white spaces, or 0 before the actual 
 values
@@ -29,6 +30,8 @@ long ft_atol(char *str)
 	if (str[0] == '0' || (str[0] == '-' && str[1] == '0'))
 		return (0);
 	return_val = 0;
+	if (str[0] == '+')
+		str++;
 	while (*str)
 	{
 		return_val = (*str - '0') + (return_val * 10);
