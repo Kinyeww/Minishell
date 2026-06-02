@@ -6,13 +6,13 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:56:43 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 08:06:57 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 18:22:33 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char *ft_strndup(char *string , int size)
+char	*ft_strndup(char *string, int size)
 {
 	int		i;
 	char	*return_str;
@@ -21,7 +21,7 @@ char *ft_strndup(char *string , int size)
 	if (!string)
 		return (NULL);
 	return_str = malloc(size + 1);
-	while (i <size && string[i] != '\0')
+	while (i < size && string[i] != '\0')
 	{
 		return_str[i] = string[i];
 		i++;

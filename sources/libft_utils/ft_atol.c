@@ -6,18 +6,20 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 21:03:30 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 13:59:51 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 18:22:41 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdio.h>
+
 /*
 - this funciton does not remove trailing white spaces, or 0 before the actual 
 values
-- this function will segfault if the received value is larger than LONG_MAX / LONG_MIN
+- this function will segfault if the received value is larger than 
+LONG_MAX / LONG_MIN
 */
-long ft_atol(char *str)
+long	ft_atol(char *str)
 {
 	bool	neg;
 	long	return_val;

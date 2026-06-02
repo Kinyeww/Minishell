@@ -6,15 +6,15 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:59:16 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 08:06:32 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 18:18:58 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char *ft_strchr(char *string, char c)
+char	*ft_strchr(char *string, char c)
 {
-	int i;
+	int	i;
 
 	if (!string)
 		return (NULL);

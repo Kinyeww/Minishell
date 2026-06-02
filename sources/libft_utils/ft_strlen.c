@@ -6,13 +6,13 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 08:02:14 by syee              #+#    #+#             */
-/*   Updated: 2026/05/11 08:06:49 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/02 18:19:13 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str)
