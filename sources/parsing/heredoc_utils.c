@@ -42,7 +42,7 @@ int	has_quotes(char *str)
 	return (0);
 }
 
-int	handle_heredof_eof(t_redir *redir, int fd)
+int	handle_heredoc_eof(t_redir *redir, int fd)
 {
 	if (g_signal == SIGINT)
 	{
