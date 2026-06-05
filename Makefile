@@ -56,6 +56,8 @@ PARSING = sources/parsing/tokenising.c\
           sources/parsing/init_cmd.c\
           sources/parsing/free_parsing.c\
           sources/parsing/heredoc.c\
+		  sources/parsing/heredoc_utils.c\
+		  sources/parsing/heredoc_expand.c
 
 SRCS = sources/main.c\
        sources/signals.c\

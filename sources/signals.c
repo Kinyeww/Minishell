@@ -51,7 +51,7 @@ void	set_signal_heredoc(void)
 void	set_signal_exec_parent(void)
 {
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN); //SIG_IGN (short for "signal ignore") tells the operating system to discard a specific signal instead of taking the default action
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	set_signal_exec_child(void)

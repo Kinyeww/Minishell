@@ -4,115 +4,32 @@
 #include <unistd.h>
 #include <readline/readline.h>
 
-// int			prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
-// int			read_heredoc(t_redir *redir, t_env *envp, int last_status);
-// int			process_heredoc_q(t_cmd *cmds);
-// static char	*create_hd_filename(void);
-// static int	open_hd_file(t_redir *redir);
-// char			*expand_heredoc(char *line, t_env *envp, int last_status);
+static void	write_heredoc_line(int fd, char *line);
+int			process_heredoc_q(t_cmd *cmds);
+int			read_heredoc(t_redir *redir, t_env *envp, int last_status);
+int			run_heredoc_with_signal(t_cmd *cmds, t_data *data);
 
-static char	*remove_quotes(char *str)
+int	prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status)
 {
-	int		i;
-	int		single_q;
-	int		double_q;
-	char	*result;
+	t_cmd	*cmd;
+	t_redir	*redir;
 
-	i = 0;
-	single_q = 0;
-	double_q = 0;
-	result = ft_strdup("");
-	while (result && str[i])
+	cmd = cmds;
+	while (cmd)
 	{
-		if (str[i] == '\'' && !double_q)
-			single_q = !single_q;
-		else if (str[i] == '"' && !single_q)
-			double_q = !double_q;
-		else
+		redir = cmd->redir;
+		while (redir)
 		{
-			result = append_char(result, str[i]);
-			if (!result)
-				return (NULL);
-		}
-		i++;
-	}
-	return (result);
-}
-
-static int	has_quotes(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '"')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static char	*create_hd_filename(void)
-{
-	static int	i;
-	char		*num;
-	char		*file;
-
-	num = ft_itoa(i);
-	if (!num)
-		return (NULL);
-	file = ft_strjoin("/tmp/minishell_hd_", num);
-	free(num);
-	if (!file)
-		return (NULL);
-	i++;
-	return (file);
-}
-
-static int	open_hd_file(t_redir *redir)
-{
-	int	fd;
-
-	redir->heredoc_file = create_hd_filename();
-	if (!redir->heredoc_file)
-		return (-1);
-	fd = open(redir->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (fd == -1)
-	{
-		free(redir->heredoc_file);
-		redir->heredoc_file = NULL;
-		return (-1);
-	}
-	return (fd);
-}
-
-static char	*expand_heredoc(char *line, t_env *envp, int last_status)
-{
-	int		i;
-	char	*result;
-	char	*value;
-
-	i = 0;
-	result = ft_strdup("");
-	while (result && line[i])
-	{
-		if (line[i] == '$')
-		{
-			value = expand_var(line, &i, envp, last_status);
-			if (!value)
+			if (redir->redir_type == HEREDOC)
 			{
-				free (result);
-				return (NULL);
+				if (!read_heredoc(redir, envp, last_status))
+					return (0);
 			}
-			result = append_str(result, value);
-			free(value);
-			continue ;
+			redir = redir->next;
 		}
-		result = append_char(result, line[i]);
-		i++;
+		cmd = cmd->next;
 	}
-	return (result);
+	return (1);
 }
 
 int	process_heredoc_q(t_cmd *cmds)
@@ -145,73 +62,29 @@ int	process_heredoc_q(t_cmd *cmds)
 
 int	read_heredoc(t_redir *redir, t_env *envp, int last_status)
 {
-	char	*line;
-	char	*expanded;
-	int		fd;
+	t_heredoc	data;
 
-	fd = open_hd_file(redir);
-	if (fd == -1)
+	data.fd = open_hd_file(redir);
+	if (data.fd == -1)
 		return (0);
 	while (1)
 	{
-		line = readline("> ");
-		if (!line)
+		data.line = readline("> ");
+		if (!data.line)
 		{
-			if (g_signal == SIGINT)
-			{
-				close(fd);
-				return (0);
-			}
-			ft_putstr_fd("minishell: warning: here-document delimited", 2);
-			ft_putstr_fd(" by end-of-file (wanted `", 2);
-			ft_putstr_fd(redir->file_name, 2);
-			ft_putstr_fd("')\n", 2);
+			if (!handle_heredoc_eof(redir, data.fd))
+				return (close(data.fd), 0);
 			break ;
 		}
-		if (ft_strcmp(line, redir->file_name) == 0)
-		{
-			free(line);
+		data.stat = process_heredoc_line(redir, &data.line, envp, last_status);
+		if (data.stat == 0)
+			return (close(data.fd), 0);
+		if (data.stat == 2)
 			break ;
-		}
-		if (redir->heredoc_quote == 0)
-		{
-			expanded = expand_heredoc(line, envp, last_status);
-			free(line);
-			line = expanded;
-			if (!line)
-			{
-				close (fd);
-				return (0);
-			}
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		write_heredoc_line(data.fd, data.line);
+		free(data.line);
 	}
-	close(fd);
-	return (1);
-}
-
-int	prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status)
-{
-	t_cmd	*cmd;
-	t_redir	*redir;
-
-	cmd = cmds;
-	while (cmd)
-	{
-		redir = cmd->redir;
-		while (redir)
-		{
-			if (redir->redir_type == HEREDOC)
-			{
-				if (!read_heredoc(redir, envp, last_status))
-					return (0);
-			}
-			redir = redir->next;
-		}
-		cmd = cmd->next;
-	}
+	close(data.fd);
 	return (1);
 }
 
@@ -237,4 +110,10 @@ int	run_heredoc_with_signal(t_cmd *cmds, t_data *data)
 		return (0);
 	}
 	return (ok);
+}
+
+static void	write_heredoc_line(int fd, char *line)
+{
+	write(fd, line, ft_strlen(line));
+	write(fd, "\n", 1);
 }

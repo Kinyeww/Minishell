@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void		assign_meaning(t_token *tokens);
+void			assign_meaning(t_token *tokens);
 static int		error_handling(t_token *tokens);
 static t_cmd	*parse_pipeline(t_token **tokens);
 static t_cmd	*parse_command(t_token **curr_tk);

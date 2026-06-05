@@ -1,4 +1,4 @@
-#include "parsing.h"
+#include "minishell.h"
 #include <stdlib.h>
 
 t_cmd	*cmd_init(void)
@@ -22,7 +22,7 @@ int	is_redir(t_token_type type)
 		|| type == HEREDOC);
 }
 
-static void	assign_meaning(t_token *tokens)
+void	assign_meaning(t_token *tokens)
 {
 	if (ft_strcmp(tokens->content, ">>") == 0)
 		tokens->type = APPEND;
