@@ -64,7 +64,9 @@ PARSING = sources/parsing/tokenising.c\
 
 SRCS = sources/main.c\
        sources/signals.c\
+	   sources/signals_exe.c\
 	   sources/main_setup_cleanup.c\
+	   sources/main_helper.c\
        $(BUILTINS)\
        $(ENVP_UTILS)\
        $(LIBFT_UTILS)\

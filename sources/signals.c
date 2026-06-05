@@ -48,17 +48,6 @@ void	set_signal_heredoc(void)
 }
 //depends on who is waiting 
 //
-void	set_signal_exec_parent(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	set_signal_exec_child(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
 //need create a funciton when if child, and theres sigint, or sig
 
 

@@ -33,3 +33,14 @@ void	create_stdin_stdout_cpy(t_data *data)
 	data->fd_copy[0] = dup(STDIN_FILENO);
 	data->fd_copy[1] = dup(STDOUT_FILENO);
 }
+
+void	handle_prompt_signal(t_data *data)
+{
+	if (g_signal == SIGINT)
+	{
+		data->exit_code = 130;
+		g_signal = 0;
+	}
+}
+
+
