@@ -42,11 +42,13 @@ LIBFT_UTILS = sources/libft_utils/ft_isalnum.c\
 			  sources/libft_utils/ft_substr.c\
 			  sources/libft_utils/ft_strlcpy.c\
 
-EXECUTION = sources/execution/execute_binary.c\
-            sources/execution/execute_binary_helper.c\
-            sources/execution/execute_built_ins.c\
-            sources/execution/execute_pipes.c\
-            sources/execution/execute_redir.c
+EXECUTION = sources/execution/execute_binary_built-in/execute_binary.c\
+            sources/execution/execute_binary_built-in/execute_binary_helper.c\
+            sources/execution/execute_binary_built-in/execute_built_ins.c\
+            sources/execution/pipes/execute_pipes.c\
+            sources/execution/redirection/execute_redir.c\
+			sources/execution/redirection/execute_redir_helper.c\
+			sources/execution/redirection/execute_redir_setup.c\
 
 PARSING = sources/parsing/tokenising.c\
           sources/parsing/parsing.c\
@@ -59,6 +61,7 @@ PARSING = sources/parsing/tokenising.c\
 
 SRCS = sources/main.c\
        sources/signals.c\
+	   sources/main_setup_cleanup.c\
        $(BUILTINS)\
        $(ENVP_UTILS)\
        $(LIBFT_UTILS)\

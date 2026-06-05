@@ -9,29 +9,6 @@ static char	*redir_name(t_token_type redir_name);
 void		print_heredoc_files(t_cmd *cmds);
 void	create_envp_list(t_env **envp_list, char **envp); 
 
-
-void init_data(t_data *data, char **envp)
-{
-	data->envp_list = NULL;
-	data->exit_flag = false;
-	data->exit_code = 0;
-	create_stdin_stdout_cpy(data);
-	create_envp_list(&data->envp_list, envp);
-}
-
-void data_clean(t_data *data)
-{
-	envp_list_clean(&data->envp_list);
-	close (data->fd_copy[0]);
-	close (data->fd_copy[1]);
-}
-//rmbr to close later on?
-void	create_stdin_stdout_cpy(t_data *data)
-{
-	data->fd_copy[0] = dup(STDIN_FILENO);
-	data->fd_copy[1] = dup(STDOUT_FILENO);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;

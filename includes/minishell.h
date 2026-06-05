@@ -41,22 +41,35 @@ typedef struct s_data
 
 }	t_data;
 
+/* ==== main setup and cleanup utils====*/
+void	init_data(t_data *data, char **envp);
+void	data_clean(t_data *data);
+void	create_stdin_stdout_cpy(t_data *data);
+
 /* ============================ EXECUTION =================================*/
 
 /* ==== pipeline setup ====*/
-void	create_stdin_stdout_cpy(t_data *data);
 int		traverse_pipe_cmd(t_cmd *cmd, t_data *data);
+int		setup_pipe_parent(int pid, int pipefd[2], int prev_read_end, t_cmd *cmd);
+void	setup_pipe_child(int prev_read_end, int pipefd[2], t_cmd *cmd, t_data *data);
+int		wait_child(int last_child_pid);
 
 /* ===== execute redirections =====*/
+int		execute_cmd(t_cmd *cmd, t_data *data);
+int		built_in_redir_setup(t_cmd *cmd, t_data *data, int i);
+int		binary_setup_and_execute(t_cmd *cmd, t_data *data);
+
+/* ===== execute redirection setup =====*/
+int		setup_redirections(t_cmd *cmd);
+int		setup_redir_in(char *file_name);
+int		setup_redir_out(char *file_name);
+int		setup_redir_append(char *file_name);
+int		setup_redit_heredoc(char *heredoc_file);
+
+/* ===== execute redirection helper =====*/
 void	dup_restore_fd(t_data *data);
 void	print_err_redir(char *file_name);
 int		check_built_in(char *argv1);
-int		execute_cmd(t_cmd *cmd, t_data *data);
-int		setup_redirections(t_cmd *cmd);
-
-int		built_in_redir_setup(t_cmd *cmd, t_data *data, int i);
-int		binary_setup_and_execute(t_cmd *cmd, t_data *data);
-int		setup_redirections(t_cmd *cmd);
 
 /* ============ execute_binary ============= */
 int		execute_binary(char **argv, t_data *data);
