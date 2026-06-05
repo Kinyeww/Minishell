@@ -19,6 +19,7 @@
 /* ============ parsing ===========*/
 # include "parsing.h"
 # include "signals.h"
+# include "heredoc.h"
 
 /* =============== env =============== */
 typedef struct s_env	t_env;
@@ -124,15 +125,24 @@ void	print_err_cd(char *path);
 /* =============== exit =============== */
 int		built_in_exit(char **argv, t_data *data);
 
-/* ============================ PARSING =====================================*/
+/* ============================ PARSING ===================================== */
 
-/* =============== heredoc ================*/
+/* =============== heredoc ================ */
 int		prepare_heredoc(t_cmd *cmds, t_env *envp, int last_status);
 int		read_heredoc(t_redir *redir, t_env *envp, int last_status);
 int		process_heredoc_q(t_cmd *cmds);
 int		run_heredoc_with_signal(t_cmd *cmds, t_data *data);
+char	*remove_quotes(char *str);
+int		has_quotes(char *str);
+char	*create_hd_filename(void);
+int		open_hd_file(t_redir *redir);
+char	*expand_heredoc(char *line, t_env *envp, int last_status);
+int		expand_heredoc_line(char **line, t_env *envp, int last_status);
+int		handle_heredoc_eof(t_redir *redir, int fd);
+int		process_heredoc_line(t_redir *redir, char **line,
+			t_env *envp, int last_status);
 
-/* =============== expansion ==============*/
+/* =============== expansion ============== */
 int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
 char	*expand_var(char *str, int *i, t_env *envp, int last_status);
 char	*get_env_val(char *name, t_env *envp);
@@ -143,8 +153,18 @@ char	*append_str(char *result, char *to_add);
 int		expand_argv(t_cmd *cmd, t_env *envp, int last_status);
 int		expand_redir(t_cmd *cmd, t_env *envp, int last_status);
 
-/* ================ parsing ===============*/
+/* ================ parsing =============== */
 void	assign_meaning(t_token *tokens);
 
+/* =============== tokenising ============== */
+t_token	*tokenising(char *line);
+void	skip_spaces(char *line, int *i);
+int		get_next_token_len(char *line, int i);
+t_token	*handle_unclosed_quote(t_token *head);
+int		add_token_to_list(t_token **head, t_token **last, char *str, int len);
+int		is_operator(char c);
+int		get_operator_len(char *line, int i);
+int		get_token_length(char *line, int index);
+t_token	*new_token(char *start, int len);
 
 #endif

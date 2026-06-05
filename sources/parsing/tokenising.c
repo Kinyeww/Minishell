@@ -4,14 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int		get_token_length(char *line, int tokennum);
-t_token			*new_token(char *start, int len);
-static int		is_operator(char c);
-static int		get_operator_len(char *line, int i);
+void	skip_spaces(char *line, int *i);
+int		get_next_token_len(char *line, int i);
+t_token	*handle_unclosed_quote(t_token *head);
+int		add_token_to_list(t_token **head, t_token **last, char *str, int len);
 
 t_token	*tokenising(char *line)
 {
-	t_token	*new;
 	t_token	*head;
 	t_token	*last;
 	int		len;
@@ -22,95 +21,55 @@ t_token	*tokenising(char *line)
 	last = NULL;
 	while (line[i])
 	{
-		while (line[i] == ' ')
-			i++;
+		skip_spaces(line, &i);
 		if (!line[i])
 			break ;
-		if (is_operator(line[i]))
-			len = get_operator_len(line, i);
-		else
-			len = get_token_length(line, i);
+		len = get_next_token_len(line, i);
 		if (len < 0)
-		{
-			ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
-			free_tokens(head);
-			return (NULL);
-		}
+			return (handle_unclosed_quote(head));
 		if (len == 0)
 			break ;
-		new = new_token(line + i, len);
-		if (!head)
-			head = new;
-		else
-			last->next = new;
-		last = new;
+		if (!add_token_to_list(&head, &last, line + i, len))
+			return (NULL);
 		i += len;
 	}
 	return (head);
 }
 
-t_token	*new_token(char *start, int len)
+void	skip_spaces(char *line, int *i)
+{
+	while (line[*i] == ' ')
+		(*i)++;
+}
+
+int	get_next_token_len(char *line, int i)
+{
+	if (is_operator(line[i]))
+		return (get_operator_len(line, i));
+	return (get_token_length(line, i));
+}
+
+t_token	*handle_unclosed_quote(t_token *head)
+{
+	ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
+	free_tokens(head);
+	return (NULL);
+}
+
+int	add_token_to_list(t_token **head, t_token **last, char *str, int len)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
+	new = new_token(str, len);
 	if (!new)
-		return (NULL);
-	new->content = malloc(sizeof(char) * (len + 1));
-	if (!new->content)
-		return (NULL);
-	ft_strlcpy(new->content, start, len + 1);
-	new->type = -1;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-
-/*
- one thing to note about the split token is that
- whenever we see space, we split it into tokens
- however we do not want to split it when it is inside the quotes
- because it is counted as string literal
- that means the space inside quotes shouldn't be splitted
-*/
-
-static int	get_token_length(char *line, int index)
-{
-	int				one_q;
-	int				two_q;
-	int				i;
-
-	i = 0;
-	one_q = 0;
-	two_q = 0;
-	while (line[index + i])
 	{
-		if (line[index + i] == '\'' && !two_q)
-			one_q = !one_q;
-		else if (line[index + i] == '"' && !one_q)
-			two_q = !two_q;
-		else if (!one_q && !two_q && line[index + i] == ' ')
-			break ;
-		else if (!one_q && !two_q && is_operator(line[index + i]))
-			break ;
-		i++;
+		free_tokens(*head);
+		return (0);
 	}
-	if (one_q || two_q)
-		return (-1);
-	return (i);
-}
-
-static int	is_operator(char c)
-{
-	if (c == '>' || c == '<' || c == '|')
-		return (1);
-	return (0);
-}
-
-static int	get_operator_len(char *line, int i)
-{
-	if ((line[i] == '>' && line[i + 1] == '>')
-		|| (line[i] == '<' && line[i + 1] == '<'))
-		return (2);
+	if (!*head)
+		*head = new;
+	else
+		(*last)->next = new;
+	*last = new;
 	return (1);
 }
