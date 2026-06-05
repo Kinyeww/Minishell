@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:08:44 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 21:23:11 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/04 15:21:08 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,45 +108,74 @@ int binary_setup_and_execute(t_cmd *cmd, t_data *data)
 //the redirections connecting to the current one will overwrite the fd 
 int setup_redirections(t_cmd *cmd)
 {
-	int		file_fd;
+	int	redir_return_value;
 	t_redir	*current;
 
 	current = cmd->redir;
+	redir_return_value = 0;
 	while (current)
 	{
 		if (current->redir_type == REDIR_IN) //cmd < file
-		{
-			file_fd = open(current->file_name, O_RDONLY); //O
-			if (file_fd == -1)
-				return (print_err_redir(current->file_name), 1);
-			dup2(file_fd , STDIN_FILENO); //i dont have to care because if stdin is manipulated, it's file description will be manipulated | the stdout will now point to the file_fd
-			close(file_fd);
-		}
+			redir_return_value = setup_redir_in(current->file_name);
 		else if (current->redir_type == REDIR_OUT) // cmd > file
-		{
-			file_fd = open(current->file_name , O_WRONLY | O_TRUNC | O_CREAT, 0644); //do i need permission or is chatgpt hallucinating 
-			if (file_fd == -1)
-				return (print_err_redir(current->file_name), 1);
-			dup2(file_fd , STDOUT_FILENO); //stdout now points to file fd
-			close(file_fd);
-		}
+			redir_return_value = setup_redir_out(current->file_name);
 		else if (current->redir_type == APPEND) // cmd >> file
-		{
-			file_fd = open(current->file_name , O_WRONLY | O_APPEND | O_CREAT, 0644);
-			if (file_fd == -1)
-				return (print_err_redir(current->file_name), 1);
-			dup2(file_fd, STDOUT_FILENO);
-			close(file_fd);
-		}
+			redir_return_value = setup_redir_append(current->file_name);
 		else if (current->redir_type == HEREDOC) //new addition
-		{
-			file_fd = open(current->heredoc_file, O_RDONLY);
-			if (file_fd == -1)
-				return (perror(current->heredoc_file), 1);
-			dup2(file_fd, STDIN_FILENO);
-			close(file_fd);
-		}
+			redir_return_value = setup_redir_heredoc(current->heredoc_file); //
+		if (redir_return_value == 1)
+			return (1);
 		current = current->next;
 	}
 	return (0);
+}
+
+int setup_redir_in(char *file_name)
+{
+	int	file_fd;
+	
+	file_fd = 0;
+	file_fd = open(file_name, O_RDONLY); //O
+	if (file_fd == -1)
+		return (print_err_redir(file_name), 1);
+	dup2(file_fd , STDIN_FILENO); //i dont have to care because if stdin is manipulated, it's file description will be manipulated | the stdout will now point to the file_fd
+	close(file_fd);
+	return (0);
+}
+
+int setup_redir_out(char *file_name)
+{
+	int	file_fd;
+	
+	file_fd = 0;
+	file_fd = open(file_name , O_WRONLY | O_TRUNC | O_CREAT, 0644); //do i need permission or is chatgpt hallucinating 
+	if (file_fd == -1)
+		return (print_err_redir(file_name), 1);
+	dup2(file_fd , STDOUT_FILENO); //stdout now points to file fd
+	close(file_fd);
+	return (0);
+}
+
+int setup_redir_append(char *file_name)
+{
+	int	file_fd;
+	
+	file_fd = 0;
+	file_fd = open(file_name , O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (file_fd == -1)
+		return (print_err_redir(file_name), 1);
+	dup2(file_fd, STDOUT_FILENO);
+	close(file_fd);
+}
+
+int setup_redit_heredoc(char *heredoc_file)
+{
+	int	file_fd;
+
+	file_fd = 0;
+	file_fd = open(heredoc_file, O_RDONLY);
+	if (file_fd == -1)
+		return (perror(heredoc_file), 1);
+	dup2(file_fd, STDIN_FILENO);
+	close(file_fd);	
 }

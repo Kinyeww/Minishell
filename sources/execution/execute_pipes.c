@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 21:05:35 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 21:15:47 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/05 15:30:06 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,86 +16,98 @@
 #include <stdio.h>
 
 /*
-dup2(old, new) <- new is now new = old
-dup2(fd, 1); // stdout (1) now goes to file , 1 will point to where fd is 
+notes on how dup2, dup and pipe work: 
 
-pipefd[1] ---> pipe ---> pipefd[0]
-   write                    read
+	dup2(old, new) <- new is now new = old
+	dup2(fd, 1); // stdout (1) now goes to file , 1 will point to where fd is 
+
+	pipefd[1] ---> pipe ---> pipefd[0]
+   	write                    read
 */
+
 int	traverse_pipe_cmd(t_cmd *cmd, t_data *data)
 {
-	int 		pipefd[2];
-	int			prev_cmd_read_end;
 	pid_t		pid;
-	int			child_process_status;
+	int			pipefd[2];
+	int			prev_read_end;
 	int			last_child_pid;
-	int			last_child_status;
-	
+
+	prev_read_end = -1;
+	last_child_pid = 0;
 	set_signal_exec_parent();
 	if (cmd->next == NULL)
-	{
-		/*
-		if it is a singular process, just execute the singular command 
-		and return() , then update the exit code 
-		*/
 		return (execute_cmd(cmd, data));
-	}
-	prev_cmd_read_end = -1;
 	while (cmd)
 	{
 		if (cmd->next)
-			pipe(pipefd);//for each command, create thier own pipes
+			pipe(pipefd);
 		pid = fork();
-		if (pid == 0)//if child proceess
-		{		
-			set_signal_exec_child();	
-			if (prev_cmd_read_end != -1) //if there was a prev cmd
-			{
-				dup2(prev_cmd_read_end, STDIN_FILENO);
-				close (prev_cmd_read_end);
-			}
-			if (cmd->next)
-			{
-				dup2(pipefd[1], STDOUT_FILENO);
-				close (pipefd[1]);
-				close (pipefd[0]);
-			}
-			exit(execute_cmd(cmd, data)); //execute_cmd will return a code used to update
-		}
+		if (pid == 0)
+			setup_pipe_child(prev_read_end, pipefd, cmd, data);
 		else if (pid > 0)
-		{
-			set_signal_exec_parent();
-			close(pipefd[1]); //its not writing to anywhere
-			if (cmd->next)
-			{
-				if (prev_cmd_read_end != -1)
-    				close(prev_cmd_read_end);
-				prev_cmd_read_end = pipefd[0];
-			}
-			else
-			{	
-				close (prev_cmd_read_end);
-				close(pipefd[0]);
-				last_child_pid = pid;
-			}
-			cmd = cmd->next;
-		}
+			last_child_pid = setup_pipe_parent(pid, pipefd, prev_read_end, cmd);
+		cmd = cmd->next;
 	}
-	
-	while ((pid = waitpid(-1, &child_process_status, 0)) > 0) //returns -1 upon all child returning
+	return (wait_child(last_child_pid));
+}
+
+int	setup_pipe_parent(int pid, int pipefd[2], int prev_read_end, t_cmd *cmd)
+{
+	int	last_child_pid;
+
+	last_child_pid = 0;
+	set_signal_exec_parent();
+	close(pipefd[1]);
+	if (cmd->next)
+	{
+		if (prev_read_end != -1)
+			close(prev_read_end);
+		prev_read_end = pipefd[0];
+	}
+	else
+	{
+		close(prev_read_end);
+		close(pipefd[0]);
+		last_child_pid = pid;
+		return (last_child_pid);
+	}
+	return (0);
+}
+
+void	setup_pipe_child(int prev_read_end, int pipefd[2], t_cmd *cmd,
+	t_data *data)
+{
+	set_signal_exec_child();
+	if (prev_read_end != -1)
+	{
+		dup2(prev_read_end, STDIN_FILENO);
+		close (prev_read_end);
+	}
+	if (cmd->next)
+	{
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	exit(execute_cmd(cmd, data));
+}
+
+int	wait_child(int last_child_pid)
+{
+	int	child_process_status;
+	int	last_child_status;
+	int	pid;
+
+	pid = waitpid(-1, &child_process_status, 0);
+	while (pid > 0)
 	{
 		if (last_child_pid == pid)
 			last_child_status = child_process_status;
-	}	
-	//set_signal_prompt(); //to refresh the signal's assignment 
-	
-	//i dont think theres a need for this because this signal status is based on the child 
+		pid = waitpid(-1, &child_process_status, 0);
+	}
 	if (WIFSIGNALED(last_child_status))
 		return (128 + WTERMSIG(last_child_status));
-	else if (WIFEXITED(last_child_status))  //if the child exited normally
+	else if (WIFEXITED(last_child_status))
 		return (WEXITSTATUS(last_child_status));
-	else
-		return (1); //just to silence compilar warnings
+	return (1);
 }
-
-
