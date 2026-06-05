@@ -22,7 +22,7 @@ int	main(int ac, char **av, char **envp)
 
 static void	run_shell(t_data *data)
 {
-	char *line;
+	char	*line;
 
 	while (1)
 	{
@@ -37,5 +37,3 @@ static void	run_shell(t_data *data)
 			break ;
 	}
 }
-
-

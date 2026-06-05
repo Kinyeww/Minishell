@@ -28,6 +28,7 @@ void	data_clean(t_data *data)
 	close (data->fd_copy[1]);
 }
 //rmbr to close later on?
+
 void	create_stdin_stdout_cpy(t_data *data)
 {
 	data->fd_copy[0] = dup(STDIN_FILENO);
@@ -42,5 +43,3 @@ void	handle_prompt_signal(t_data *data)
 		g_signal = 0;
 	}
 }
-
-
