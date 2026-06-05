@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 23:42:33 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 18:51:05 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/06 06:16:57 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	built_in_exit(char **argv, t_data *data)
 		if (exit_code > INT_MAX || exit_code < INT_MIN)
 			return (print_err_exit(argv[1], NUMERIC_ARG_ERR), 2);
 		else if (argv[2] != NULL)
-			return (print_err_exit("", TOO_MANY_ARG_ERR), 1);
+			return (print_err_exit("", TOO_MANY_ARG_ERR), 2);
 		exit_code = ((exit_code % 256) + 256) % 256;
 	}
 	printf ("exit\n");

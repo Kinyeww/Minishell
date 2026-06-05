@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/05 20:06:30 by syee              #+#    #+#             */
+/*   Updated: 2026/06/06 06:15:59 by syee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -51,14 +63,16 @@ int		execute_line(char *line, t_data *data);
 void	handle_prompt_signal(t_data *data);
 int		parse_input(char *line, t_cmd **cmds, t_data *data);
 int		prepare_cmds(t_cmd *cmds, t_data *data);
-
+int		check_first(char *line);
 
 /* ============================ EXECUTION =================================*/
 
 /* ==== pipeline setup ====*/
 int		traverse_pipe_cmd(t_cmd *cmd, t_data *data);
-int		setup_pipe_parent(int pid, int pipefd[2], int prev_read_end, t_cmd *cmd);
-void	setup_pipe_child(int prev_read_end, int pipefd[2], t_cmd *cmd, t_data *data);
+int		setup_pipe_parent(int pid, int pipefd[2], int *prev_read_end,
+			t_cmd *cmd);
+void	setup_pipe_child(int prev_read_end, int pipefd[2], t_cmd *cmd,
+			t_data *data);
 int		wait_child(int last_child_pid);
 
 /* ===== execute redirections =====*/
@@ -71,7 +85,7 @@ int		setup_redirections(t_cmd *cmd);
 int		setup_redir_in(char *file_name);
 int		setup_redir_out(char *file_name);
 int		setup_redir_append(char *file_name);
-int		setup_redit_heredoc(char *heredoc_file);
+int		setup_redir_heredoc(char *heredoc_file);
 
 /* ===== execute redirection helper =====*/
 void	dup_restore_fd(t_data *data);
@@ -107,6 +121,7 @@ void	envp_list_dup(t_env *original_list, t_env **temp_list);
 void	print_export_list(t_env *list);
 bool	is_valid_key(char *argv);
 void	add_key_to_list(char *argv, t_env *envp_list);
+void	print_err_export(char *key);
 
 /* =============== unset =============== */
 int		unset(char **argv, t_data *data);

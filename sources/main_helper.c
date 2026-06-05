@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckin-yew <ckin-yew@student.42kl.edu.m      +#+  +:+       +#+        */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 19:21:23 by ckin-yew          #+#    #+#             */
-/*   Updated: 2026/06/05 19:21:24 by ckin-yew         ###   ########.fr       */
+/*   Updated: 2026/06/06 06:04:11 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	check_first(char *line)
 		i++;
 	if (line[i] == '\0')
 	{
-		free (line);
+	//	free (line);
 		return (0);
 	}
 	return (1);

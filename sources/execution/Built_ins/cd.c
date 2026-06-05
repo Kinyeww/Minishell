@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:44:11 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 18:40:04 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/06 06:10:19 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	cd(char **argv, t_data *data)
 	char	old_dir[1024];
 
 	if (argv[1] && argv[2])
-		return (ft_putstr_fd(TOO_MANY_ARG_ERR, 2), 1);
+		return (ft_putstr_fd(TOO_MANY_ARG_ERR, 2), 2);
 	if (!getcwd(old_dir, sizeof(old_dir)))
 		return (ft_putstr_fd(GETCWD_FAIL, 2), 1);
 	if (!argv[1])

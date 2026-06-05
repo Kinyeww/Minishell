@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft_utils.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/05 20:11:15 by syee              #+#    #+#             */
+/*   Updated: 2026/06/05 20:14:38 by syee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_UTILS_H
 # define LIBFT_UTILS_H
 
@@ -8,7 +20,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strlen(char *str);
 char	*ft_strdup(char *string);
 char	*ft_strchr(char *string, char c);
-char	*ft_strndup(char *string , int size);
+char	*ft_strndup(char *string, int size);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 int		ft_isalnum(int c);

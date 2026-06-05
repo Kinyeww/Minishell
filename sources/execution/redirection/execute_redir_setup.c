@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 17:34:53 by syee              #+#    #+#             */
-/*   Updated: 2026/06/05 18:43:52 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/05 21:06:38 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,10 @@ int	setup_redir_append(char *file_name)
 		return (print_err_redir(file_name), 1);
 	dup2(file_fd, STDOUT_FILENO);
 	close(file_fd);
+	return (0);
 }
 
-int	setup_redit_heredoc(char *heredoc_file)
+int	setup_redir_heredoc(char *heredoc_file)
 {
 	int	file_fd;
 
@@ -84,4 +85,5 @@ int	setup_redit_heredoc(char *heredoc_file)
 		return (perror(heredoc_file), 1);
 	dup2(file_fd, STDIN_FILENO);
 	close(file_fd);
+	return (0);
 }

@@ -9,6 +9,7 @@ RESET = \033[0m
 BAR_WIDTH = 30
 
 BUILTINS = sources/execution/Built_ins/export.c\
+		   sources/execution/Built_ins/export_err.c\
            sources/execution/Built_ins/unset.c\
            sources/execution/Built_ins/env.c\
            sources/execution/Built_ins/pwd.c\
@@ -63,8 +64,8 @@ PARSING = sources/parsing/tokenising.c\
 		  sources/parsing/tokenising_utils.c
 
 SRCS = sources/main.c\
-       sources/signals.c\
-	   sources/signals_exe.c\
+       sources/execution/signals/signals.c\
+	   sources/execution/signals/signals_exe.c\
 	   sources/main_setup_cleanup.c\
 	   sources/main_helper.c\
        $(BUILTINS)\
