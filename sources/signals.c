@@ -28,7 +28,6 @@ void	set_signal_prompt(void)
 	g_signal = 0;
 	sa.sa_handler = handle_sigint_prompt;
 	sigemptyset(&sa.sa_mask);
-
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
@@ -41,30 +40,15 @@ void	set_signal_heredoc(void)
 	g_signal = 0;
 	sa.sa_handler = handle_sigint_heredoc;
 	sigemptyset(&sa.sa_mask);
-
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
 //depends on who is waiting 
 //
-void	set_signal_exec_parent(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	set_signal_exec_child(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
 //need create a funciton when if child, and theres sigint, or sig
-
-
 //SIG_DFL means do the default behaviour 
 //CTRL-D sends EOF to readline to indicate end
-
 /*
 if (cmd->next) //if there is pipe
 {
@@ -87,4 +71,3 @@ if (cmd->next) //if there is pipe
 		set_signal_exec_parent();
 }
 */
-

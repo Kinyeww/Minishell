@@ -46,6 +46,12 @@ typedef struct s_data
 void	init_data(t_data *data, char **envp);
 void	data_clean(t_data *data);
 void	create_stdin_stdout_cpy(t_data *data);
+int		expand_cmds(t_cmd *cmd, t_env *envp, int last_status);
+int		execute_line(char *line, t_data *data);
+void	handle_prompt_signal(t_data *data);
+int		parse_input(char *line, t_cmd **cmds, t_data *data);
+int		prepare_cmds(t_cmd *cmds, t_data *data);
+
 
 /* ============================ EXECUTION =================================*/
 
