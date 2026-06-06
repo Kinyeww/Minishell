@@ -1,5 +1,0 @@
-*.o
-minishell
-.vscode/
-42_minishell_tester/
-.gitignore
