@@ -191,6 +191,10 @@ Classic references used for this project:
 * 42 Minishell subject PDF
 * Bash manual: https://www.gnu.org/software/bash/manual/
 * GNU Readline documentation: https://tiswww.case.edu/php/chet/readline/rltop.html
+* pipe() and fork() : https://www.geeksforgeeks.org/c/c-program-demonstrate-fork-and-pipe/
+* execve : https://www.youtube.com/watch?v=Wtd-8OiZOjk
+* overall minishell breakdown : https://portfolio.beddinao.me/projects/mini-shell
+* exit codes : https://www.redhat.com/en/blog/exit-codes-demystified
 * Linux manual pages:
 
   * `man bash`
@@ -213,7 +217,7 @@ It was used to:
 * Explain shell concepts in simpler words
 * Understand how parsing, heredoc, redirection, pipes, signals, and exit status work
 * Review code logic and suggest safer structure
-* Help refactor functions to follow the 42 Norminette requirements
+* Help provide guidance in debigging code
 * Help draft comments, explanations, and this README file
 
 AI was not used to replace understanding of the project.
