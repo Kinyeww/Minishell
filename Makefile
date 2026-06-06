@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = # -Wall -Wextra
+CFLAGS =  -Wall -Wextra -g3
 LDLIBS = -lreadline
 IFLAGS = -Iincludes -Isources
 

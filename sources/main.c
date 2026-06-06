@@ -39,7 +39,7 @@ static void	run_shell(t_data *data)
 	while (1)
 	{
 		set_signal_prompt();
-		line = readline("Minishell$: ");
+		line = readline("Minishell$ ");
 		if (!line)
 		{
 			printf("exit\n");

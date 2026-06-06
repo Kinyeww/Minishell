@@ -1,3 +1,5 @@
 *.o
 minishell
-.vscode/launch.json
+.vscode/
+42_minishell_tester/
+.gitignore

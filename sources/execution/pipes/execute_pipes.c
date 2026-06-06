@@ -98,6 +98,7 @@ int	wait_child(int last_child_pid)
 	int	last_child_status;
 	int	pid;
 
+	last_child_status = 0;
 	pid = waitpid(-1, &child_process_status, 0);
 	while (pid > 0)
 	{

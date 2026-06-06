@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ckin-yew <ckin-yew@student.42kl.edu.m      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/05 19:18:40 by ckin-yew          #+#    #+#             */
+/*   Updated: 2026/06/05 19:18:41 by ckin-yew         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -11,7 +23,6 @@ typedef enum e_token_type
 	HEREDOC,
 }	t_token_type;
 
-
 typedef struct s_token
 {
 	t_token_type	type;
@@ -24,15 +35,15 @@ typedef struct s_redir
 {
 	t_token_type	redir_type;
 	char			*file_name;
-	int				heredoc_quote; // only used for heredoc, for other redir types, this will be -1
+	int				heredoc_quote;
 	char			*heredoc_file;
 	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_cmd
 {
-	char			**argv; // because execve expects execve(path, argv, envp);
-	t_redir			*redir; // redir only setup for the fd, not needed by execve
+	char			**argv;
+	t_redir			*redir;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -55,6 +66,5 @@ void	free_argv(char **argv);
 void	free_redir(t_redir *redir);
 void	free_cmd(t_cmd *cmd);
 void	free_tokens(t_token *tokens);
-
 
 #endif
