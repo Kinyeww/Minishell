@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 19:21:23 by ckin-yew          #+#    #+#             */
-/*   Updated: 2026/06/06 06:04:11 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/06 15:48:50 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,7 @@ int	check_first(char *line)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (line[i] == '\0')
-	{
-	//	free (line);
 		return (0);
-	}
 	return (1);
 }
 

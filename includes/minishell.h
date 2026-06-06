@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 20:06:30 by syee              #+#    #+#             */
-/*   Updated: 2026/06/06 06:15:59 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/06 15:45:27 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int		check_first(char *line);
 
 /* ==== pipeline setup ====*/
 int		traverse_pipe_cmd(t_cmd *cmd, t_data *data);
-int		setup_pipe_parent(int pid, int pipefd[2], int *prev_read_end,
+int		setup_pipe_parent(int pid, int pipefd[2], int *pre_read_end,
 			t_cmd *cmd);
-void	setup_pipe_child(int prev_read_end, int pipefd[2], t_cmd *cmd,
+void	setup_pipe_child(int pre_read_end, int pipefd[2], t_cmd *cmd,
 			t_data *data);
 int		wait_child(int last_child_pid);
 

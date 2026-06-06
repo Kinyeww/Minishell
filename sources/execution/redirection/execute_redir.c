@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:08:44 by syee              #+#    #+#             */
-/*   Updated: 2026/06/05 18:45:43 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/06 15:39:59 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	built_in_redir_setup(t_cmd *cmd, t_data *data, int i)
 int	binary_setup_and_execute(t_cmd *cmd, t_data *data)
 {
 	pid_t	child_pid;
-	pid_t	returned_child_pid;
 	int		child_status;
 
 	child_pid = fork();
