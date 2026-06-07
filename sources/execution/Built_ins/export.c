@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 06:45:20 by syee              #+#    #+#             */
-/*   Updated: 2026/06/02 18:57:58 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/07 16:06:00 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,35 @@ bool	is_valid_key(char *argv)
 	return (argv[i] == '=' || argv[i] == '\0');
 }
 
+int	existing_key(char *argv, t_env *envp_list, char *ptr, int key_size)
+{
+	t_env	*current;
+
+	current = envp_list;
+	while (current)
+	{
+		if (ft_strncmp(argv, current->key, key_size) == 0)
+		{
+			free(current->key);
+			free(current->value);
+			if (!ptr)
+			{
+				current->key = ft_strndup(argv, ft_strlen(argv));
+				current->value = ft_strdup("");
+				return (0);
+			}
+			else
+			{
+				current->key = ft_strndup(argv, ptr - argv);
+				current->value = ft_strdup(ptr + 1);
+				return (0);
+			}
+		}
+		current = current->next;
+	}
+	return (1);
+}
+
 void	add_key_to_list(char *argv, t_env *envp_list)
 {
 	t_env	*new;
@@ -70,16 +99,21 @@ void	add_key_to_list(char *argv, t_env *envp_list)
 	int		j;
 
 	j = 0;
-	new = malloc(sizeof(t_env));
 	ptr = ft_strchr(argv, '=');
 	if (!ptr)
 	{
-		new->key = ft_strndup(argv, j);
+		if (existing_key(argv, envp_list, ptr, ft_strlen(argv)) == 0)
+			return ;
+		new = malloc(sizeof(t_env));
+		new->key = ft_strndup(argv, ft_strlen(argv));
 		new->value = ft_strdup("");
 	}
 	else
 	{
 		j = ptr - argv;
+		if (existing_key(argv, envp_list, ptr, j) == 0)
+			return ;
+		new = malloc(sizeof(t_env));
 		new->key = ft_strndup(argv, j);
 		new->value = ft_strdup(ptr + 1);
 	}
@@ -102,19 +136,4 @@ void	print_export_list(t_env *envp_list)
 		current = current->next;
 	}
 	envp_list_clean(&temp_list);
-}
-
-void	envp_list_dup(t_env *original_list, t_env **temp_list)
-{
-	t_env	*current;
-
-	while (original_list)
-	{
-		current = malloc(sizeof(t_env));
-		current->key = ft_strdup(original_list->key);
-		current->value = ft_strdup(original_list->value);
-		current->next = NULL;
-		list_add_back(temp_list, current);
-		original_list = original_list->next;
-	}
 }

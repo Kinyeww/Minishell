@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 20:06:30 by syee              #+#    #+#             */
-/*   Updated: 2026/06/06 15:45:27 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/07 16:07:09 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	print_export_list(t_env *list);
 bool	is_valid_key(char *argv);
 void	add_key_to_list(char *argv, t_env *envp_list);
 void	print_err_export(char *key);
+int		existing_key(char *argv, t_env *envp_list, char *ptr, int key_size);
 
 /* =============== unset =============== */
 int		unset(char **argv, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 19:21:23 by ckin-yew          #+#    #+#             */
-/*   Updated: 2026/06/06 15:48:50 by syee             ###   ########.fr       */
+/*   Updated: 2026/06/07 16:43:01 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	execute_line(char *line, t_data *data)
 		return (1);
 	}
 	data->exit_code = traverse_pipe_cmd(cmds, data);
+	dup_restore_fd (data);
 	free_cmd(cmds);
 	free(line);
 	if (data->exit_flag)

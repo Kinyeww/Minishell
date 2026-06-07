@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckin-yew <ckin-yew@student.42kl.edu.m      +#+  +:+       +#+        */
+/*   By: syee <syee@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 19:21:16 by ckin-yew          #+#    #+#             */
-/*   Updated: 2026/06/05 19:21:17 by ckin-yew         ###   ########.fr       */
+/*   Updated: 2026/06/07 16:08:05 by syee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	run_shell(t_data *data)
 	while (1)
 	{
 		set_signal_prompt();
-		line = readline("Minishell$ ");
+		line = readline("Mantap$ ");
 		if (!line)
 		{
 			printf("exit\n");

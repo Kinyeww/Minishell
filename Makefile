@@ -9,7 +9,7 @@ RESET = \033[0m
 BAR_WIDTH = 30
 
 BUILTINS = sources/execution/Built_ins/export.c\
-		   sources/execution/Built_ins/export_err.c\
+		   sources/execution/Built_ins/export_utils.c\
            sources/execution/Built_ins/unset.c\
            sources/execution/Built_ins/env.c\
            sources/execution/Built_ins/pwd.c\
